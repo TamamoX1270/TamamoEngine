@@ -15,15 +15,15 @@ BackGround::~BackGround()
 bool BackGround::Start()
 {
 
-	m_backGround.Init("Assets/modelData/stage/background.tkm");
-	m_backGround.SetScale(m_scale);
-	m_backGround.Update();
+	m_backGround.Init("Assets/modelData/stage/bg.tkm");
+	//	m_backGround.SetScale(m_scale);
+	//	m_backGround.Update();
 	//PhysicsStaticObject‚ð‰Šú‰»B
 	m_physicsStaticObject.CreateFromModel(
 		m_backGround.GetModel(),
 		m_backGround.GetModel().GetWorldMatrix());
 	//“–‚½‚è”»’è‚Ì‰ÂŽ‹‰»B
-	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	return true;
 }
 void BackGround::Render(RenderContext& rc)

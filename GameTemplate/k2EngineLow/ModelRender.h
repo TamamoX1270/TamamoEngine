@@ -37,7 +37,7 @@ namespace nsK2EngineLow {
 		/// <returns>モデル</returns>
 		Model& GetModel()
 		{
-			return m_zprepassModel;
+			return m_model;
 		}
 
 
@@ -107,7 +107,6 @@ namespace nsK2EngineLow {
 		int							m_numAnimationClips = 0;			// アニメーションクリップの数。
 		Animation					m_animation;						// アニメーション。
 		Model                       m_model;		         	        // モデル
-		Model						m_zprepassModel;					// ZPrepassで描画されるモデル
 		Skeleton                    m_skeleton;	                        // スケルトン
 		Vector3 					m_position = Vector3::Zero;			// 座標。
 		Quaternion	 				m_rotation = Quaternion::Identity;	// 回転。

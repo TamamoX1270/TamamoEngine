@@ -16,6 +16,7 @@ public:
     /// </summary>
     /// <param name="rc"></param>
 	void Render(RenderContext& rc) override;
+
 private:
 	/// <summary>
 	/// 移動処理
@@ -32,6 +33,7 @@ private:
 	ModelRender m_player;                              //プレイヤー
 	Animation m_animation;	// アニメーション
 	AnimationClip m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
+	CharacterController m_characterController;       //キャラクターコントローラー。
 	Vector3 m_position= Vector3::Zero;				   // 座標
 	Quaternion m_rotation = Quaternion::Identity;;     // 回転
 	Vector3 m_scale=Vector3::One;	                   // 拡大率

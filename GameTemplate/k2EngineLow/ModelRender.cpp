@@ -3,26 +3,10 @@
 
 namespace nsK2EngineLow {
 
-	//モデルを初期化するための情報を設定。
-	ModelInitData m_initData;
+
 
 	ModelRender::ModelRender()
 	{
-		//シェーダーファイルのファイルパスを指定する。
-		m_initData.m_fxFilePath = "Assets/shader/model.fx";
-		//ノンスキンメッシュ用の頂点シェーダーのエントリーポイントを指定する。
-		m_initData.m_vsEntryPointFunc = "VSMain";
-		//スキンメッシュ用の頂点シェーダーのエントリーポイントを指定。
-		m_initData.m_vsSkinEntryPointFunc = "VSSkinMain";
-		//スケルトンを指定する。
-		m_initData.m_skeleton = &m_skeleton;
-		//ディレクションライトの情報を定数バッファとしてディスクリプタヒープに登録するために
-		//モデルの初期化情報として渡す。
-	
-		//モデルの上方向を指定する。
-		//3dsMaxではデフォルトZアップになっているが、
-		//ユニティちゃんはアニメーションでYアップに変更されている。
-		m_initData.m_modelUpAxis = enModelUpAxisY;
 	}
 	ModelRender::~ModelRender()
 	{
@@ -32,21 +16,51 @@ namespace nsK2EngineLow {
 		int numAnimationClips,
 		EnModelUpAxis enModelUpAxis)
 	{
+		//モデルを初期化するための情報を設定。
+		ModelInitData initData;
+
 		//tkmファイルのファイルパスを指定する。
-		m_initData.m_tkmFilePath = filePath;
+		initData.m_tkmFilePath = filePath;
+		//シェーダーファイルのファイルパスを指定する。
+		initData.m_fxFilePath = "Assets/shader/model.fx";
+
 		// スケルトンを初期化。
 		InitSkeleton(filePath);
+
+		m_animationClips = animationClips;
+
+
+		if (m_animationClips != nullptr)
+		{
+			//スケルトンを指定する。
+			initData.m_skeleton = &m_skeleton;
+			//スキンメッシュ用の頂点シェーダーのエントリーポイントを指定。
+			initData.m_vsSkinEntryPointFunc = "VSSkinMain";
+			//モデルの上方向を指定する。
+			//3dsMaxではデフォルトZアップになっているが、
+			//ユニティちゃんはアニメーションでYアップに変更されている。
+			initData.m_modelUpAxis = enModelUpAxisY;
+		}
+		else {
+			//ノンスキンメッシュ用の頂点シェーダーのエントリーポイントを指定する。
+			initData.m_vsEntryPointFunc = "VSMain";
+		}
+
+		initData.m_expandConstantBuffer = &g_directionLig.GetDirectionLight();
+		initData.m_expandConstantBufferSize = sizeof(g_directionLig.GetDirectionLight());
+
+
 		// アニメーションを初期化。
 		InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
-
-		m_initData.m_expandConstantBuffer = &g_directionLig.GetDirectionLight();
-		m_initData.m_expandConstantBufferSize = sizeof(g_directionLig.GetDirectionLight());
-
 		//作成した初期化データをもとにモデルを初期化する。
-		m_model.Init(m_initData);
+		m_model.Init(initData);
+
+		//Initの中にアップデートを入れることでInitするときにアップデートしなくてよくなる。
+		Update();
 	}
 	void ModelRender::Update()
 	{
+
 		//スケルトンを更新。
 		m_skeleton.Update(m_model.GetWorldMatrix());
 
