@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class DirectionLite;
 
 class Game : public IGameObject
 {
@@ -21,5 +22,7 @@ public:
 private:
 	ModelRender     m_modelRender;  //モデルレンダー
 	Player*         m_player;       //プレイヤー
+	Vector3         m_directionligColor;     //セットする色
+	
 };
 

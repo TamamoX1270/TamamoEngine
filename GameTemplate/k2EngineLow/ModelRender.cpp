@@ -1,21 +1,28 @@
-#include "k2EngineLowPreCompile.h"
+ï»¿#include "k2EngineLowPreCompile.h"
 #include "ModelRender.h"
 
 namespace nsK2EngineLow {
+
+	//ãƒ¢ãƒ‡ãƒ«ã‚’åˆæœŸåŒ–ã™ã‚‹ãŸã‚ã®æƒ…å ±ã‚’è¨­å®šã€‚
+	ModelInitData m_initData;
+
 	ModelRender::ModelRender()
 	{
-		//ƒVƒF[ƒ_[ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğw’è‚·‚éB
-		initData.m_fxFilePath = "Assets/shader/model.fx";
-		//ƒmƒ“ƒXƒLƒ“ƒƒbƒVƒ…—p‚Ì’¸“_ƒVƒF[ƒ_[‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg‚ğw’è‚·‚éB
-		initData.m_vsEntryPointFunc = "VSMain";
-		//ƒXƒLƒ“ƒƒbƒVƒ…—p‚Ì’¸“_ƒVƒF[ƒ_[‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg‚ğw’èB
-		initData.m_vsSkinEntryPointFunc = "VSSkinMain";
-		//ƒXƒPƒ‹ƒgƒ“‚ğw’è‚·‚éB
-		initData.m_skeleton = &m_skeleton;
-		//ƒ‚ƒfƒ‹‚Ìã•ûŒü‚ğw’è‚·‚éB
-		//3dsMax‚Å‚ÍƒfƒtƒHƒ‹ƒgZƒAƒbƒv‚É‚È‚Á‚Ä‚¢‚é‚ªA
-		//ƒ†ƒjƒeƒB‚¿‚á‚ñ‚ÍƒAƒjƒ[ƒVƒ‡ƒ“‚ÅYƒAƒbƒv‚É•ÏX‚³‚ê‚Ä‚¢‚éB
-		initData.m_modelUpAxis = enModelUpAxisY;
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®šã™ã‚‹ã€‚
+		m_initData.m_fxFilePath = "Assets/shader/model.fx";
+		//ãƒãƒ³ã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ç”¨ã®é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆã‚’æŒ‡å®šã™ã‚‹ã€‚
+		m_initData.m_vsEntryPointFunc = "VSMain";
+		//ã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ç”¨ã®é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆã‚’æŒ‡å®šã€‚
+		m_initData.m_vsSkinEntryPointFunc = "VSSkinMain";
+		//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’æŒ‡å®šã™ã‚‹ã€‚
+		m_initData.m_skeleton = &m_skeleton;
+		//ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãƒ©ã‚¤ãƒˆã®æƒ…å ±ã‚’å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¨ã—ã¦ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã«ç™»éŒ²ã™ã‚‹ãŸã‚ã«
+		//ãƒ¢ãƒ‡ãƒ«ã®åˆæœŸåŒ–æƒ…å ±ã¨ã—ã¦æ¸¡ã™ã€‚
+	
+		//ãƒ¢ãƒ‡ãƒ«ã®ä¸Šæ–¹å‘ã‚’æŒ‡å®šã™ã‚‹ã€‚
+		//3dsMaxã§ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆZã‚¢ãƒƒãƒ—ã«ãªã£ã¦ã„ã‚‹ãŒã€
+		//ãƒ¦ãƒ‹ãƒ†ã‚£ã¡ã‚ƒã‚“ã¯ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã§Yã‚¢ãƒƒãƒ—ã«å¤‰æ›´ã•ã‚Œã¦ã„ã‚‹ã€‚
+		m_initData.m_modelUpAxis = enModelUpAxisY;
 	}
 	ModelRender::~ModelRender()
 	{
@@ -25,29 +32,33 @@ namespace nsK2EngineLow {
 		int numAnimationClips,
 		EnModelUpAxis enModelUpAxis)
 	{
-		//tkmƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğw’è‚·‚éB
-		initData.m_tkmFilePath = filePath;
-		// ƒXƒPƒ‹ƒgƒ“‚ğ‰Šú‰»B
+		//tkmãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®šã™ã‚‹ã€‚
+		m_initData.m_tkmFilePath = filePath;
+		// ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’åˆæœŸåŒ–ã€‚
 		InitSkeleton(filePath);
-		// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‰Šú‰»B
+		// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’åˆæœŸåŒ–ã€‚
 		InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
-		//ì¬‚µ‚½‰Šú‰»ƒf[ƒ^‚ğ‚à‚Æ‚Éƒ‚ƒfƒ‹‚ğ‰Šú‰»‚·‚éB
-		m_model.Init(initData);
+
+		m_initData.m_expandConstantBuffer = &g_directionLig.GetDirectionLight();
+		m_initData.m_expandConstantBufferSize = sizeof(g_directionLig.GetDirectionLight());
+
+		//ä½œæˆã—ãŸåˆæœŸåŒ–ãƒ‡ãƒ¼ã‚¿ã‚’ã‚‚ã¨ã«ãƒ¢ãƒ‡ãƒ«ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+		m_model.Init(m_initData);
 	}
 	void ModelRender::Update()
 	{
-		//ƒXƒPƒ‹ƒgƒ“‚ğXVB
+		//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’æ›´æ–°ã€‚
 		m_skeleton.Update(m_model.GetWorldMatrix());
 
-		//ƒAƒjƒ[ƒVƒ‡ƒ“‚ği‚ß‚éB
+		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é€²ã‚ã‚‹ã€‚
 		m_animation.Progress(g_gameTime->GetFrameDeltaTime());
 
-		// ƒ[ƒ‹ƒhs—ñ‚ğXVB
+		// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‚’æ›´æ–°ã€‚
 		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	}
 	void ModelRender::InitSkeleton(const char* filePath)
 	{
-		//ƒXƒPƒ‹ƒgƒ“‚Ìƒf[ƒ^‚ğ“Ç‚İ‚İB
+		//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã€‚
 		std::string skeletonFilePath = filePath;
 		int pos = (int)skeletonFilePath.find(".tkm");
 		skeletonFilePath.replace(pos, 4, ".tks");

@@ -30,6 +30,17 @@ namespace nsK2EngineLow {
         /// 描画処理。
         /// </summary>
 		void Draw(RenderContext& rc);
+
+		/// <summary>
+		/// モデルを取得。
+		/// </summary>
+		/// <returns>モデル</returns>
+		Model& GetModel()
+		{
+			return m_zprepassModel;
+		}
+
+
 		/// <summary>
 				/// 座標を設定。
 				/// </summary>
@@ -95,8 +106,8 @@ namespace nsK2EngineLow {
 		AnimationClip*              m_animationClips = nullptr;			// アニメーションクリップ。
 		int							m_numAnimationClips = 0;			// アニメーションクリップの数。
 		Animation					m_animation;						// アニメーション。
-		ModelInitData               initData;		                    // モデルを初期化するための情報を設定。
 		Model                       m_model;		         	        // モデル
+		Model						m_zprepassModel;					// ZPrepassで描画されるモデル
 		Skeleton                    m_skeleton;	                        // スケルトン
 		Vector3 					m_position = Vector3::Zero;			// 座標。
 		Quaternion	 				m_rotation = Quaternion::Identity;	// 回転。

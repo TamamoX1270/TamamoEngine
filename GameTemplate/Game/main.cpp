@@ -2,7 +2,6 @@
 #include "system/system.h"
 #include "Game.h"
 
-
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
 

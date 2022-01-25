@@ -9,7 +9,9 @@ bool Game::Start()
 }
 void Game::Update()
 {
-
+	//ディレクションライトの当たる方向とカラーをセットできちゃいます
+	g_directionLig.SetLigDirection({ 1.0f,-1.0f,-1.0f });
+	g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
 }
 void Game::Render(RenderContext& rc)
 {
