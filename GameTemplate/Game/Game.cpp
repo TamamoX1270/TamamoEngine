@@ -8,12 +8,18 @@ bool Game::Start()
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 
+	//プレイヤーオブジェクトを作成する。
+	m_player = NewGO<Player>(0, "player");
+
 	return true;
 }
 void Game::Update()
 {
-	//プレイヤーオブジェクトを作成する。
-	m_player = NewGO<Player>(0, "player");
+	//上田はアルセウス禁止します。
+	if (g_pad[0]->IsTrigger(enButtonDown)) {
+		m_player = NewGO<Player>(0, "player");
+	}
+
 	// 左スティック(キーボード：WASD)で平行移動。
 	m_pointligpos.x += g_pad[0]->GetLStickXF();
 	m_pointligpos.y += g_pad[0]->GetLStickYF();
