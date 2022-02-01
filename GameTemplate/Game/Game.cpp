@@ -17,16 +17,13 @@ bool Game::Start()
 }
 void Game::Update()
 {
-<<<<<<< HEAD
 	//くぁｗせｄｒｆｔｇｙふじこｌｐ
-	
-=======
 	//上田は寿司ブレード楽しい。
 	if (g_pad[0]->IsTrigger(enButtonDown)) {
 		m_player = NewGO<Player>(0, "player");
 	}
 
->>>>>>> 904b2db2eec969f6ca910db0da5f4e01da138348
+
 	// 左スティック(キーボード：WASD)で平行移動。
 	m_pointligpos.x += g_pad[0]->GetLStickXF();
 	m_pointligpos.y += g_pad[0]->GetLStickYF();
