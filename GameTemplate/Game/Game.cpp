@@ -19,6 +19,7 @@ void Game::Update()
 {
 	//くぁｗせｄｒｆｔｇｙふじこｌｐ
 	//上田は寿司ブレード楽しい。
+	//たまご
 	if (g_pad[0]->IsTrigger(enButtonDown)) {
 		m_player = NewGO<Player>(0, "player");
 	}
