@@ -15,7 +15,7 @@ bool Game::Start()
 }
 void Game::Update()
 {
-	//上田はアルセウス禁止します。
+	//上田は寿司ブレード楽しい。
 	if (g_pad[0]->IsTrigger(enButtonDown)) {
 		m_player = NewGO<Player>(0, "player");
 	}
