@@ -23,6 +23,7 @@ private:
 	BackGround* m_backGround;					    //背景。
 	ModelRender     m_modelRender;					//モデルレンダー
 	Player*         m_player;						//プレイヤー
+	Vector3         m_pointligpos;                  //ポイントライトの座標
 	Vector3         m_directionligColor;		    //セットする色
 };
 

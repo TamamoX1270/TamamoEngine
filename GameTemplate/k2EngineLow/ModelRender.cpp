@@ -3,8 +3,6 @@
 
 namespace nsK2EngineLow {
 
-
-
 	ModelRender::ModelRender()
 	{
 	}
@@ -45,10 +43,13 @@ namespace nsK2EngineLow {
 			//ノンスキンメッシュ用の頂点シェーダーのエントリーポイントを指定する。
 			initData.m_vsEntryPointFunc = "VSMain";
 		}
-
-		initData.m_expandConstantBuffer = &g_directionLig.GetDirectionLight();
-		initData.m_expandConstantBufferSize = sizeof(g_directionLig.GetDirectionLight());
-
+		/*
+		initData.m_expandConstantBuffer = &g_directionLig;
+		initData.m_expandConstantBufferSize = sizeof(g_directionLig);
+		*/
+		initData.m_expandConstantBuffer = &g_directionLig;
+		initData.m_expandConstantBufferSize = sizeof(g_directionLig);
+		
 
 		// アニメーションを初期化。
 		InitAnimation(animationClips, numAnimationClips, enModelUpAxis);

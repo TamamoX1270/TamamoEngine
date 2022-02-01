@@ -2,6 +2,29 @@
 #include "system/system.h"
 #include "Game.h"
 
+/// <summary>
+/// ライト構造体
+/// </summary>
+struct Light
+{
+	// ディレクションライト用のメンバ
+	Vector3 dirDirection;   // ライトの方向
+	float pad0;
+	Vector3 dirColor;       // ライトのカラー
+	float pad1;
+
+	// step-1 ライト構造体にポイントライト用のメンバ変数を追加する
+	Vector3 ptPosition;		//位置。
+	float pad2;					//パディング。
+	Vector3 ptColor;			//カラー。
+	float ptRange;				//影響範囲。
+
+	Vector3 eyePos;         // 視点の位置
+	float pad3;
+	Vector3 ambientLight;   // アンビエントライト
+};
+
+
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
 
@@ -20,6 +43,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 
 	NewGO<Game>(0);
+
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
@@ -37,10 +61,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		// フレームの終了時に呼び出す必要がある処理を実行。
 		g_k2EngineLow->EndFrame();
+
 	}
 
 	delete g_k2EngineLow;
 
 	return 0;
 }
-

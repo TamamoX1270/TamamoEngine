@@ -23,9 +23,11 @@ void Player::Update()
 }
 void Player::Move()
 {
+	
 	Vector3 moveSpeed;
 	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
 	moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
+	
 	/*
 	m_player.UpdateWorldMatrix(
 		m_characterController.GetPosition(),
@@ -34,14 +36,15 @@ void Player::Move()
 	);
 	*/
 
-	/*
+	
 	// 左スティック(キーボード：WASD)で平行移動。
 	m_position.x += g_pad[0]->GetLStickXF();
 	m_position.y += g_pad[0]->GetLStickYF();
-	*/
+	
 	// 右スティック(キーボード：上下左右)で回転。
 	m_rotation.AddRotationY(g_pad[0]->GetRStickXF() * 0.05f);
 	m_rotation.AddRotationX(g_pad[0]->GetRStickYF() * 0.05f);
+	
 	// 上下左右キー(キーボード：2, 4, 6, 8)で拡大
 	if (g_pad[0]->IsPress(enButtonUp)) {
 		m_scale.y += 0.02f;
@@ -63,14 +66,12 @@ void Player::Move()
 	if (g_pad[0]->IsPress(enButtonB)) {
 		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
 	}
-	// 回転
-	m_rotation.AddRotationY(g_pad[0]->GetRStickXF() * 0.05f);
 
-	/*
+	
 	// 平行移動
 	m_position.x += g_pad[0]->GetLStickXF();
 	m_position.y += g_pad[0]->GetLStickYF();
-	*/
+	
 
 	m_position=m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_player.SetScale(m_scale);
