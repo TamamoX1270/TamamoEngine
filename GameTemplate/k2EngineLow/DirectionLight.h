@@ -14,16 +14,26 @@ namespace nsK2EngineLow {
 		};
 		struct PointLightST
 		{
-			// step-1 ライト構造体にポイントライト用のメンバ変数を追加する
+			//ライト構造体にポイントライト用のメンバ変数を追加する
 			Vector3 ptPosition;		//位置。
 			float pad2;					//パディング。
 			Vector3 ptColor;			//カラー。
 			float ptRange;				//影響範囲。
 		};
+		struct SpotLightST
+		{
+			//ライト構造体にスポットライト用のメンバ変数を追加する
+			Vector3 spPosition;		//位置。
+			float pad3;					//パディング。
+			Vector3 spColor;			//カラー。
+			float spRange;				//影響範囲。
+			Vector3 spDirection;	//射出方向。
+			float spAngle;				//射出角度。
+		};
 		struct AmbientLightST
 		{
 			Vector3 eyePos;         // 視点の位置
-			float pad3;
+			float pad4;
 			Vector3 ambientLight;   // アンビエントライト
 		};
 
@@ -31,6 +41,7 @@ namespace nsK2EngineLow {
 		{
 			DirectionLightST            m_directionLig;				//ディレクションライトのデータを作成する。
 			PointLightST                m_pointLig;                 //ポイントライトのデータを作成する。
+			SpotLightST					m_spotLig;					//スポットライトのデータを作成する。
 			AmbientLightST              m_ambientLig;               //環境光のデータを作成する。
 		};
 
