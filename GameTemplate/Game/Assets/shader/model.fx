@@ -81,6 +81,8 @@ struct SPSIn{
 float3 CalcLambertDiffuse(float3 lightDirection, float3 lightColor, float3 normal);
 float3 CalcPhongSpecular(float3 lightDirection, float3 lightColor, float3 worldPos, float3 normal);
 float3 CalcLigFromPointLight(SPSIn psIn);
+float3 CalcLigFromDirectionLight(SPSIn psIn);
+float3 CalcLigFromSpotLight(SPSIn psIn);
 
 ////////////////////////////////////////////////
 // グローバル変数。
@@ -155,13 +157,12 @@ SPSIn VSSkinMain( SVSIn vsIn )
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
-	  // ディレクションライトによるLambert拡散反射光を計算する
-    float3 diffDirection = CalcLambertDiffuse(m_directionLig.ligDirection, m_directionLig.ligColor, psIn.normal);
-    // ディレクションライトによるPhong鏡面反射光を計算する
-    float3 specDirection = CalcPhongSpecular(m_directionLig.ligDirection, m_directionLig.ligColor, psIn.worldPos, psIn.normal);
-	
+	// ディレクションライトによるライティングを計算する
+    float3 directionLig = CalcLigFromDirectionLight(psIn);
     // ポイントライトによるライティングを計算する
     float3 m_pointLig = CalcLigFromPointLight(psIn);
+    // スポットライトによるライティングを計算する
+    float3 m_spotLig = CalcLigFromSpotLight(psIn);
     /*
     float t = dot(psIn.normal, ligDirection);
     //内積の結果に-1を乗算する。
@@ -173,11 +174,13 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
     float3 diffuseLig = ligColor * t;
     */
     
-    // 拡散反射光と鏡面反射光を足し算して、最終的な光を求める
-    float3 lig = diffDirection 
-                + specDirection 
+    
+    // ディレクションライト+ポイントライト+環境光して、最終的な光を求める
+    float3 lig = directionLig
                 + m_pointLig
                 + m_ambientLig.ambientLight;
+    // スポットライトの反射光を最終的な反射光に足し算する
+    lig += m_spotLig;
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
     // テクスチャカラーに求めた光を乗算して最終出力カラーを求める
     albedoColor.xyz *= lig;
@@ -268,3 +271,83 @@ float3 CalcLigFromPointLight(SPSIn psIn)
     return diffPoint + specPoint;
 }
 
+/// <summary>
+/// ディレクションライトによる反射光を計算
+/// </summary
+/// <param name="psIn">ピクセルシェーダーからの入力。</param>
+float3 CalcLigFromDirectionLight(SPSIn psIn)
+{
+    // ディレクションライトによるLambert拡散反射光を計算する
+    float3 diffDirection = CalcLambertDiffuse(m_directionLig.ligDirection, m_directionLig.ligColor, psIn.normal);
+    // ディレクションライトによるPhong鏡面反射光を計算する
+    float3 specDirection = CalcPhongSpecular(m_directionLig.ligDirection, m_directionLig.ligColor, psIn.worldPos, psIn.normal);
+    return diffDirection + specDirection;
+}
+
+/// <summary>
+/// スポットライトによる反射光を計算
+/// </summary
+/// <param name="psIn">ピクセルシェーダーからの入力。</param>
+float3 CalcLigFromSpotLight(SPSIn psIn)
+{
+    // スポットライトによるライティングを計算する
+     // step-6 サーフェイスに入射するスポットライトの光の向きを計算する
+    //ピクセルの座標 - スポットライトの座標を計算。
+    float3 ligDir = psIn.worldPos - m_spotLig.spPosition;
+    //正規化して大きさ１のベクトルにする。
+    ligDir = normalize(ligDir);
+    
+    // step-7 減衰なしのLambert拡散反射光を計算する
+    float3 diffSpotLight = CalcLambertDiffuse(
+	ligDir, //ライトの方向
+	m_spotLig.spColor, //ライトのカラー
+	psIn.normal		//サーフェイスの法線
+);
+    
+    // step-8 減衰なしのPhong鏡面反射光を計算する
+    float3 specSpotLight = CalcPhongSpecular(
+	ligDir, //ライトの方向。
+	m_spotLig.spColor, //ライトのカラー。
+	psIn.worldPos, //サーフェイズのワールド座標。
+	psIn.normal			//サーフェイズの法線。
+);
+        // step-9 距離による影響率を計算する
+    //スポットライトとの距離を計算する。
+    float3 distance = length(psIn.worldPos - m_spotLig.spPosition);
+
+    //影響率は距離に比例して小さくなっていく。
+    float affect = 1.0f - 1.0f / m_spotLig.spRange * distance;
+    //影響力がマイナスにならないように補正をかける。
+    if (affect < 0.0f)
+    {
+        affect = 0.0f;
+    }
+    //影響の仕方を指数関数的にする。今回のサンプルでは3乗している。
+    affect = pow(affect, 3.0f);
+    // step-10 影響率を乗算して反射光を弱める
+    diffSpotLight *= affect;
+    specSpotLight *= affect;
+    // step-11 入射光と射出方向の角度を求める
+    //dot()を利用して内積を求める。
+    float angle = dot(ligDir, m_spotLig.spDirection);
+    //dot()で求めた値をacos()に渡して角度を求める。
+    angle = acos(angle);
+    
+    // step-12 角度による影響率を求める
+    //角度に比例して小さくなっていく影響率を計算する。
+    affect = 1.0f - 1.0f / m_spotLig.spAngle * angle;
+    //影響力がマイナスにならないように補正をかける。
+    if (affect < 0.0f)
+    {
+        affect = 0.0f;
+    }
+    //影響の仕方を指数関数的にする。今回のサンプルでは0.5乗している。
+    affect = pow(affect, 0.5f);
+    
+    // step-13 角度による影響率を反射光に乗算して、影響を弱める
+    diffSpotLight *= affect;
+    specSpotLight *= affect;
+    
+    return diffSpotLight + specSpotLight;
+
+}

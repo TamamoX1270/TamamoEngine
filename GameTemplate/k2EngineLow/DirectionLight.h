@@ -49,6 +49,10 @@ namespace nsK2EngineLow {
 		DirectionLight();
 		~DirectionLight();
 		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update();
+		/// <summary>
 		/// ディレクションライトの方向を設定
 		/// </summary>
 		/// <param name="lig"></param>
@@ -79,6 +83,30 @@ namespace nsK2EngineLow {
 		void SetPointColor(const Vector3& col)
 		{
 			m_light.m_pointLig.ptColor = col;
+		}
+		/// <summary>
+		/// スポットライトの位置を設定
+		/// </summary>
+		/// <param name="col"></param>
+		void SetSpotPos(const Vector3& pos)
+		{
+			m_light.m_spotLig.spPosition = pos;
+		}
+		/// <summary>
+		/// スポットライトの色を設定
+		/// </summary>
+		/// <param name="col"></param>
+		void SetSpotColor(const Vector3& col)
+		{
+			m_light.m_spotLig.spColor = col;
+		}
+		/// <summary>
+		/// スポットライトの射出方向を設定
+		/// </summary>
+		/// <param name="dil"></param>
+		void SetSpotDir(const Vector3& dil)
+		{
+			m_light.m_spotLig.spDirection = dil;
 		}
 		Light& GetLight()
 		{

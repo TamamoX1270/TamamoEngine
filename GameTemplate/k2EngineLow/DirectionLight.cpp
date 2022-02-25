@@ -27,7 +27,7 @@ namespace nsK2EngineLow {
 		m_light.m_spotLig.spColor.z = 10.0f;
 
 		//初期方向は斜め下にする。
-		m_light.m_spotLig.spDirection.x = 1.0f;
+		m_light.m_spotLig.spDirection.x = -1.0f;
 		m_light.m_spotLig.spDirection.y = -1.0f;
 		m_light.m_spotLig.spDirection.z = 1.0f;
 		//方向データなので、大きさを１にする必要があるので正規化する。
@@ -73,5 +73,22 @@ namespace nsK2EngineLow {
 	DirectionLight::~DirectionLight()
 	{
 
+	}
+	void DirectionLight::Update()
+	{
+		//Y軸周りの回転クォータニオンを計算する。
+		Quaternion qRotY;
+		qRotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.01f);
+		//計算したクォータニオンでライトの方向を回す。
+		qRotY.Apply(m_light.m_spotLig.spDirection);
+
+		//X軸周りの回転クォータニオンを計算する。
+		Vector3 rotAxis;
+		rotAxis.Cross(g_vec3AxisY, m_light.m_spotLig.spDirection);
+		Quaternion qRotX;
+		qRotX.SetRotation(rotAxis, g_pad[0]->GetRStickYF() * 0.01f);
+		//計算したクォータニオンでライトの方向を回す。
+		qRotX.Apply(m_light.m_spotLig.spDirection);
+		g_directionLig.SetSpotDir(m_light.m_spotLig.spDirection);//スポットライトの方向を設定
 	}
 }

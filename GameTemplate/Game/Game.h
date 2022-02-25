@@ -25,5 +25,7 @@ private:
 	Player*         m_player;						//プレイヤー
 	Vector3         m_pointligpos;                  //ポイントライトの座標
 	Vector3         m_directionligColor;		    //セットする色
+	Vector3			m_spPosition;					//スポットライトのポジション
+	Vector3			m_spDirection;                  //スポットライトの方向
 };
 
