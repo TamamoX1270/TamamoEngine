@@ -54,8 +54,8 @@ namespace nsK2EngineLow {
 		m_light.m_pointLig.ptRange = 100.0f;
 		
 		//ライトは斜め上から当たっている。
-		m_light.m_directionLig.ligDirection.x = 1.0f;
-		m_light.m_directionLig.ligDirection.y = -1.0f;
+		m_light.m_directionLig.ligDirection.x = 0.0f;
+		m_light.m_directionLig.ligDirection.y = 1.0f;
 		m_light.m_directionLig.ligDirection.z = -1.0f;
 		
 		//正規化する。

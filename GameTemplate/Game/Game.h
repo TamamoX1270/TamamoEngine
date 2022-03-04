@@ -21,6 +21,7 @@ public:
 	void Render(RenderContext& rc) override;
 private:
 	BackGround* m_backGround;					    //背景。
+	SpriteRender	m_spriteRender;
 	ModelRender     m_modelRender;					//モデルレンダー
 	Player*         m_player;						//プレイヤー
 	Vector3         m_pointligpos;                  //ポイントライトの座標

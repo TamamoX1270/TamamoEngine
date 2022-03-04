@@ -72,6 +72,8 @@ struct SPSIn{
     float3 normal       : NORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
     float3 worldPos		: TEXCOORD1;
+    // step-1 ピクセルシェーダーへの入力にカメラ空間の法線を追加する
+    float3 normalInView : TEXCOORD2; //カメラ空間の法線。
 };
 
 
@@ -132,8 +134,10 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.pos = mul(mProj, psIn.pos);
     
     psIn.normal = mul(m, vsIn.normal); //法線を回転させる。
-	
 	psIn.uv = vsIn.uv;
+    
+    // step-2 カメラ空間の法線を求める
+    psIn.normalInView = mul(mView, psIn.normal); //カメラ空間の法線を求める。
 
 	return psIn;
 }
@@ -163,24 +167,29 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
     float3 m_pointLig = CalcLigFromPointLight(psIn);
     // スポットライトによるライティングを計算する
     float3 m_spotLig = CalcLigFromSpotLight(psIn);
-    /*
-    float t = dot(psIn.normal, ligDirection);
-    //内積の結果に-1を乗算する。
-    t *= -1.0f;
-    if (t < 0.0f)
-    {
-        t = 0.0f;
-    }
-    float3 diffuseLig = ligColor * t;
-    */
     
+    // リムライトの強さを求める
+    // step-3 サーフェイスの法線と光の入射方向に依存するリムの強さを求める
+    float power1 = 1.0f - max(0.0f, dot(m_directionLig.ligDirection, psIn.normal));
+    // step-4 サーフェイスの法線と視線の方向に依存するリムの強さを求める
+    float power2 = 1.0f - max(0.0f, psIn.normalInView.z * -1.0f);
+    // step-5 最終的なリムの強さを求める
+    float limPower = power1 * power2;
+    //pow()を使用して、強さの変化を指数関数的にする。
+    limPower = pow(limPower, 1.3f);
+    // step-6 最終的な反射光にリムライトの反射光を合算する
+    //まずはリムライトのカラーを計算する。
+    float3 limColor = limPower * m_directionLig.ligColor;
     
-    // ディレクションライト+ポイントライト+環境光して、最終的な光を求める
+    // ディレクションライト+ポイントライト+環境光+スポットライトして、最終的な光を求める
     float3 lig = directionLig
                 + m_pointLig
-                + m_ambientLig.ambientLight;
-    // スポットライトの反射光を最終的な反射光に足し算する
-    lig += m_spotLig;
+                + m_ambientLig.ambientLight
+                + m_spotLig;
+    
+    //最終的な反射光にリムの反射光を合算する。
+    lig += limColor;
+    
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
     // テクスチャカラーに求めた光を乗算して最終出力カラーを求める
     albedoColor.xyz *= lig;

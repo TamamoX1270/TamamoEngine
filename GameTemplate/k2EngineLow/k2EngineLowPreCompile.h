@@ -74,6 +74,8 @@ using namespace Microsoft::WRL;
 #include "graphics/Sprite.h"
 #include "graphics/Model.h"
 #include "ModelRender.h"
+#include "SpriteRender.h"
+#include "RenderingEngine.h"
 #include "DirectionLight.h"
 #include "PointLight.h"
 #include "HID/GamePad.h"
