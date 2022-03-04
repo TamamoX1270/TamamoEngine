@@ -15,7 +15,7 @@ BackGround::~BackGround()
 
 bool BackGround::Start()
 {
-	m_backGround.SetScale(Vector3(10.0f, 1.0f, 10.0f));
+	m_backGround.SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
 	m_backGround.Init("Assets/modelData/stage/karigeta.tkm");
 

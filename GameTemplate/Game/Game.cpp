@@ -55,7 +55,7 @@ void Game::Update()
 	//g_directionLig.SetLigDirection({ 0.0f,1.0f,-1.0f });
 
 
-	if(g_pad[0]->IsPress(enButtonB))
+	/*if (g_pad[0]->IsPress(enButtonB))
 	{
 		m_directionligColor.x += 0.1f;
 	}
@@ -64,8 +64,8 @@ void Game::Update()
 		m_directionligColor.y += 0.1f;
 		m_directionligColor.z += 0.1f;
 	}
-	g_directionLig.SetLigColor({ m_directionligColor });
-	//g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
+	g_directionLig.SetLigColor({ m_directionligColor });*/
+	g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
 }
 
 void Game::Try()
