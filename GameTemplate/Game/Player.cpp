@@ -1,26 +1,30 @@
 ﻿#include "stdafx.h"
 #include "Player.h"
 #include "Game.h"
+#include "GameCamera.h"
 
 bool Player::Start()
 {
 	//アニメーションクリップをロードする。
-	m_animationClipArray[enAnimClip_Idle].Load("Assets/animData/idle.tka");
+	m_animationClipArray[enAnimClip_Idle].Load("Assets/purototype/idle.tka");
 	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(true);
-	m_animationClipArray[enAnimClip_Run].Load("Assets/animData/walk.tka");
+	m_animationClipArray[enAnimClip_Run].Load("Assets/purototype/walk.tka");
 	m_animationClipArray[enAnimClip_Run].SetLoopFlag(true);
 	//モデルの読み込み
-	m_player.Init("Assets/modelData/unityChan.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+	m_player.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, {0.0f, 0.0f, 0.0f});
-	//m_rotation.SetRotationDegY(180.0f);
+	m_rotation.SetRotationDegX(-90.0f);
 	return true;
 }
+
 void Player::Update()
 {
 	//m_player.Update();
 	Move();
+	AnimationState();
 }
+
 void Player::Move()
 {
 	
@@ -37,13 +41,13 @@ void Player::Move()
 	*/
 
 	
-	// 左スティック(キーボード：WASD)で平行移動。
+	/* 左スティック(キーボード：WASD)で平行移動。
 	m_position.x += g_pad[0]->GetLStickXF();
 	m_position.y += g_pad[0]->GetLStickYF();
 	
 	// 右スティック(キーボード：上下左右)で回転。
 	m_rotation.AddRotationY(g_pad[0]->GetRStickXF() * 0.05f);
-	m_rotation.AddRotationX(g_pad[0]->GetRStickYF() * 0.05f);
+	m_rotation.AddRotationX(g_pad[0]->GetRStickYF() * 0.05f);*/
 	
 	// 上下左右キー(キーボード：2, 4, 6, 8)で拡大
 	if (g_pad[0]->IsPress(enButtonUp)) {
@@ -59,13 +63,14 @@ void Player::Move()
 		m_scale.x -= 0.02f;
 	}
 
-	// アニメーションの切り替え。
+	/* アニメーションの切り替え。
 	if (g_pad[0]->IsPress(enButtonA)) {
 		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
 	}
 	if (g_pad[0]->IsPress(enButtonB)) {
 		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
 	}
+	*/
 
 	
 	// 平行移動
@@ -79,6 +84,26 @@ void Player::Move()
 	m_player.SetRotation(m_rotation);
 	m_player.Update();				 
 }
+
+void Player::AnimationState()
+{
+	/* アニメーションの切り替え。
+	if (g_pad[0]->IsPress(enButtonA)) {
+		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
+	}
+	if (g_pad[0]->IsPress(enButtonB)) {
+		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
+	}*/
+
+	if (g_pad[0]->GetLStickXF() || g_pad[0]->GetLStickYF()) {
+		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
+	}
+
+	else {
+		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
+	}
+}
+
 void Player::Render(RenderContext& rc)
 {
 	m_player.Draw(rc);

@@ -1,6 +1,7 @@
 #pragma once
 class Player;
 class BackGround;
+class GameCamera;
 
 class Game : public IGameObject
 {
@@ -19,6 +20,7 @@ public:
 	/// </summary>
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc) override;
+
 private:
 	BackGround* m_backGround;					    //背景。
 	SpriteRender	m_spriteRender;
@@ -28,5 +30,22 @@ private:
 	Vector3         m_directionligColor;		    //セットする色
 	Vector3			m_spPosition;					//スポットライトのポジション
 	Vector3			m_spDirection;                  //スポットライトの方向
+
+	//ここからは仮で追加したもの
+private:
+	void Try();
+
+	int m_itemState = 0;
+
+	int m_gage = 0;
+	int m_gari = 0;
+	int m_tea = 0;
+	int m_syoyu = 0;
+	int m_wasabi = 0;
+
+	int m_hp;
+	int m_Maxhp;
+
+	GameCamera* m_gameCamera;
 };
 

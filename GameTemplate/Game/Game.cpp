@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "BackGround.h"
+#include "GameCamera.h"
 
 bool Game::Start()
 {
@@ -10,6 +11,8 @@ bool Game::Start()
 	m_player = NewGO<Player>(0, "player");
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
+
+	m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
 
 	return true;
 }
@@ -64,6 +67,94 @@ void Game::Update()
 	g_directionLig.SetLigColor({ m_directionligColor });
 	//g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
 }
+
+void Game::Try()
+{
+	//アイテム選択
+	if (g_pad[0]->IsTrigger(enButtonLB1))
+	{
+		switch (m_itemState) {
+		case 0:
+			m_itemState = 3;
+			break;
+		case 1:
+			m_itemState = 0;
+			break;
+		case 2:
+			m_itemState = 1;
+			break;
+		case 3:
+			m_itemState = 2;
+			break;
+		}
+	}
+
+	if (g_pad[0]->IsTrigger(enButtonRB1))
+	{
+		switch (m_itemState) {
+		case 0:
+			m_itemState = 1;
+			break;
+		case 1:
+			m_itemState = 2;
+			break;
+		case 2:
+			m_itemState = 3;
+			break;
+		case 3:
+			m_itemState = 0;
+			break;
+		}
+	}
+
+	//ゲージ4つ消費して使う技（固有スキル１）
+	if (m_gage >= 4 && g_pad[0]->IsTrigger(enButtonA)) {
+		m_gage -= 4;
+	}
+
+	//ゲージ3つ消費して使う技（固有スキル２）
+	if (m_gage >= 3 && g_pad[0]->IsTrigger(enButtonB)) {
+		m_gage -= 3;
+	}
+
+	//通常攻撃
+	if (g_pad[0]->IsTrigger(enButtonX)) {
+
+	}
+
+	//アイテム使用
+	if (g_pad[0]->IsTrigger(enButtonY)) {
+		switch (m_itemState) {
+		case 0:
+			if (m_gari >= 1) {
+				m_gari -= 1;
+			}
+			break;
+		case 1:
+			if (m_tea >= 1) {
+				m_tea -= 1;
+				m_hp += m_Maxhp / 10;
+			}
+			break;
+		case 2:
+			if (m_syoyu >= 1) {
+				m_syoyu -= 1;
+			}
+			break;
+		case 3:
+			if (m_wasabi >= 1) {
+				m_wasabi -= 1;
+			}
+			break;
+		}
+	}
+
+	//ガード
+	if (g_pad[0]->IsPress(enButtonLB2)) {
+
+	}
+}
+
 void Game::Render(RenderContext& rc)
 {
 	//m_spriteRender.Draw(rc);                 //タイトルの描画

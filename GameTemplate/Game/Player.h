@@ -17,11 +17,27 @@ public:
     /// <param name="rc"></param>
 	void Render(RenderContext& rc) override;
 
+public:
+	/// <summary>
+	/// プレイヤーの座標を取得する。
+	/// </summary>
+	/// <returns>プレイヤーの座標。</returns>
+	const Vector3& GetPlayerPosition() const
+	{
+		return m_position;
+	}
+
 private:
 	/// <summary>
 	/// 移動処理
 	/// </summary>
 	void Move();
+
+	/// <summary>
+	/// アニメーション管理
+	/// </summary>
+	void AnimationState();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
