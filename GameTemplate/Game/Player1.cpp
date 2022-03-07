@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
-#include "Player.h"
+#include "Player1.h"
 #include "Game.h"
 #include "GameCamera.h"
 
-bool Player::Start()
+bool Player1::Start()
 {
 	//アニメーションクリップをロードする。
 	m_animationClipArray[enAnimClip_Idle].Load("Assets/purototype/idle.tka");
@@ -15,17 +15,20 @@ bool Player::Start()
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, {0.0f, 0.0f, 0.0f});
 	m_rotation.SetRotationDegX(-90.0f);
+
+	m_player.SetPosition(500.0f, 0.0f, 500.0f);
+	m_player.Update(); 
 	return true;
 }
 
-void Player::Update()
+void Player1::Update()
 {
 	//m_player.Update();
 	Move();
 	AnimationState();
 }
 
-void Player::Move()
+void Player1::Move()
 {
 	
 	Vector3 moveSpeed;
@@ -85,7 +88,7 @@ void Player::Move()
 	m_player.Update();				 
 }
 
-void Player::AnimationState()
+void Player1::AnimationState()
 {
 	/* アニメーションの切り替え。
 	if (g_pad[0]->IsPress(enButtonA)) {
@@ -104,7 +107,7 @@ void Player::AnimationState()
 	}
 }
 
-void Player::Render(RenderContext& rc)
+void Player1::Render(RenderContext& rc)
 {
 	m_player.Draw(rc);
 }
