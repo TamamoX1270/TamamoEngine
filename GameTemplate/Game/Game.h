@@ -25,6 +25,7 @@ public:
 private:
 	BackGround* m_backGround;					    //背景。
 	SpriteRender	m_spriteRender;
+	FontRender      m_fontRender;					//フォントレンダー
 	ModelRender     m_modelRender;					//モデルレンダー
 	Player1*        m_player;						//プレイヤー1
 	Player2*		m_player2;						//プレイヤー2

@@ -13,9 +13,19 @@ namespace nsK2EngineLow {
 		{
 			m_Spriterenders.push_back(renderObject);
 		}
+		
+		void AddRenderObject(FontRender* renderObject)
+		{
+			m_Fontrenders.push_back(renderObject);
+		}
+		
 		void SpriteRenderDraw(RenderContext& rc);
+		
+		void FontRenderDraw(RenderContext& rc);
+		
 
 	private:
+		std::vector<FontRender*> m_Fontrenders;
 		std::vector<SpriteRender*> m_Spriterenders;
 	};
 

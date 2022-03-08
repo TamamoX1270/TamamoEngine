@@ -12,4 +12,14 @@ namespace nsK2EngineLow
 		//登録されてる描画オブジェクトをクリア
 		m_Spriterenders.clear();
 	}
+	
+	void RenderingEngine::FontRenderDraw(RenderContext& rc)
+	{
+		for (auto& renderObj : m_Fontrenders) {
+			renderObj->OnRender2D(rc);
+		}
+		//登録されてる描画オブジェクトをクリア
+		m_Fontrenders.clear();
+	}
+	
 }

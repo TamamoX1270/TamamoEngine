@@ -240,6 +240,9 @@
     <ClCompile Include="SpriteRender.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
+    <ClCompile Include="FontRender.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -528,6 +531,9 @@
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRender.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FontRender.h">
       <Filter>graphics</Filter>
     </ClInclude>
   </ItemGroup>
