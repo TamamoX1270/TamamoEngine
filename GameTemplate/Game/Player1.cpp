@@ -14,14 +14,16 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_Guard].SetLoopFlag(true);
 	m_animationClipArray[enAnimClip_Punch].Load("Assets/purototype/punch.tka");
 	m_animationClipArray[enAnimClip_Punch].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Jump].Load("Assets/purototype/jump.tka");
+	m_animationClipArray[enAnimClip_Jump].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Hit].Load("Assets/purototype/hit.tka");
+	m_animationClipArray[enAnimClip_Hit].SetLoopFlag(false);
 	//モデルの読み込み
-	m_player.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+	m_player.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, {0.0f, 0.0f, 0.0f});
+	
 	m_rotation.SetRotationDegX(-90.0f);
-
-	m_player.SetPosition(500.0f, 0.0f, 500.0f);
-	m_player.Update(); 
 	return true;
 }
 
@@ -31,17 +33,19 @@ void Player1::Update()
 	Move();
 	AnimationState();
 	ManageState();
+	ManageJump();
 
-	m_player.Update();
+	//m_player.Update();
 }
 
 void Player1::Move()
 {
 	
-	Vector3 moveSpeed;
+	//移動。横移動だけでいいので下はコメントにしている。
 	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
-	moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
+	//moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
 	
+
 	/*
 	m_player.UpdateWorldMatrix(
 		m_characterController.GetPosition(),
@@ -49,7 +53,11 @@ void Player1::Move()
 		g_vec3One
 	);
 	*/
-
+	
+	if (g_pad[0]->IsTrigger(enButtonUp)) {
+		m_playerState = 5;
+	}
+	
 	
 	/* 左スティック(キーボード：WASD)で平行移動。
 	m_position.x += g_pad[0]->GetLStickXF();
@@ -59,19 +67,7 @@ void Player1::Move()
 	m_rotation.AddRotationY(g_pad[0]->GetRStickXF() * 0.05f);
 	m_rotation.AddRotationX(g_pad[0]->GetRStickYF() * 0.05f);*/
 	
-	// 上下左右キー(キーボード：2, 4, 6, 8)で拡大
-	if (g_pad[0]->IsPress(enButtonUp)) {
-		m_scale.y += 0.02f;
-	}
-	if (g_pad[0]->IsPress(enButtonDown)) {
-		m_scale.y -= 0.02f;
-	}
-	if (g_pad[0]->IsPress(enButtonRight)) {
-		m_scale.x += 0.02f;
-	}
-	if (g_pad[0]->IsPress(enButtonLeft)) {
-		m_scale.x -= 0.02f;
-	}
+
 
 	
 	// 平行移動
@@ -96,6 +92,14 @@ void Player1::AnimationState()
 			m_playerState = 0;
 		}
 	}
+
+	else if (m_playerState == 4) {
+
+		m_timer += g_gameTime->GetFrameDeltaTime();
+		if (m_timer >= 1.5f) {
+			m_playerState = 0;
+		}
+	}
 	
 
 	//通常攻撃
@@ -104,17 +108,23 @@ void Player1::AnimationState()
 		m_playerState = 3;
 	}
 
-	if (m_playerState != 3) {
+
+	if (m_playerState != 3 && m_playerState != 4) {
 
 		if (g_pad[0]->IsPress(enButtonLB1) || g_pad[0]->IsPress(enButtonLB2)) {
 			m_playerState = 2;
+		}
+
+		else if (g_pad[0]->IsTrigger(enButtonX)) {
+			m_timer = 0.0f;
+			m_playerState = 4;
 		}
 
 		else if (g_pad[0]->GetLStickXF() || g_pad[0]->GetLStickYF()) {
 			m_playerState = 1;
 		}
 
-		else {
+		else if(!g_pad[0]->IsPressAnyKey()) {
 			m_playerState = 0;
 		}
 	}
@@ -136,6 +146,41 @@ void Player1::ManageState()
 	case 3:
 		m_player.PlayAnimation(enAnimClip_Punch, 0.2f);
 		break;
+	case 4:
+		m_player.PlayAnimation(enAnimClip_Jump, 0.2f);
+		break;
+	case 5:
+		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
+		break;
+	}
+}
+
+void Player1::ManageJump()
+{
+	//ジャンプの実装ゾーン
+	if (g_pad[0]->IsTrigger(enButtonX)) {
+		m_jumpState = 1;
+		m_jumpTimer = 0.0f;
+	}
+
+	else {
+		moveSpeed.y -= 80.0f;
+		//80
+	}
+
+	if (m_jumpState == 1) {
+
+		m_jumpTimer += g_gameTime->GetFrameDeltaTime();
+
+		if (m_jumpTimer >= 0.48f) {
+			m_jumpState = 2;
+		}
+	}
+
+	if (m_jumpState == 2) {
+		moveSpeed.y += 1200.0f;
+		//1200
+		m_jumpState = 0;
 	}
 }
 

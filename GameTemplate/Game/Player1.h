@@ -43,6 +43,11 @@ private:
 	/// </summary>
 	void ManageState();
 
+	/// <summary>
+	/// ジャンプ管理
+	/// </summary>
+	void ManageJump();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
@@ -50,17 +55,24 @@ private:
 		enAnimClip_Run,		// 1 : 走りアニメーション。
 		enAnimClip_Guard,	// 2 : ガードアニメーション。
 		enAnimClip_Punch,	// 3 : 攻撃アニメーション。
-		enAnimClip_Num,		// 4 :アニメーションクリップの数。
+		enAnimClip_Jump,	// 4 : ジャンプアニメーション。
+		enAnimClip_Hit,		// 5 : 被ダメージアニメーション。
+		enAnimClip_Num,		// 6 : アニメーションクリップの数。
 	};
 	Model m_model;
-	ModelRender m_player;                              //プレイヤー
-	Animation m_animation;	// アニメーション
+	ModelRender m_player;								//プレイヤー
+	Animation m_animation;								// アニメーション
 	AnimationClip m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
-	CharacterController m_characterController;       //キャラクターコントローラー。
-	Vector3 m_position= Vector3::Zero;				   // 座標
-	Quaternion m_rotation = Quaternion::Identity;;     // 回転
-	Vector3 m_scale=Vector3::One;	                   // 拡大率
+	CharacterController m_characterController;			//キャラクターコントローラー。
+	Vector3 m_position= Vector3::Zero;					// 座標
+	Quaternion m_rotation = Quaternion::Identity;;		// 回転
+	Vector3 m_scale=Vector3::One;						// 拡大率
 
-	int m_playerState;
-	float m_timer = 0.0f;
+	Vector3 moveSpeed;	//プレイヤーの速さ。
+
+	int m_playerState; //プレイヤーステート。
+	float m_timer = 0.0f; //アニメーション用タイマー。
+
+	int m_jumpState = 0;	//ジャンプ実装用ステート。
+	float m_jumpTimer = 0.0f;	//ジャンプ実装用タイマー。
 };
