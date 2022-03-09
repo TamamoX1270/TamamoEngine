@@ -38,12 +38,19 @@ private:
 	/// </summary>
 	void AnimationState();
 
+	/// <summary>
+	/// ステート管理
+	/// </summary>
+	void ManageState();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
 		enAnimClip_Idle,	// 0 : 待機アニメーション、
 		enAnimClip_Run,		// 1 : 走りアニメーション。
-		enAnimClip_Num,		// 2 :アニメーションクリップの数。
+		enAnimClip_Guard,	// 2 : ガードアニメーション。
+		enAnimClip_Punch,	// 3 : 攻撃アニメーション。
+		enAnimClip_Num,		// 4 :アニメーションクリップの数。
 	};
 	Model m_model;
 	ModelRender m_player;                              //プレイヤー
@@ -53,4 +60,7 @@ private:
 	Vector3 m_position= Vector3::Zero;				   // 座標
 	Quaternion m_rotation = Quaternion::Identity;;     // 回転
 	Vector3 m_scale=Vector3::One;	                   // 拡大率
+
+	int m_playerState;
+	float m_timer = 0.0f;
 };

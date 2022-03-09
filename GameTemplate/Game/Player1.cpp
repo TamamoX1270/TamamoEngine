@@ -10,6 +10,10 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(true);
 	m_animationClipArray[enAnimClip_Run].Load("Assets/purototype/walk.tka");
 	m_animationClipArray[enAnimClip_Run].SetLoopFlag(true);
+	m_animationClipArray[enAnimClip_Guard].Load("Assets/purototype/guard.tka");
+	m_animationClipArray[enAnimClip_Guard].SetLoopFlag(true);
+	m_animationClipArray[enAnimClip_Punch].Load("Assets/purototype/punch.tka");
+	m_animationClipArray[enAnimClip_Punch].SetLoopFlag(false);
 	//モデルの読み込み
 	m_player.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 	//キャラコンを初期化する。
@@ -23,9 +27,12 @@ bool Player1::Start()
 
 void Player1::Update()
 {
-	//m_player.Update();
+	
 	Move();
 	AnimationState();
+	ManageState();
+
+	m_player.Update();
 }
 
 void Player1::Move()
@@ -66,15 +73,6 @@ void Player1::Move()
 		m_scale.x -= 0.02f;
 	}
 
-	/* アニメーションの切り替え。
-	if (g_pad[0]->IsPress(enButtonA)) {
-		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
-	}
-	if (g_pad[0]->IsPress(enButtonB)) {
-		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
-	}
-	*/
-
 	
 	// 平行移動
 	m_position.x += g_pad[0]->GetLStickXF();
@@ -90,20 +88,54 @@ void Player1::Move()
 
 void Player1::AnimationState()
 {
-	/* アニメーションの切り替え。
-	if (g_pad[0]->IsPress(enButtonA)) {
-		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
-	}
-	if (g_pad[0]->IsPress(enButtonB)) {
-		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
-	}*/
+	
+	if (m_playerState == 3) {
 
-	if (g_pad[0]->GetLStickXF() || g_pad[0]->GetLStickYF()) {
-		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
+		m_timer += g_gameTime->GetFrameDeltaTime();
+		if (m_timer >= 0.7f) {
+			m_playerState = 0;
+		}
+	}
+	
+
+	//通常攻撃
+	if (g_pad[0]->IsTrigger(enButtonB)) {
+		m_timer = 0.0f;
+		m_playerState = 3;
 	}
 
-	else {
+	if (m_playerState != 3) {
+
+		if (g_pad[0]->IsPress(enButtonLB1) || g_pad[0]->IsPress(enButtonLB2)) {
+			m_playerState = 2;
+		}
+
+		else if (g_pad[0]->GetLStickXF() || g_pad[0]->GetLStickYF()) {
+			m_playerState = 1;
+		}
+
+		else {
+			m_playerState = 0;
+		}
+	}
+}
+
+void Player1::ManageState()
+{
+	switch (m_playerState)
+	{
+	case 0:
 		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
+		break;
+	case 1:
+		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
+		break;
+	case 2:
+		m_player.PlayAnimation(enAnimClip_Guard, 0.2f);
+		break;
+	case 3:
+		m_player.PlayAnimation(enAnimClip_Punch, 0.2f);
+		break;
 	}
 }
 
