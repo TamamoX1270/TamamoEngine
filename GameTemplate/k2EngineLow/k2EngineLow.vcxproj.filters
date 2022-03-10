@@ -243,6 +243,7 @@
     <ClCompile Include="FontRender.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -536,6 +537,7 @@
     <ClInclude Include="FontRender.h">
       <Filter>graphics</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
