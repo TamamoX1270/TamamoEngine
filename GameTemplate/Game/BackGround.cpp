@@ -26,7 +26,7 @@ bool BackGround::Start()
 		m_backGround.GetModel(),
 		m_backGround.GetModel().GetWorldMatrix());
 	//“–‚½‚è”»’è‚Ì‰ÂŽ‹‰»B
-	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	return true;
 }
 void BackGround::Render(RenderContext& rc)

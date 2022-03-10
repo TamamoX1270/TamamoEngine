@@ -171,6 +171,6 @@ void Game::Try()
 
 void Game::Render(RenderContext& rc)
 {
-	m_spriteRender.Draw(rc);                 //タイトルの描画
-	m_fontRender.Draw(rc);
+	//m_spriteRender.Draw(rc);                 //タイトルの描画
+	//m_fontRender.Draw(rc);
 }

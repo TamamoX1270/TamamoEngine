@@ -1,7 +1,12 @@
 ﻿#include "stdafx.h"
 #include "Player1.h"
 #include "Game.h"
+
+#include "Player2.h"
 #include "GameCamera.h"
+
+//CollisionObjectを使用したいため、ファイルをインクルードする。
+#include "CollisionObject.h"
 
 bool Player1::Start()
 {
@@ -18,12 +23,19 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_Jump].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_Hit].Load("Assets/purototype/hit.tka");
 	m_animationClipArray[enAnimClip_Hit].SetLoopFlag(false);
+
 	//モデルの読み込み
 	m_player.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
+
 	//キャラコンを初期化する。
-	m_characterController.Init(25.0f, 75.0f, {0.0f, 0.0f, 0.0f});
-	
+	m_characterController.Init(25.0f, 75.0f, m_position);
+
 	m_rotation.SetRotationDegX(-90.0f);
+	m_rotation.AddRotationDegZ(180.0f);
+
+	m_player.SetPosition(m_position);
+	m_player.SetRotation(m_rotation);
+
 	return true;
 }
 
@@ -34,6 +46,8 @@ void Player1::Update()
 	AnimationState();
 	ManageState();
 	ManageJump();
+
+	MakeAttackCollision();
 
 	//m_player.Update();
 }
@@ -53,10 +67,21 @@ void Player1::Move()
 		g_vec3One
 	);
 	*/
+
 	
 	if (g_pad[0]->IsTrigger(enButtonUp)) {
 		m_playerState = 5;
 	}
+
+	/*Vector3 rote;
+	rote = player2->GetPlayer2Position();
+	rote.Normalize();
+
+	Quaternion a;
+	a.Apply(rote);
+
+	m_player.SetRotation(a);*/
+
 	
 	
 	/* 左スティック(キーボード：WASD)で平行移動。
@@ -183,6 +208,43 @@ void Player1::ManageJump()
 		m_jumpState = 0;
 	}
 }
+
+/*void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
+{
+	//キーの名前が「attack_start」の時。
+	if (m_playerState==3||wcscmp(eventName, L"Punch_Start") == 0)
+	{
+		//攻撃中にする。
+		m_isUnderAttack = true;
+	}
+	//キーの名前が「attack_end」の時。
+	else if (wcscmp(eventName, L"Punch_End") == 0)
+	{
+		//攻撃を終わる。
+		m_isUnderAttack = false;
+	}
+}*/
+
+void Player1::MakeAttackCollision()
+{
+	if (m_playerState != 3) {
+		return;
+	}
+
+	//コリジョンオブジェクトを作成する。
+	auto collisionObject = NewGO<CollisionObject>(0);
+
+	Vector3 collisionPosition = m_position;
+	//座標をプレイヤーの少し前に設定する。
+	//collisionPosition += m_forward * 50.0f;
+	//球状のコリジョンを作成する。
+	collisionObject->CreateSphere(collisionPosition,        //座標。
+		Quaternion::Identity,                               //回転。
+		70.0f                                               //半径。
+	);
+	collisionObject->SetName("player_attack");
+}
+
 
 void Player1::Render(RenderContext& rc)
 {

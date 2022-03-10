@@ -1,4 +1,7 @@
 #pragma once
+
+class Player2;
+
 class Player1 : public IGameObject
 {
 public:
@@ -48,6 +51,14 @@ private:
 	/// </summary>
 	void ManageJump();
 
+	// アニメーションイベント用の関数。
+	//void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
+
+	/// <summary>
+	/// 攻撃用のコリジョンを作成する。
+	/// </summary>
+	void MakeAttackCollision();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
@@ -75,4 +86,5 @@ private:
 
 	int m_jumpState = 0;	//ジャンプ実装用ステート。
 	float m_jumpTimer = 0.0f;	//ジャンプ実装用タイマー。
+
 };
