@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "Player1.h"
 #include "Player2.h"
+#include "Player3.h"
+#include "Player4.h"
 #include "BackGround.h"
 #include "GameCamera.h"
 
@@ -11,6 +13,8 @@ bool Game::Start()
 	//プレイヤーオブジェクトを作成する。
 	m_player = NewGO<Player1>(0, "player1");
 	m_player2 = NewGO<Player2>(0, "player2");
+	m_player3 = NewGO<Player3>(0, "player3");
+	m_player4 = NewGO<Player4>(0, "player4");
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 
@@ -131,10 +135,6 @@ void Game::Try()
 		m_gage -= 3;
 	}
 
-	//通常攻撃
-	if (g_pad[0]->IsTrigger(enButtonX)) {
-
-	}
 
 	//アイテム使用
 	if (g_pad[0]->IsTrigger(enButtonY)) {
@@ -163,10 +163,6 @@ void Game::Try()
 		}
 	}
 
-	//ガード
-	if (g_pad[0]->IsPress(enButtonLB2)) {
-
-	}
 }
 
 void Game::Render(RenderContext& rc)

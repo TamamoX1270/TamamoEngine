@@ -1,5 +1,5 @@
 #pragma once
-class Player2 : public IGameObject
+class Player4 : public IGameObject
 {
 public:
 	/// <summary>
@@ -22,7 +22,7 @@ public:
 	/// プレイヤーの座標を取得する。
 	/// </summary>
 	/// <returns>プレイヤーの座標。</returns>
-	const Vector3 & GetPlayer2Position() const
+	const Vector3& GetPlayer4Position() const
 	{
 		return m_position;
 	}
@@ -31,7 +31,7 @@ public:
 	/// プレイヤーの座標を設定する。
 	/// </summary>
 	/// <param name="position">プレイヤーの座標。</param>
-	void SetPlayer2Position(const Vector3& position)
+	void SetPlayer4Position(const Vector3& position)
 	{
 		m_position = position;
 	}
@@ -55,7 +55,7 @@ private:
 		enAnimClip_Num,		// 2 :アニメーションクリップの数。
 	};
 	Model m_model;
-	ModelRender m_player2;                             //プレイヤー
+	ModelRender m_player4;                             //プレイヤー
 	Animation m_animation;	// アニメーション
 	AnimationClip m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
 	CharacterController m_characterController;       //キャラクターコントローラー。

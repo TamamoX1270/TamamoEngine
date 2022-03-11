@@ -2,14 +2,19 @@
 #include "GameCamera.h"
 #include "Player1.h"
 #include "Player2.h"
+#include "Player3.h"
+#include "Player4.h"
 
 bool GameCamera::Start()
 {
 	//注視点から視点までのベクトルを設定。
-	m_toCameraPos.Set(0.0f, 125.0f, -250.0f);
+	m_toCameraPos.Set(0.0f, 180.0f, -300.0f);
+	//0.0f, 125.0f, -250.0f
 	//プレイヤーのインスタンスを探す。
 	m_player = FindGO<Player1>("player1");
 	m_player2 = FindGO<Player2>("player2");
+	m_player3 = FindGO<Player3>("player3");
+	m_player4 = FindGO<Player4>("player4");
 
 	//カメラのニアクリップとファークリップを設定する。
 	g_camera3D->SetNear(1.0f);
@@ -33,16 +38,22 @@ void GameCamera::Update()
 	//カメラを更新。
 	//注視点を計算する。
 	Vector3 target;
-	//プレイヤー１と２の中間地点を注視点にする。
-	target = (m_player->GetPlayer1Position()+ m_player2->GetPlayer2Position())/2;
+	//プレイヤー１～４の中間地点を注視点にする。
+	target.x = (m_player->GetPlayer1Position().x + m_player2->GetPlayer2Position().x + m_player3->GetPlayer3Position().x + m_player4->GetPlayer4Position().x) / 4;
 	//プレイヤの足元からちょっと上を注視点とする。
-	target.y += 80.0f;
+	target.y += 100.0f;
+
+	target.z = fabsf(target.x) * -1.1f;
+	if (target.z <= -5000.0f) {
+		target.z = -49.0f;
+	}
+	else if (target.z >= 30.0f) {
+		target.z = 29.0f;
+	}
 
 	Vector3 toCameraPosOld = m_toCameraPos;
-	//パッドの入力を使ってカメラを回す。
-	float x = g_pad[0]->GetRStickXF();
-	float y = g_pad[0]->GetRStickYF();
-	//Y軸周りの回転
+	
+	/*Y軸周りの回転
 	Quaternion qRot;
 	qRot.SetRotationDeg(Vector3::AxisY, 1.3f * x);
 	qRot.Apply(m_toCameraPos);
@@ -52,7 +63,8 @@ void GameCamera::Update()
 	axisX.Cross(Vector3::AxisY, m_toCameraPos);
 	axisX.Normalize();
 	qRot.SetRotationDeg(axisX, 1.3f * y);
-	qRot.Apply(m_toCameraPos);
+	qRot.Apply(m_toCameraPos);*/
+
 	//カメラの回転の上限をチェックする。
 	//注視点から視点までのベクトルを正規化する。
 	//正規化すると、ベクトルの大きさが１になる。
@@ -76,22 +88,4 @@ void GameCamera::Update()
 
 	//カメラの更新。
 	g_camera3D->Update();
-}
-
-void GameCamera::karioki()
-{
-	if (g_pad[0]->IsTrigger(enButtonA)) {
-		//将来的にはこのくらいの角度で2p対戦できるようにするかも？
-		//Y軸周りの回転
-		Quaternion qRot;
-		qRot.SetRotationDeg(Vector3::AxisY, -90.0f);
-		qRot.Apply(m_toCameraPos);
-
-		//X軸周りの回転。
-		Vector3 axisX;
-		axisX.Cross(Vector3::AxisY, m_toCameraPos);
-		axisX.Normalize();
-		qRot.SetRotationDeg(axisX, 10.0f);
-		qRot.Apply(m_toCameraPos);
-	}
 }

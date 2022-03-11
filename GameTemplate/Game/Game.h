@@ -1,6 +1,8 @@
 #pragma once
 class Player1;
 class Player2;
+class Player3;
+class Player4;
 class BackGround;
 class GameCamera;
 
@@ -29,6 +31,8 @@ private:
 	ModelRender     m_modelRender;					//モデルレンダー
 	Player1*        m_player;						//プレイヤー1
 	Player2*		m_player2;						//プレイヤー2
+	Player3*		m_player3;						//プレイヤー3
+	Player4*		m_player4;						//プレイヤー4
 	Vector3         m_pointligpos;                  //ポイントライトの座標
 	Vector3         m_directionligColor;		    //セットする色
 	Vector3			m_spPosition;					//スポットライトのポジション

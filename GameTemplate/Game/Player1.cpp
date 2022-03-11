@@ -47,13 +47,16 @@ void Player1::Update()
 	ManageState();
 	ManageJump();
 
-	MakeAttackCollision();
+	MakeGuardCollision();
 
-	//m_player.Update();
+	m_player.Update();
 }
 
 void Player1::Move()
 {
+	if (m_playerState == 2) {
+		return;
+	}
 	
 	//移動。横移動だけでいいので下はコメントにしている。
 	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
@@ -75,13 +78,10 @@ void Player1::Move()
 
 	/*Vector3 rote;
 	rote = player2->GetPlayer2Position();
-	rote.Normalize();
 
-	Quaternion a;
-	a.Apply(rote);
-
-	m_player.SetRotation(a);*/
-
+	if (rote.x > m_position.x|| rote.x < m_position.x) {
+		m_rotation.AddRotationDegZ(180.0f);
+	}*/
 	
 	
 	/* 左スティック(キーボード：WASD)で平行移動。
@@ -104,7 +104,7 @@ void Player1::Move()
 	m_player.SetScale(m_scale);
 	m_player.SetPosition(m_position);
 	m_player.SetRotation(m_rotation);
-	m_player.Update();				 
+				 
 }
 
 void Player1::AnimationState()
@@ -173,6 +173,7 @@ void Player1::ManageState()
 		break;
 	case 4:
 		m_player.PlayAnimation(enAnimClip_Jump, 0.2f);
+		moveSpeed.y -= 80.0f;
 		break;
 	case 5:
 		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
@@ -188,10 +189,11 @@ void Player1::ManageJump()
 		m_jumpTimer = 0.0f;
 	}
 
-	else {
+	/*else {
 		moveSpeed.y -= 80.0f;
 		//80
-	}
+	}*/
+
 
 	if (m_jumpState == 1) {
 
@@ -225,9 +227,9 @@ void Player1::ManageJump()
 	}
 }*/
 
-void Player1::MakeAttackCollision()
+void Player1::MakeGuardCollision()
 {
-	if (m_playerState != 3) {
+	if (m_playerState != 2) {
 		return;
 	}
 
@@ -236,13 +238,12 @@ void Player1::MakeAttackCollision()
 
 	Vector3 collisionPosition = m_position;
 	//座標をプレイヤーの少し前に設定する。
-	//collisionPosition += m_forward * 50.0f;
+	collisionPosition.y +=  60.0f;
 	//球状のコリジョンを作成する。
 	collisionObject->CreateSphere(collisionPosition,        //座標。
 		Quaternion::Identity,                               //回転。
 		70.0f                                               //半径。
 	);
-	collisionObject->SetName("player_attack");
 }
 
 

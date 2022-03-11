@@ -30,6 +30,15 @@ public:
 		return m_position;
 	}
 
+	/// <summary>
+	/// プレイヤーの座標を設定する。
+	/// </summary>
+	/// <param name="position">プレイヤーの座標。</param>
+	void SetPlayer1Position(const Vector3& position)
+	{
+		m_position = position;
+	}
+
 private:
 	/// <summary>
 	/// 移動処理
@@ -55,9 +64,9 @@ private:
 	//void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
 
 	/// <summary>
-	/// 攻撃用のコリジョンを作成する。
+	/// 防御用のコリジョンを作成する。
 	/// </summary>
-	void MakeAttackCollision();
+	void MakeGuardCollision();
 
 private:
 	// アニメーションクリップの番号を表す列挙型。
@@ -87,4 +96,5 @@ private:
 	int m_jumpState = 0;	//ジャンプ実装用ステート。
 	float m_jumpTimer = 0.0f;	//ジャンプ実装用タイマー。
 
+	Player2* player2;
 };

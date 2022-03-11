@@ -229,6 +229,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player1.cpp" />
     <ClCompile Include="Player2.cpp" />
+    <ClCompile Include="Player3.cpp" />
+    <ClCompile Include="Player4.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -242,6 +244,8 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Player1.h" />
     <ClInclude Include="Player2.h" />
+    <ClInclude Include="Player3.h" />
+    <ClInclude Include="Player4.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
   </ItemGroup>
