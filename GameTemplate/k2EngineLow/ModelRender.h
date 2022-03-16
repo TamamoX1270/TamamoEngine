@@ -120,6 +120,14 @@ namespace nsK2EngineLow {
 		{
 			m_animation.Play(animNo, interpolateTime);
 		}
+		/// <summary>
+		/// アニメーションの再生中？
+		/// </summary>
+		bool IsPlayingAnimation() const
+		{
+			return m_animation.IsPlaying();
+		}
+
 	private:
 		// スケルトンを初期化
 		void InitSkeleton(const char* filePath);
