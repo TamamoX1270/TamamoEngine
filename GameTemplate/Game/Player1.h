@@ -10,10 +10,12 @@ public:
     /// </summary>
     /// <returns></returns>
 	bool Start() override;
+
 	/// <summary>
     /// 更新処理
     /// </summary>
 	void Update() override;
+
 	/// <summary>
     /// 描画処理
     /// </summary>
@@ -46,6 +48,11 @@ private:
 	void Move();
 
 	/// <summary>
+	/// 回転処理
+	/// </summary>
+	void Rotation();
+
+	/// <summary>
 	/// アニメーション管理
 	/// </summary>
 	void AnimationState();
@@ -61,7 +68,9 @@ private:
 	void ManageJump();
 
 	// アニメーションイベント用の関数。
-	//void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
+	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
+
+	void MakeCollision();
 
 	/// <summary>
 	/// 防御用のコリジョンを作成する。
@@ -79,22 +88,28 @@ private:
 		enAnimClip_Hit,		// 5 : 被ダメージアニメーション。
 		enAnimClip_Num,		// 6 : アニメーションクリップの数。
 	};
-	Model m_model;
-	ModelRender m_player;								//プレイヤー
-	Animation m_animation;								// アニメーション
-	AnimationClip m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
-	CharacterController m_characterController;			//キャラクターコントローラー。
-	Vector3 m_position= Vector3::Zero;					// 座標
-	Quaternion m_rotation = Quaternion::Identity;;		// 回転
-	Vector3 m_scale=Vector3::One;						// 拡大率
+	Model				m_model;
+	ModelRender			m_player;								//プレイヤー
+	Animation			m_animation;							// アニメーション
+	AnimationClip		m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
+	CharacterController m_characterController;					//キャラクターコントローラー。
+	Vector3				m_position= Vector3::Zero;				// 座標
+	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
+	Vector3				m_scale = Vector3::One;					// 拡大率
 
-	Vector3 moveSpeed;	//プレイヤーの速さ。
 
-	int m_playerState; //プレイヤーステート。
-	float m_timer = 0.0f; //アニメーション用タイマー。
 
-	int m_jumpState = 0;	//ジャンプ実装用ステート。
-	float m_jumpTimer = 0.0f;	//ジャンプ実装用タイマー。
+	Vector3		moveSpeed;				//プレイヤーの速さ。
 
-	Player2* player2;
+	int			m_playerState;			//プレイヤーステート。
+	float		m_timer = 0.0f;			//アニメーション用タイマー。
+
+	int			m_jumpState = 0;		//ジャンプ実装用ステート。
+	float		m_jumpTimer = 0.0f;		//ジャンプ実装用タイマー。
+
+	int			m_charaRotState = 0;	//キャラの向きを変えるステート。
+
+
+	float		m_isUnderAttack;
+	int			m_handBoneId = -1;		//「Hand」ボーンのID。  
 };

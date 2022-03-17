@@ -2,9 +2,6 @@
 #include "Player1.h"
 #include "Game.h"
 
-#include "Player2.h"
-#include "GameCamera.h"
-
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
 
@@ -30,93 +27,99 @@ bool Player1::Start()
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
 
+	//初期に右を向かせる。
 	m_rotation.SetRotationDegX(-90.0f);
 	m_rotation.AddRotationDegZ(180.0f);
 
 	m_player.SetPosition(m_position);
 	m_player.SetRotation(m_rotation);
 
+	//アニメーションイベント用の関数を設定する。
+	m_player.AddAnimationEvent([&](const wchar_t* clipName, const wchar_t* eventName) {
+		OnAnimationEvent(clipName, eventName);
+
+		});
+
+	//Sword」ボーンのID(番号)を取得する。
+	m_handBoneId = m_player.FindBoneID(L"mixamorig:RightHandIndex1");
+
 	return true;
 }
 
 void Player1::Update()
-{
-	
+{	
 	Move();
+	Rotation();
 	AnimationState();
 	ManageState();
 	ManageJump();
 
 	MakeGuardCollision();
 
+	MakeCollision();
+
+
 	m_player.Update();
 }
 
 void Player1::Move()
 {
+	//ガード中なら。
 	if (m_playerState == 2) {
+		//動けない。
 		return;
 	}
 	
-	//移動。横移動だけでいいので下はコメントにしている。
+	//移動。
 	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
-	//moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
-	
 
-	/*
-	m_player.UpdateWorldMatrix(
-		m_characterController.GetPosition(),
-		m_rotation,
-		g_vec3One
-	);
-	*/
+	//キャラの当たり判定の更新。
+	m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 
-	
-	if (g_pad[0]->IsTrigger(enButtonUp)) {
-		m_playerState = 5;
+	m_player.SetScale(m_scale);
+	m_player.SetPosition(m_position);			 
+}
+
+void Player1::Rotation()
+{
+	//ガード中なら。
+	if (m_playerState == 2) {
+		//向きを変えられない。
+		return;
 	}
 
-	/*Vector3 rote;
-	rote = player2->GetPlayer2Position();
+	//スティックを左に倒すと。
+	if (g_pad[0]->GetLStickXF() < 0) {
+		m_charaRotState = 1;
+	}
 
-	if (rote.x > m_position.x|| rote.x < m_position.x) {
+	//スティックを右に倒すと。
+	else if (g_pad[0]->GetLStickXF() > 0) {
+		m_charaRotState = 0;
+	}
+
+	//ステートによってキャラの向きを変える。
+	switch (m_charaRotState) {
+	case 0:
+		m_rotation.SetRotationDegX(-90.0f);
 		m_rotation.AddRotationDegZ(180.0f);
-	}*/
-	
-	
-	/* 左スティック(キーボード：WASD)で平行移動。
-	m_position.x += g_pad[0]->GetLStickXF();
-	m_position.y += g_pad[0]->GetLStickYF();
-	
-	// 右スティック(キーボード：上下左右)で回転。
-	m_rotation.AddRotationY(g_pad[0]->GetRStickXF() * 0.05f);
-	m_rotation.AddRotationX(g_pad[0]->GetRStickYF() * 0.05f);*/
-	
+		break;
+	case 1:
+		m_rotation.SetRotationDegX(-90.0f);
+		m_rotation.AddRotationDegZ(-180.0f);
+		break;
+	}
 
-
-	
-	// 平行移動
-	m_position.x += g_pad[0]->GetLStickXF();
-	m_position.y += g_pad[0]->GetLStickYF();
-	
-
-	m_position=m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
-	m_player.SetScale(m_scale);
-	m_player.SetPosition(m_position);
 	m_player.SetRotation(m_rotation);
-				 
 }
 
 void Player1::AnimationState()
 {
-	
-	if (m_playerState == 3) {
-
-		m_timer += g_gameTime->GetFrameDeltaTime();
-		if (m_timer >= 0.7f) {
-			m_playerState = 0;
-		}
+	//被ダメモーションの確認。
+	if (g_pad[0]->IsTrigger(enButtonUp)) {
+		m_playerState = 5;
 	}
+	
 
 	else if (m_playerState == 4) {
 
@@ -157,24 +160,36 @@ void Player1::AnimationState()
 
 void Player1::ManageState()
 {
+	//ステートによるアニメーションの管理。
 	switch (m_playerState)
 	{
 	case 0:
 		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
 		break;
+
 	case 1:
 		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
 		break;
+
 	case 2:
 		m_player.PlayAnimation(enAnimClip_Guard, 0.2f);
 		break;
+
 	case 3:
 		m_player.PlayAnimation(enAnimClip_Punch, 0.2f);
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+		}
 		break;
+
 	case 4:
 		m_player.PlayAnimation(enAnimClip_Jump, 0.2f);
 		moveSpeed.y -= 80.0f;
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+		}
 		break;
+
 	case 5:
 		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
 		break;
@@ -211,10 +226,10 @@ void Player1::ManageJump()
 	}
 }
 
-/*void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
+void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
 	//キーの名前が「attack_start」の時。
-	if (m_playerState==3||wcscmp(eventName, L"Punch_Start") == 0)
+	if (wcscmp(eventName, L"Punch_Start") == 0)
 	{
 		//攻撃中にする。
 		m_isUnderAttack = true;
@@ -225,7 +240,33 @@ void Player1::ManageJump()
 		//攻撃を終わる。
 		m_isUnderAttack = false;
 	}
-}*/
+}
+
+void Player1::MakeCollision()
+{
+
+	if (m_isUnderAttack == true) {
+
+		//コリジョンオブジェクトを作成する。
+		auto collisionObject = NewGO<CollisionObject>(0);
+
+		Vector3 collisionPosition = m_position;
+		//座標をプレイヤーの少し前に設定する。
+		collisionPosition.y += 60.0f;
+		//球状のコリジョンを作成する。
+		collisionObject->CreateSphere(collisionPosition,        //座標。
+			Quaternion::Identity,                               //回転。
+			10.0f                                               //半径。
+		);
+
+		collisionObject->SetName("player_attack");
+
+		//「Sword」ボーンのワールド行列を取得する。
+		Matrix matrix = m_player.GetBone(m_handBoneId)->GetWorldMatrix();
+		//「Sword」ボーンのワールド行列をコリジョンに適用する。
+		collisionObject->SetWorldMatrix(matrix);
+	}
+}
 
 void Player1::MakeGuardCollision()
 {
@@ -239,13 +280,16 @@ void Player1::MakeGuardCollision()
 	Vector3 collisionPosition = m_position;
 	//座標をプレイヤーの少し前に設定する。
 	collisionPosition.y +=  60.0f;
-	//球状のコリジョンを作成する。
-	collisionObject->CreateSphere(collisionPosition,        //座標。
-		Quaternion::Identity,                               //回転。
-		70.0f                                               //半径。
-	);
-}
 
+	//カプセル状のコリジョンを作成する。
+	collisionObject->CreateCapsule(collisionPosition,
+		Quaternion::Identity,
+		35.0f,
+		75.0f
+	);
+
+	collisionObject->SetName("P1_Guard");
+}
 
 void Player1::Render(RenderContext& rc)
 {

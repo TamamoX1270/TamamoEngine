@@ -23,6 +23,35 @@ bool Player2::Start()
 
 void Player2::Update()
 {
+	wchar_t wcsbuf1[256];
+	swprintf_s(wcsbuf1, 256, L"%d", m_hp);
+
+	//表示するテキストを設定。
+	m_fontRender.SetText(wcsbuf1);
+	//フォントの位置を設定。
+	m_fontRender.SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	//フォントの大きさを設定。
+	m_fontRender.SetScale(1.5f);
+	//黒色に設定
+	m_fontRender.SetColor(g_vec4White);
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("player_attack");
+	//配列をfor文で回す。
+	for (auto collision : collisions)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			m_hp += 1;
+		}
+
+		
+	}
+
+
+
 	//m_player2.Update();
 	Move();
 	AnimationState();
@@ -110,4 +139,5 @@ void Player2::AnimationState()
 void Player2::Render(RenderContext& rc)
 {
 	m_player2.Draw(rc);
+	m_fontRender.Draw(rc);
 }
