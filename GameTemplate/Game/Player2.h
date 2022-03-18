@@ -1,4 +1,7 @@
 #pragma once
+
+class Player1;
+
 class Player2 : public IGameObject
 {
 public:
@@ -47,12 +50,15 @@ private:
 	/// </summary>
 	void AnimationState();
 
+	void awm();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
 		enAnimClip_Idle,	// 0 : 待機アニメーション、
 		enAnimClip_Run,		// 1 : 走りアニメーション。
-		enAnimClip_Num,		// 2 :アニメーションクリップの数。
+		enAnimClip_Hit,		// 2 : 被ダメージアニメーション。
+		enAnimClip_Num,		// 3 :アニメーションクリップの数。
 	};
 	Model m_model;
 	ModelRender m_player2;                             //プレイヤー
@@ -65,5 +71,7 @@ private:
 
 	int m_hp = 0;
 	FontRender      m_fontRender;					//フォントレンダー
-	CollisionObject* co;
+
+	int aaa = 0;
+	int m_playerState = 0;
 };

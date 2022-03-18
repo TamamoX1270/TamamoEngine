@@ -41,6 +41,15 @@ public:
 		m_position = position;
 	}
 
+	/// <summary>
+	/// 攻撃ステートを設定する。
+	/// </summary>
+	/// <param name="position">攻撃ステート。</param>
+	void SetPlayer1atkState(const float& state)
+	{
+		m_isUnderAttack = state;
+	}
+
 private:
 	/// <summary>
 	/// 移動処理

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Player2.h"
 #include "Game.h"
+
+#include "Player1.h"
 #include "GameCamera.h"
 
 bool Player2::Start()
@@ -10,6 +12,8 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(true);
 	m_animationClipArray[enAnimClip_Run].Load("Assets/purototype/walk.tka");
 	m_animationClipArray[enAnimClip_Run].SetLoopFlag(true);
+	m_animationClipArray[enAnimClip_Hit].Load("Assets/purototype/hit.tka");
+	m_animationClipArray[enAnimClip_Hit].SetLoopFlag(false);
 	//モデルの読み込み
 	m_player2.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 	//キャラコンを初期化する。
@@ -43,14 +47,17 @@ void Player2::Update()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			FindGO<Player1>("player1")->SetPlayer1atkState(false);
 			//HPを減らす。
-			m_hp += 1;
+			if (aaa != 1) {
+				m_hp += 1;
+				m_playerState = 1;
+			}
 		}
-
 		
 	}
 
-
+	awm();
 
 	//m_player2.Update();
 	Move();
@@ -62,47 +69,6 @@ void Player2::Move()
 
 	Vector3 moveSpeed;
 	moveSpeed.x = g_pad[1]->GetLStickXF() * 120.0f;
-	//moveSpeed.z = g_pad[1]->GetLStickYF() * 120.0f;
-
-	/*
-	m_player.UpdateWorldMatrix(
-		m_characterController.GetPosition(),
-		m_rotation,
-		g_vec3One
-	);
-	*/
-
-
-	/* 左スティック(キーボード：WASD)で平行移動。
-	m_position.x += g_pad[0]->GetLStickXF();
-	m_position.y += g_pad[0]->GetLStickYF();
-
-	// 右スティック(キーボード：上下左右)で回転。
-	m_rotation.AddRotationY(g_pad[0]->GetRStickXF() * 0.05f);
-	m_rotation.AddRotationX(g_pad[0]->GetRStickYF() * 0.05f);*/
-
-	// 上下左右キー(キーボード：2, 4, 6, 8)で拡大
-	if (g_pad[1]->IsPress(enButtonUp)) {
-		m_scale.y += 0.02f;
-	}
-	if (g_pad[1]->IsPress(enButtonDown)) {
-		m_scale.y -= 0.02f;
-	}
-	if (g_pad[1]->IsPress(enButtonRight)) {
-		m_scale.x += 0.02f;
-	}
-	if (g_pad[1]->IsPress(enButtonLeft)) {
-		m_scale.x -= 0.02f;
-	}
-
-	/* アニメーションの切り替え。
-	if (g_pad[0]->IsPress(enButtonA)) {
-		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
-	}
-	if (g_pad[0]->IsPress(enButtonB)) {
-		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
-	}
-	*/
 
 
 	// 平行移動
@@ -117,18 +83,45 @@ void Player2::Move()
 	m_player2.Update();
 }
 
+void Player2::awm()
+{
+
+	if (!g_pad[1]->IsPress(enButtonLB1) && m_playerState == 0) {
+		aaa = 0;
+		return;
+	}
+
+	aaa = 1;
+
+		//コリジョンオブジェクトを作成する。
+		auto col = NewGO<CollisionObject>(0);
+
+		Vector3 collisionPosition = m_position;
+		//座標をプレイヤーの少し前に設定する。
+		collisionPosition.y += 60.0f;
+
+		//カプセル状のコリジョンを作成する。
+		col->CreateCapsule(collisionPosition,
+			Quaternion::Identity,
+			35.0f,
+			75.0f
+		);
+
+		col->SetName("P2_Guard");
+
+}
+
 void Player2::AnimationState()
 {
-	/* アニメーションの切り替え。
-	if (g_pad[0]->IsPress(enButtonA)) {
-		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
-	}
-	if (g_pad[0]->IsPress(enButtonB)) {
-		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
-	}*/
 
 	if (g_pad[1]->GetLStickXF() || g_pad[1]->GetLStickYF()) {
 		m_player2.PlayAnimation(enAnimClip_Run, 0.2f);
+	}
+	else if (m_playerState == 1) {
+		m_player2.PlayAnimation(enAnimClip_Hit, 0.2f);
+		if (m_player2.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+		}
 	}
 
 	else {
