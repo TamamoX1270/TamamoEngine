@@ -9,6 +9,7 @@ class GameCamera;
 class Game : public IGameObject
 {
 public:
+	Game();
 	/// <summary>
 	/// 開始の処理
 	/// </summary>
@@ -37,7 +38,7 @@ private:
 	Vector3         m_directionligColor;		    //セットする色
 	Vector3			m_spPosition;					//スポットライトのポジション
 	Vector3			m_spDirection;                  //スポットライトの方向
-
+	
 	//ここからは仮で追加したもの
 private:
 	void Try();
@@ -50,9 +51,9 @@ private:
 	int m_syoyu = 0;
 	int m_wasabi = 0;
 
-	int m_hp;
+	int m_hp = 0;
 	int m_Maxhp;
-
+	
 	GameCamera* m_gameCamera;
 };
 
