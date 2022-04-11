@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Player4.h"
 #include "Game.h"
-#include "GameCamera.h"
 
 bool Player4::Start()
 {

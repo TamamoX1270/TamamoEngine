@@ -2,6 +2,8 @@
 #include "Player1.h"
 #include "Game.h"
 
+#include "Player2.h"
+
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
 
@@ -20,6 +22,14 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_Jump].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_Hit].Load("Assets/purototype/hit.tka");
 	m_animationClipArray[enAnimClip_Hit].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Catch].Load("Assets/purototype/catch.tka");
+	m_animationClipArray[enAnimClip_Catch].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Punch2].Load("Assets/purototype/punch2.tka");
+	m_animationClipArray[enAnimClip_Punch2].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Kick3].Load("Assets/purototype/kick3.tka");
+	m_animationClipArray[enAnimClip_Kick3].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_CPunch].Load("Assets/purototype/cpunch.tka");
+	m_animationClipArray[enAnimClip_CPunch].SetLoopFlag(false);
 
 	//モデルの読み込み
 	m_player.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
@@ -42,22 +52,35 @@ bool Player1::Start()
 
 	//Sword」ボーンのID(番号)を取得する。
 	m_handBoneId = m_player.FindBoneID(L"mixamorig:RightHandIndex1");
+	m_handBoneIdCatch = m_player.FindBoneID(L"mixamorig:RightHandIndex1");
+	m_handBoneId2 = m_player.FindBoneID(L"mixamorig:LeftHandIndex1");
+	m_handBoneId3 = m_player.FindBoneID(L"mixamorig:RightToeBase");
+	m_handBoneIdCPunch = m_player.FindBoneID(L"mixamorig:RightHandIndex1");
+	
 
 	return true;
 }
 
 void Player1::Update()
-{	
+{
+	a = FindGO<Player2>("player2")->GetPlayer2State();
+
+	if (a != true) {
 	Move();
 	Rotation();
+	}
+
 	AnimationState();
 	ManageState();
 	ManageJump();
 
 	MakeGuardCollision();
+	MakeCatchCollision();
 
 	MakeCollision();
-
+	MakeCollision2();
+	MakeCollision3();
+	CatchAttackCollision();
 
 	m_player.Update();
 }
@@ -66,6 +89,18 @@ void Player1::Move()
 {
 	//ガード中なら。
 	if (m_playerState == 2) {
+		//動けない。
+		return;
+	}
+
+	//攻撃中なら。
+	if (m_playerState == 3 || m_playerState == 7 || m_playerState == 8) {
+		//動けない。
+		return;
+	}
+
+	//掴み中なら。
+	if (m_playerState == 6) {
 		//動けない。
 		return;
 	}
@@ -85,6 +120,18 @@ void Player1::Rotation()
 	//ガード中なら。
 	if (m_playerState == 2) {
 		//向きを変えられない。
+		return;
+	}
+
+	//攻撃中なら。
+	if (m_playerState == 3 || m_playerState == 7 || m_playerState == 8) {
+		//動けない。
+		return;
+	}
+
+	//掴み中なら。
+	if (m_playerState == 6) {
+		//動けない。
 		return;
 	}
 
@@ -115,6 +162,7 @@ void Player1::Rotation()
 
 void Player1::AnimationState()
 {
+
 	//被ダメモーションの確認。
 	if (g_pad[0]->IsTrigger(enButtonUp)) {
 		m_playerState = 5;
@@ -128,16 +176,30 @@ void Player1::AnimationState()
 			m_playerState = 0;
 		}
 	}
-	
 
+	//掴み
+	if (g_pad[0]->IsTrigger(enButtonRB1) || g_pad[0]->IsTrigger(enButtonRB2)) {
+		m_playerState = 6;
+	}
+	
+	//掴み攻撃
+	if (a == true && g_pad[0]->IsTrigger(enButtonB)) {
+		m_playerState = 9;
+	}
 	//通常攻撃
-	if (g_pad[0]->IsTrigger(enButtonB)) {
+	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 2) {
+		m_playerState = 8;
+	}
+	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 1) {
+		m_playerState = 7;
+	}
+	else if (g_pad[0]->IsTrigger(enButtonB)) {
 		m_timer = 0.0f;
 		m_playerState = 3;
 	}
 
 
-	if (m_playerState != 3 && m_playerState != 4) {
+	if (m_playerState != 3 && m_playerState != 4 && m_playerState != 6 && m_playerState != 7 && m_playerState != 8 && m_playerState != 9) {
 
 		if (g_pad[0]->IsPress(enButtonLB1) || g_pad[0]->IsPress(enButtonLB2)) {
 			m_playerState = 2;
@@ -165,6 +227,10 @@ void Player1::ManageState()
 	{
 	case 0:
 		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
+		m_isUnderAttack = false;
+		m_catch = false;
+		m_2 = false;
+		m_3 = false;
 		break;
 
 	case 1:
@@ -173,17 +239,21 @@ void Player1::ManageState()
 
 	case 2:
 		m_player.PlayAnimation(enAnimClip_Guard, 0.2f);
+		m_catch = false;
 		break;
 
 	case 3:
 		m_player.PlayAnimation(enAnimClip_Punch, 0.2f);
+		m_catch = false;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
+			atkState = 0;
 		}
 		break;
 
 	case 4:
 		m_player.PlayAnimation(enAnimClip_Jump, 0.2f);
+		m_catch = false;
 		moveSpeed.y -= 80.0f;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
@@ -192,6 +262,41 @@ void Player1::ManageState()
 
 	case 5:
 		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
+		m_catch = false;
+		break;
+
+	case 6:
+		m_player.PlayAnimation(enAnimClip_Catch, 0.2f);
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+		}
+		break;
+
+	case 7:
+		m_player.PlayAnimation(enAnimClip_Punch2, 0.2f);
+		m_catch = false;
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+			atkState = 0;
+		}
+		break;
+
+	case 8:
+		m_player.PlayAnimation(enAnimClip_Kick3, 0.2f);
+		m_catch = false;
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+			atkState = 0;
+		}
+		break;
+
+	case 9:
+		m_player.PlayAnimation(enAnimClip_CPunch, 0.2f);
+		m_catch = false;
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+			atkState = 0;
+		}
 		break;
 	}
 }
@@ -239,6 +344,57 @@ void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 	{
 		//攻撃を終わる。
 		m_isUnderAttack = false;
+		atkState = 1;
+	}
+
+	//キーの名前が「attack_start」の時。
+	if (wcscmp(eventName, L"Catch_Start") == 0)
+	{
+		//攻撃中にする。
+		m_catch = true;
+	}
+	//キーの名前が「attack_end」の時。
+	else if (wcscmp(eventName, L"Catch_End") == 0)
+	{
+		//攻撃を終わる。
+		m_catch = false;
+	}
+
+	if (wcscmp(eventName, L"Punch2_Start") == 0)
+	{
+		//攻撃中にする。
+		m_2 = true;
+	}
+	//キーの名前が「attack_end」の時。
+	else if (wcscmp(eventName, L"Punch2_End") == 0)
+	{
+		//攻撃を終わる。
+		m_2 = false;
+		atkState = 2;
+	}
+
+	if (wcscmp(eventName, L"Kick3_Start") == 0)
+	{
+		//攻撃中にする。
+		m_3 = true;
+	}
+	//キーの名前が「attack_end」の時。
+	else if (wcscmp(eventName, L"Kick3_End") == 0)
+	{
+		//攻撃を終わる。
+		m_3 = false;
+	}
+
+	if (wcscmp(eventName, L"CPunch_Start") == 0)
+	{
+		//攻撃中にする。
+		m_cpunch = true;
+	}
+	//キーの名前が「attack_end」の時。
+	else if (wcscmp(eventName, L"CPunch_End") == 0)
+	{
+		//攻撃を終わる。
+		m_cpunch = false;
 	}
 }
 
@@ -250,11 +406,8 @@ void Player1::MakeCollision()
 		//コリジョンオブジェクトを作成する。
 		auto collisionObject = NewGO<CollisionObject>(0);
 
-		Vector3 collisionPosition = m_position;
-		//座標をプレイヤーの少し前に設定する。
-		collisionPosition.y += 60.0f;
 		//球状のコリジョンを作成する。
-		collisionObject->CreateSphere(collisionPosition,        //座標。
+		collisionObject->CreateSphere(m_position,				//座標。
 			Quaternion::Identity,                               //回転。
 			10.0f                                               //半径。
 		);
@@ -267,6 +420,54 @@ void Player1::MakeCollision()
 		collisionObject->SetWorldMatrix(matrix);
 	}
 }
+
+void Player1::MakeCollision2()
+{
+
+	if (m_2 == true) {
+
+		//コリジョンオブジェクトを作成する。
+		auto collisionObject = NewGO<CollisionObject>(0);
+
+		//球状のコリジョンを作成する。
+		collisionObject->CreateSphere(m_position,				//座標。
+			Quaternion::Identity,                               //回転。
+			10.0f                                               //半径。
+		);
+
+		collisionObject->SetName("player_attack2");
+
+		//「Sword」ボーンのワールド行列を取得する。
+		Matrix matrix = m_player.GetBone(m_handBoneId2)->GetWorldMatrix();
+		//「Sword」ボーンのワールド行列をコリジョンに適用する。
+		collisionObject->SetWorldMatrix(matrix);
+	}
+}
+
+
+void Player1::MakeCollision3()
+{
+
+	if (m_3 == true) {
+
+		//コリジョンオブジェクトを作成する。
+		auto collisionObject = NewGO<CollisionObject>(0);
+
+		//球状のコリジョンを作成する。
+		collisionObject->CreateSphere(m_position,				//座標。
+			Quaternion::Identity,                               //回転。
+			10.0f                                               //半径。
+		);
+
+		collisionObject->SetName("player_attack3");
+
+		//「Sword」ボーンのワールド行列を取得する。
+		Matrix matrix = m_player.GetBone(m_handBoneId3)->GetWorldMatrix();
+		//「Sword」ボーンのワールド行列をコリジョンに適用する。
+		collisionObject->SetWorldMatrix(matrix);
+	}
+}
+
 
 void Player1::MakeGuardCollision()
 {
@@ -289,6 +490,52 @@ void Player1::MakeGuardCollision()
 	);
 
 	collisionObject->SetName("P1_Guard");
+}
+
+
+
+void Player1::MakeCatchCollision()
+{
+	if (m_catch == true) {
+
+		//コリジョンオブジェクトを作成する。
+		auto collisionObject = NewGO<CollisionObject>(0);
+
+		//球状のコリジョンを作成する。
+		collisionObject->CreateSphere(m_position,				//座標。
+			Quaternion::Identity,                               //回転。
+			10.0f                                               //半径。
+		);
+
+		collisionObject->SetName("player_catch");
+
+		//「Sword」ボーンのワールド行列を取得する。
+		Matrix matrix = m_player.GetBone(m_handBoneIdCatch)->GetWorldMatrix();
+		//「Sword」ボーンのワールド行列をコリジョンに適用する。
+		collisionObject->SetWorldMatrix(matrix);
+	}
+}
+
+void Player1::CatchAttackCollision()
+{
+	if (m_cpunch == true) {
+
+		//コリジョンオブジェクトを作成する。
+		auto collisionObject = NewGO<CollisionObject>(0);
+
+		//球状のコリジョンを作成する。
+		collisionObject->CreateSphere(m_position,				//座標。
+			Quaternion::Identity,                               //回転。
+			10.0f                                               //半径。
+		);
+
+		collisionObject->SetName("player_cpunch");
+
+		//「Sword」ボーンのワールド行列を取得する。
+		Matrix matrix = m_player.GetBone(m_handBoneIdCatch)->GetWorldMatrix();
+		//「Sword」ボーンのワールド行列をコリジョンに適用する。
+		collisionObject->SetWorldMatrix(matrix);
+	}
 }
 
 void Player1::Render(RenderContext& rc)

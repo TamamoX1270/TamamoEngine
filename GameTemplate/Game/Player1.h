@@ -1,7 +1,5 @@
 #pragma once
 
-class Player2;
-
 class Player1 : public IGameObject
 {
 public:
@@ -50,6 +48,15 @@ public:
 		m_isUnderAttack = state;
 	}
 
+	/// <summary>
+	/// プレイヤーのステートを取得する。
+	/// </summary>
+	/// <returns>プレイヤーのステート。</returns>
+	const int& GetPlayer1State() const
+	{
+		return m_playerState;
+	}
+
 private:
 	/// <summary>
 	/// 移動処理
@@ -81,10 +88,24 @@ private:
 
 	void MakeCollision();
 
+	void MakeCollision2();
+
+	void MakeCollision3();
+
 	/// <summary>
 	/// 防御用のコリジョンを作成する。
 	/// </summary>
 	void MakeGuardCollision();
+
+	/// <summary>
+	/// 掴み用のコリジョンを作成する。
+	/// </summary>
+	void MakeCatchCollision();
+
+	/// <summary>
+	/// 掴み攻撃をするコリジョンを作成する。
+	/// </summary>
+	void CatchAttackCollision();
 
 private:
 	// アニメーションクリップの番号を表す列挙型。
@@ -95,7 +116,11 @@ private:
 		enAnimClip_Punch,	// 3 : 攻撃アニメーション。
 		enAnimClip_Jump,	// 4 : ジャンプアニメーション。
 		enAnimClip_Hit,		// 5 : 被ダメージアニメーション。
-		enAnimClip_Num,		// 6 : アニメーションクリップの数。
+		enAnimClip_Catch,	// 6 : 掴みアニメーション。
+		enAnimClip_Punch2,	// 7 : 攻撃２アニメーション。
+		enAnimClip_Kick3,	// 8 : 攻撃３アニメーション。
+		enAnimClip_CPunch,	// 9 : 掴み攻撃アニメーション。
+		enAnimClip_Num,		// 10 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー
@@ -121,4 +146,20 @@ private:
 
 	float		m_isUnderAttack;
 	int			m_handBoneId = -1;		//「Hand」ボーンのID。  
+
+	float		m_catch;
+	int			m_handBoneIdCatch = -1;		//「Hand」ボーンのID。 
+
+	float		m_2;
+	int			m_handBoneId2 = -1;		//「Hand」ボーンのID。  
+
+	float		m_3;
+	int			m_handBoneId3 = -1;		//「Hand」ボーンのID。  
+
+	float		m_cpunch;
+	int			m_handBoneIdCPunch = -1;	//「Hand」ボーンのID。  
+
+	int atkState = 0;
+
+	float a;							//shineステート。
 };

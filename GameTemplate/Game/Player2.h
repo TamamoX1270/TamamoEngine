@@ -39,6 +39,15 @@ public:
 		m_position = position;
 	}
 
+	/// <summary>
+	/// プレイヤーのステートを取得する。
+	/// </summary>
+	/// <returns>プレイヤーのステート。</returns>
+	const float& GetPlayer2State() const
+	{
+		return shine;
+	}
+
 private:
 	/// <summary>
 	/// 移動処理
@@ -50,8 +59,25 @@ private:
 	/// </summary>
 	void AnimationState();
 
-	void awm();
+	/// <summary>
+	/// ステート管理
+	/// </summary>
+	void ManageState();
 
+	/// <summary>
+	/// ガード管理
+	/// </summary>
+	void Guard();
+
+	/// <summary>
+	/// 被ダメージモーション管理
+	/// </summary>
+	void Hit();
+
+	/// <summary>
+	/// 掴まれ後の管理
+	/// </summary>
+	void AfterCatch();
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
@@ -74,4 +100,8 @@ private:
 
 	int aaa = 0;
 	int m_playerState = 0;
+
+	//掴み処理の関数
+	float shine = false;
+	float m_timer = 0.0f;
 };

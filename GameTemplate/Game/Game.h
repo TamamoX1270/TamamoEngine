@@ -6,6 +6,10 @@ class Player4;
 class BackGround;
 class GameCamera;
 
+class GameCamera2P;
+class GameCamera3P;
+
+
 class Game : public IGameObject
 {
 public:
@@ -39,21 +43,13 @@ private:
 	Vector3			m_spPosition;					//スポットライトのポジション
 	Vector3			m_spDirection;                  //スポットライトの方向
 	
-	//ここからは仮で追加したもの
-private:
-	void Try();
-
-	int m_itemState = 0;
-
-	int m_gage = 0;
-	int m_gari = 0;
-	int m_tea = 0;
-	int m_syoyu = 0;
-	int m_wasabi = 0;
-
+	//HPバーの実装のための関数
 	int m_hp = 0;
-	int m_Maxhp;
-	
+
+	//カメラのポインタ関数
 	GameCamera* m_gameCamera;
+
+	GameCamera2P* m_gameCamera2;
+	GameCamera3P* m_gameCamera3;
 };
 
