@@ -31,7 +31,7 @@ bool SoySauceBullet::Start()
 		Quaternion::Identity,                                   //回転。
 		30.0f);                                                //球の大きさ(半径)。
 		//名前を付ける。
-	m_collisionObject->SetName("bullet_hit");
+	m_collisionObject->SetName("SoysauceAttack");
 	//自動で削除を無効にする(DeleteGOで削除する必要がある)。
 	m_collisionObject->SetIsEnableAutoDelete(false);
 	return true;
@@ -50,7 +50,6 @@ SoySauceBullet::~SoySauceBullet()
 void SoySauceBullet::Update() //常に1秒間に60回呼び出される
 {
 	Move();
-	//Moji();
 	//絵描きさんの更新処理。
 	m_modelRender.Update();
 }

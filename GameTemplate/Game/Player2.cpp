@@ -218,6 +218,24 @@ void Player2::Hit()
 		}
 
 	}
+
+	//醤油攻撃用のコリジョンの配列を取得する。
+	const auto& collisions5 = g_collisionObjectManager->FindCollisionObjects("SoysauceAttack");
+	//配列をfor文で回す。
+	for (auto collision : collisions5)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+
+			//HPを減らす。
+			if (aaa != 1) {
+				m_hp += 1;
+				m_playerState = 1;
+			}
+		}
+
+	}
 }
 
 void Player2::AfterCatch()
