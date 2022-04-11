@@ -42,6 +42,15 @@ public:
 	}
 
 	/// <summary>
+	/// プレイヤーの掴まれステートを取得する。
+	/// </summary>
+	/// <returns>プレイヤーのステート。</returns>
+	const float& GetPlayer1State() const
+	{
+		return shine;
+	}
+
+	/// <summary>
 	/// キャラクターコントローラーを取得。
 	/// </summary>
 	/// <returns>キャラクターコントローラー。</returns>
@@ -109,6 +118,21 @@ private:
 	void MakeGuardCollision();
 
 	/// <summary>
+	/// プレイヤー2からの被ダメージモーション管理
+	/// </summary>
+	void Hit2();
+
+	/// <summary>
+	/// プレイヤー3からの被ダメージモーション管理
+	/// </summary>
+	void Hit3();
+
+	/// <summary>
+	/// 掴まれ後の管理
+	/// </summary>
+	void AfterCatch();
+
+	/// <summary>
 	/// 掴み用のコリジョンを作成する。
 	/// </summary>
 	void MakeCatchCollision();
@@ -143,11 +167,14 @@ private:
 	Vector3				m_scale = Vector3::One;					// 拡大率
 
 	//醤油弾の関数
-	SoySauceBullet* m_soysaucebullet;                       //醤油弾
-	Vector3			m_forward;								//キャラクターの前方向のベクトル
-	FontRender		m_fontRender;							//文字
-
+	SoySauceBullet* m_soysaucebullet;   //醤油弾
+	Vector3			m_forward;			//キャラクターの前方向のベクトル
+	FontRender		m_fontRender;		//文字
+	int m_soysaucecount = 0;			//醤油カウント
 	
+	//HPの仮表示
+	int m_hp = 0;
+	FontRender      m_fontHPRender;					//フォントレンダー
 
 	Vector3		moveSpeed;				//プレイヤーの速さ。
 
@@ -175,10 +202,13 @@ private:
 	float		m_cpunch;
 	int			m_handBoneIdCPunch = -1;	//「Hand」ボーンのID。  
 
-	int atkState = 0;
+	int atkState = 0;		//連続攻撃のためのステート。
+	float guard = false;	//ガードをしているかどうか。
 
-	float p2_Catch;							//shineステート。
-	float p3_Catch;
+	float p2_Catch;		//P2のshineステート。
+	float p3_Catch;		//P3のshineステート。
 
-	int m_soysaucecount = 0;			//醤油カウント
+	//掴み処理の関数
+	float shine = false;		//掴まれているか。
+	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
 };

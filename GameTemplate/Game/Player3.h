@@ -2,10 +2,6 @@
 
 class SoySauceBullet;
 
-class Player1;
-class Player2;
-class Player4;
-
 class Player3 : public IGameObject
 {
 public:
@@ -37,21 +33,21 @@ public:
 	}
 
 	/// <summary>
-	/// プレイヤーの掴まれステートを取得する。
-	/// </summary>
-	/// <returns>プレイヤーのステート。</returns>
-	const float& GetPlayer3State() const
-	{
-		return shine;
-	}
-
-	/// <summary>
 	/// プレイヤーの座標を設定する。
 	/// </summary>
 	/// <param name="position">プレイヤーの座標。</param>
 	void SetPlayer3Position(const Vector3& position)
 	{
 		m_position = position;
+	}
+
+	/// <summary>
+	/// プレイヤーの掴まれステートを取得する。
+	/// </summary>
+	/// <returns>プレイヤーのステート。</returns>
+	const float& GetPlayer3State() const
+	{
+		return shine;
 	}
 
 	/// <summary>
@@ -122,9 +118,14 @@ private:
 	void MakeGuardCollision();
 
 	/// <summary>
-	/// 被ダメージモーション管理
+	/// プレイヤー1からの被ダメージモーション管理
 	/// </summary>
-	void Hit();
+	void Hit1();
+
+	/// <summary>
+	/// プレイヤー2からの被ダメージモーション管理
+	/// </summary>
+	void Hit2();
 
 	/// <summary>
 	/// 掴まれ後の管理
@@ -205,7 +206,8 @@ private:
 
 	float guard = false;				//ガードをしているかどうか。
 
-	float p2_Catch;							//shineステート。
+	float p1_Catch;		//P1のshineステート。
+	float p2_Catch;		//P2のshineステート。
 
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。

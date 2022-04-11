@@ -4,7 +4,6 @@
 
 #include "Player1.h"
 #include "Player2.h"
-#include "Player4.h"
 #include "SoySauceBullet.h"
 
 //CollisionObjectを使用したいため、ファイルをインクルードする。
@@ -71,6 +70,7 @@ void Player3::Update()
 		return;
 	}
 
+	p1_Catch = FindGO<Player1>("player1")->GetPlayer1State();
 	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
 
 	int soysoysoysoy = m_soysaucecount;
@@ -86,7 +86,7 @@ void Player3::Update()
 	//黒色に設定
 	m_fontRender.SetColor(g_vec4White);
 
-	if (p2_Catch != true) {
+	if (p1_Catch != true|| p2_Catch != true) {
 		Move();
 		Rotation();
 	}
@@ -95,7 +95,8 @@ void Player3::Update()
 	ManageState();
 	ManageJump();
 
-	Hit();
+	Hit1();
+	Hit2();
 	MakeGuardCollision();
 	MakeCatchCollision();
 
@@ -202,13 +203,7 @@ void Player3::Rotation()
 void Player3::AnimationState()
 {
 
-	//被ダメモーションの確認。
-	if (g_pad[2]->IsTrigger(enButtonUp)) {
-		m_playerState = 5;
-	}
-
-
-	else if (m_playerState == 4) {
+	if (m_playerState == 4) {
 
 		m_timer += g_gameTime->GetFrameDeltaTime();
 		if (m_timer >= 1.5f) {
@@ -222,8 +217,10 @@ void Player3::AnimationState()
 	}
 
 	//掴み攻撃
-	if (p2_Catch == true && g_pad[2]->IsTrigger(enButtonB)) {
-		m_playerState = 9;
+	if (p1_Catch == true || p2_Catch == true) {
+		if (g_pad[2]->IsTrigger(enButtonB)) {
+			m_playerState = 9;
+		}
 	}
 	//通常攻撃
 	else if (g_pad[2]->IsTrigger(enButtonB) && atkState == 2) {
@@ -536,7 +533,7 @@ void Player3::MakeGuardCollision()
 	collisionObject->SetName("P3_Guard");
 }
 
-void Player3::Hit()
+void Player3::Hit1()
 {
 	wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", m_hp);
@@ -602,9 +599,9 @@ void Player3::Hit()
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
-	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("player1_catch");
+	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player1_catch");
 	//配列をfor文で回す。
-	for (auto collision : collisions)
+	for (auto collision : collisions4)
 	{
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
@@ -615,9 +612,9 @@ void Player3::Hit()
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
-	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player1_cpunch");
+	const auto& collisions5 = g_collisionObjectManager->FindCollisionObjects("player1_cpunch");
 	//配列をfor文で回す。
-	for (auto collision : collisions4)
+	for (auto collision : collisions5)
 	{
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
@@ -636,9 +633,9 @@ void Player3::Hit()
 	}
 
 	//醤油攻撃用のコリジョンの配列を取得する。
-	const auto& collisions5 = g_collisionObjectManager->FindCollisionObjects("SoysauceAttack");
+	const auto& collisions6 = g_collisionObjectManager->FindCollisionObjects("SoysauceAttack");
 	//配列をfor文で回す。
-	for (auto collision : collisions5)
+	for (auto collision : collisions6)
 	{
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
@@ -653,12 +650,121 @@ void Player3::Hit()
 	}
 }
 
+void Player3::Hit2()
+{
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player2_attack");
+	//配列をfor文で回す。
+	for (auto collision : collisions1)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp += 1;
+				m_playerState = 5;
+			}
+		}
+
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions2 = g_collisionObjectManager->FindCollisionObjects("player2_attack2");
+	//配列をfor文で回す。
+	for (auto collision : collisions2)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp += 1;
+				m_playerState = 5;
+			}
+		}
+
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions3 = g_collisionObjectManager->FindCollisionObjects("player2_attack3");
+	//配列をfor文で回す。
+	for (auto collision : collisions3)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp += 1;
+				m_playerState = 5;
+			}
+		}
+
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player2_catch");
+	//配列をfor文で回す。
+	for (auto collision : collisions4)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			m_Catchtimer = 0.0f;
+			shine = true;
+		}
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions5 = g_collisionObjectManager->FindCollisionObjects("player2_cpunch");
+	//配列をfor文で回す。
+	for (auto collision : collisions5)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+
+			//HPを減らす。
+			if (guard != true) {
+				//m_hp += 1;
+				////////////////////////////////////////////////////
+				///ここが改善すべき点！！！
+				//////////////////////////////////////////////////// 
+				m_playerState = 5;
+			}
+		}
+
+	}
+
+}
+
 void Player3::AfterCatch()
 {
 	//敵の攻撃用のコリジョンの配列を取得する。
-	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player1_cpunch");
+	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player1_cpunch");
 	//配列をfor文で回す。
-	for (auto collision : collisions4)
+	for (auto collision : collisions1)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+
+			//HPを減らす。
+			if (guard != true) {
+				shine = false;
+				m_hp += 1;
+				m_playerState = 5;
+			}
+		}
+
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions2 = g_collisionObjectManager->FindCollisionObjects("player2_cpunch");
+	//配列をfor文で回す。
+	for (auto collision : collisions2)
 	{
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
