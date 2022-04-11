@@ -33,15 +33,6 @@ public:
 	}
 
 	/// <summary>
-	/// キャラクターコントローラーを取得。
-	/// </summary>
-	/// <returns>キャラクターコントローラー。</returns>
-	CharacterController& GetCharacterController()
-	{
-		return m_characterController;
-	}
-
-	/// <summary>
 	/// プレイヤーの座標を設定する。
 	/// </summary>
 	/// <param name="position">プレイヤーの座標。</param>
@@ -51,21 +42,12 @@ public:
 	}
 
 	/// <summary>
-	/// 攻撃ステートを設定する。
+	/// キャラクターコントローラーを取得。
 	/// </summary>
-	/// <param name="position">攻撃ステート。</param>
-	void SetPlayer1atkState(const float& state)
+	/// <returns>キャラクターコントローラー。</returns>
+	CharacterController& GetCharacterController()
 	{
-		m_isUnderAttack = state;
-	}
-
-	/// <summary>
-	/// プレイヤーのステートを取得する。
-	/// </summary>
-	/// <returns>プレイヤーのステート。</returns>
-	const int& GetPlayer1State() const
-	{
-		return m_playerState;
+		return m_characterController;
 	}
 
 	/// <summary>
@@ -106,10 +88,19 @@ private:
 	// アニメーションイベント用の関数。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
 
+	/// <summary>
+	/// 攻撃１のコリジョンを作成する。
+	/// </summary>
 	void MakeCollision();
 
+	/// <summary>
+	/// 攻撃２のコリジョンを作成する。
+	/// </summary>
 	void MakeCollision2();
 
+	/// <summary>
+	/// 攻撃３のコリジョンを作成する。
+	/// </summary>
 	void MakeCollision3();
 
 	/// <summary>
@@ -144,17 +135,19 @@ private:
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー
-	SoySauceBullet*		m_soysaucebullet;                       //醤油弾
-	FontRender			m_fontRender;							//文字
 	Animation			m_animation;							// アニメーション
 	AnimationClip		m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
 	CharacterController m_characterController;					//キャラクターコントローラー。
 	Vector3				m_position= Vector3::Zero;				// 座標
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
-	Vector3				m_forward;								//キャラクターの前方向のベクトル
 
+	//醤油弾の関数
+	SoySauceBullet* m_soysaucebullet;                       //醤油弾
+	Vector3			m_forward;								//キャラクターの前方向のベクトル
+	FontRender		m_fontRender;							//文字
 
+	
 
 	Vector3		moveSpeed;				//プレイヤーの速さ。
 
@@ -184,7 +177,8 @@ private:
 
 	int atkState = 0;
 
-	float a;							//shineステート。
+	float p2_Catch;							//shineステート。
+	float p3_Catch;
 
 	int m_soysaucecount = 0;			//醤油カウント
 };

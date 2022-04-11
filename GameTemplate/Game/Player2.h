@@ -1,7 +1,5 @@
 #pragma once
 
-class Player1;
-
 class Player2 : public IGameObject
 {
 public:
@@ -72,7 +70,12 @@ private:
 	/// <summary>
 	/// 被ダメージモーション管理
 	/// </summary>
-	void Hit();
+	void Hit1();
+
+	/// <summary>
+	/// 被ダメージモーション管理
+	/// </summary>
+	void Hit3();
 
 	/// <summary>
 	/// 掴まれ後の管理
@@ -96,12 +99,12 @@ private:
 	Vector3 m_scale = Vector3::One;	                   // 拡大率
 
 	int m_hp = 0;
-	FontRender      m_fontRender;					//フォントレンダー
+	FontRender      m_fontHPRender;					//フォントレンダー
 
-	int aaa = 0;
+	float guard = false;
 	int m_playerState = 0;
 
 	//掴み処理の関数
 	float shine = false;
-	float m_timer = 0.0f;
+	float m_Catchtimer = 0.0f;
 };

@@ -3,6 +3,7 @@
 #include "Game.h"
 
 #include "Player2.h"
+#include "Player3.h"
 #include "SoySauceBullet.h"
 
 //CollisionObjectを使用したいため、ファイルをインクルードする。
@@ -64,7 +65,9 @@ bool Player1::Start()
 
 void Player1::Update()
 {
-	a = FindGO<Player2>("player2")->GetPlayer2State();
+	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
+
+	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 
 	int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
@@ -79,7 +82,7 @@ void Player1::Update()
 	//黒色に設定
 	m_fontRender.SetColor(g_vec4White);
 
-	if (a != true) {
+	if (p2_Catch != true|| p3_Catch != true) {
 	Move();
 	Rotation();
 	}
@@ -214,8 +217,10 @@ void Player1::AnimationState()
 	}
 	
 	//掴み攻撃
-	if (a == true && g_pad[0]->IsTrigger(enButtonB)) {
-		m_playerState = 9;
+	if (p2_Catch == true||p3_Catch == true) {
+		if (g_pad[0]->IsTrigger(enButtonB)) {
+			m_playerState = 9;
+		}
 	}
 	//通常攻撃
 	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 2) {
@@ -443,7 +448,7 @@ void Player1::MakeCollision()
 			10.0f                                               //半径。
 		);
 
-		collisionObject->SetName("player_attack");
+		collisionObject->SetName("player1_attack");
 
 		//「Sword」ボーンのワールド行列を取得する。
 		Matrix matrix = m_player.GetBone(m_handBoneId)->GetWorldMatrix();
@@ -466,7 +471,7 @@ void Player1::MakeCollision2()
 			10.0f                                               //半径。
 		);
 
-		collisionObject->SetName("player_attack2");
+		collisionObject->SetName("player1_attack2");
 
 		//「Sword」ボーンのワールド行列を取得する。
 		Matrix matrix = m_player.GetBone(m_handBoneId2)->GetWorldMatrix();
@@ -490,7 +495,7 @@ void Player1::MakeCollision3()
 			10.0f                                               //半径。
 		);
 
-		collisionObject->SetName("player_attack3");
+		collisionObject->SetName("player1_attack3");
 
 		//「Sword」ボーンのワールド行列を取得する。
 		Matrix matrix = m_player.GetBone(m_handBoneId3)->GetWorldMatrix();
@@ -538,7 +543,7 @@ void Player1::MakeCatchCollision()
 			10.0f                                               //半径。
 		);
 
-		collisionObject->SetName("player_catch");
+		collisionObject->SetName("player1_catch");
 
 		//「Sword」ボーンのワールド行列を取得する。
 		Matrix matrix = m_player.GetBone(m_handBoneIdCatch)->GetWorldMatrix();
@@ -560,7 +565,7 @@ void Player1::CatchAttackCollision()
 			10.0f                                               //半径。
 		);
 
-		collisionObject->SetName("player_cpunch");
+		collisionObject->SetName("player1_cpunch");
 
 		//「Sword」ボーンのワールド行列を取得する。
 		Matrix matrix = m_player.GetBone(m_handBoneIdCatch)->GetWorldMatrix();
