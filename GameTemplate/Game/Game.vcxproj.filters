@@ -20,6 +20,8 @@
     <ClCompile Include="Player4.cpp" />
     <ClCompile Include="GameCamera3P.cpp" />
     <ClCompile Include="GameCamera2P.cpp" />
+    <ClCompile Include="SoySauce.cpp" />
+    <ClCompile Include="SoysauceBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -35,5 +37,7 @@
     <ClInclude Include="Player4.h" />
     <ClInclude Include="GameCamera3P.h" />
     <ClInclude Include="GameCamera2P.h" />
+    <ClInclude Include="SoySauce.h" />
+    <ClInclude Include="SoysauceBullet.h" />
   </ItemGroup>
 </Project>

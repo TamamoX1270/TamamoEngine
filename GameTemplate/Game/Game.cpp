@@ -8,6 +8,7 @@
 #include "GameCamera.h"
 #include "GameCamera2P.h"
 #include "GameCamera3P.h"
+#include "SoySauce.h"
 
 namespace
 {
@@ -25,6 +26,10 @@ bool Game::Start()
 	m_player2 = NewGO<Player2>(0, "player2");
 	//m_player3 = NewGO<Player3>(0, "player3");
 	//m_player4 = NewGO<Player4>(0, "player4");
+
+	//醤油オブジェクトを生成する。
+	m_soysauce = NewGO<SoySauce>(0, "soysauce");
+
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 

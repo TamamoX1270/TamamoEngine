@@ -9,6 +9,7 @@ class GameCamera;
 class GameCamera2P;
 class GameCamera3P;
 
+class SoySauce;
 
 class Game : public IGameObject
 {
@@ -38,6 +39,7 @@ private:
 	Player2*		m_player2;						//プレイヤー2
 	Player3*		m_player3;						//プレイヤー3
 	Player4*		m_player4;						//プレイヤー4
+	SoySauce*		m_soysauce;						//醤油さし
 	Vector3         m_pointligpos;                  //ポイントライトの座標
 	Vector3         m_directionligColor;		    //セットする色
 	Vector3			m_spPosition;					//スポットライトのポジション

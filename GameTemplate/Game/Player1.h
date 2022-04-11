@@ -1,5 +1,7 @@
 #pragma once
 
+class SoySauceBullet;
+
 class Player1 : public IGameObject
 {
 public:
@@ -31,6 +33,15 @@ public:
 	}
 
 	/// <summary>
+	/// キャラクターコントローラーを取得。
+	/// </summary>
+	/// <returns>キャラクターコントローラー。</returns>
+	CharacterController& GetCharacterController()
+	{
+		return m_characterController;
+	}
+
+	/// <summary>
 	/// プレイヤーの座標を設定する。
 	/// </summary>
 	/// <param name="position">プレイヤーの座標。</param>
@@ -56,6 +67,15 @@ public:
 	{
 		return m_playerState;
 	}
+
+	/// <summary>
+	/// 醤油カウント+1
+	/// </summary>
+	void AddSoySauceCount()
+	{
+		m_soysaucecount++;
+	}
+
 
 private:
 	/// <summary>
@@ -124,12 +144,15 @@ private:
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー
+	SoySauceBullet*		m_soysaucebullet;                       //醤油弾
+	FontRender			m_fontRender;							//文字
 	Animation			m_animation;							// アニメーション
 	AnimationClip		m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
 	CharacterController m_characterController;					//キャラクターコントローラー。
 	Vector3				m_position= Vector3::Zero;				// 座標
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
+	Vector3				m_forward;								//キャラクターの前方向のベクトル
 
 
 
@@ -162,4 +185,6 @@ private:
 	int atkState = 0;
 
 	float a;							//shineステート。
+
+	int m_soysaucecount = 0;			//醤油カウント
 };

@@ -3,6 +3,7 @@
 #include "Game.h"
 
 #include "Player2.h"
+#include "SoySauceBullet.h"
 
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
@@ -65,6 +66,19 @@ void Player1::Update()
 {
 	a = FindGO<Player2>("player2")->GetPlayer2State();
 
+	int soysoysoysoy = m_soysaucecount;
+	wchar_t wcsbuf1[256];
+	swprintf_s(wcsbuf1, 256, L"%d", soysoysoysoy);
+
+	//表示するテキストを設定。
+	m_fontRender.SetText(wcsbuf1);
+	//フォントの位置を設定。
+	m_fontRender.SetPosition(Vector3(-570.0f, -400.0f, 0.0f));
+	//フォントの大きさを設定。
+	m_fontRender.SetScale(1.5f);
+	//黒色に設定
+	m_fontRender.SetColor(g_vec4White);
+
 	if (a != true) {
 	Move();
 	Rotation();
@@ -92,7 +106,7 @@ void Player1::Move()
 		//動けない。
 		return;
 	}
-
+	
 	//攻撃中なら。
 	if (m_playerState == 3 || m_playerState == 7 || m_playerState == 8) {
 		//動けない。
@@ -103,6 +117,15 @@ void Player1::Move()
 	if (m_playerState == 6) {
 		//動けない。
 		return;
+	}
+	
+	//Yボタンが押された時に醤油のストックが１以上なら
+	if (g_pad[0]->IsTrigger(enButtonY) && m_soysaucecount >= 1)
+	{
+		m_soysaucecount--;
+		m_soysaucebullet = NewGO<SoySauceBullet>(0, "soysaucebullet");
+		//bulletのムーブスピードにプレイヤーの前方向のベクトルを入れてやる。
+		m_soysaucebullet->m_moveSpeed = m_forward;
 	}
 	
 	//移動。
@@ -150,10 +173,18 @@ void Player1::Rotation()
 	case 0:
 		m_rotation.SetRotationDegX(-90.0f);
 		m_rotation.AddRotationDegZ(180.0f);
+		//プレイヤーの前方向のベクトルを設定する。
+		m_forward = Vector3(0.0f, -1.0f, 0.0f);
+		//ベクトルにクウォータニオンを適応してプレイヤーの向きに回転させる
+		m_rotation.Apply(m_forward);
 		break;
 	case 1:
 		m_rotation.SetRotationDegX(-90.0f);
 		m_rotation.AddRotationDegZ(-180.0f);
+		//プレイヤーの前方向のベクトルを設定する。
+		m_forward = Vector3(0.0f, -1.0f, 0.0f);
+		//ベクトルにクウォータニオンを適応してプレイヤーの向きに回転させる
+		m_rotation.Apply(m_forward);
 		break;
 	}
 
@@ -540,5 +571,6 @@ void Player1::CatchAttackCollision()
 
 void Player1::Render(RenderContext& rc)
 {
+	m_fontRender.Draw(rc);
 	m_player.Draw(rc);
 }
