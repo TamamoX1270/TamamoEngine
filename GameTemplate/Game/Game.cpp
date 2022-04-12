@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "GameUI.h"
 #include "Player1.h"
 #include "Player2.h"
 #include "Player3.h"
@@ -10,78 +11,30 @@
 #include "GameCamera3P.h"
 #include "SoySauce.h"
 
-namespace
-{
-	//最大HP。
-	const int MAXIMUM_HP = 200;
-}
-
 bool Game::Start()
 {
-	//m_spriteRender.Init("Assets/sprite/gameclear.dds", 1600.0f, 900.0f);
-	//m_spriteRender.Init("Assets/sprite/hpbar.DDS", 1024.0f, 512.0f);
-	m_spriteRender.Init("Assets/sprite/game4P.dds", 1600.0f, 900.0f);
 	//プレイヤーオブジェクトを作成する。
 	m_player = NewGO<Player1>(0, "player1");
 	m_player2 = NewGO<Player2>(0, "player2");
 	//m_player3 = NewGO<Player3>(0, "player3");
 	//m_player4 = NewGO<Player4>(0, "player4");
 
+	//GameUIの生成
+	m_gamingshigureui = NewGO<GameUI>(0, "gameui");
 	//醤油オブジェクトを生成する。
 	m_soysauce = NewGO<SoySauce>(0, "soysauce");
-
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 
 	//m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
 	//m_gameCamera3 = NewGO<GameCamera3P>(0, "gamecamera3");
 	m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
-	
-	
-	/*//HPバーのピボットを設定。
-	m_spriteRender.SetPivot(Vector2(0.0f, 0.5f));
-	m_spriteRender.SetPosition(Vector3(-550.0f, 465.0f, 0.0f));*/
-	m_spriteRender.Update();
 
 	return true;
 }
 
 Game::Game()
 {
-/*	//Aボタンを押したら,体力回復。
-	if (g_pad[0]->IsPress(enButtonRight))
-	{
-		m_hp += 1;
-	}
-	//Bボタンを押したら、体力を減らす。
-	else if (g_pad[0]->IsPress(enButtonLeft))
-	{
-		m_hp -= 1;
-	}
-
-	//HPが0より減っていたら。
-	if (m_hp < 0)
-	{
-		//HPを0にする。
-		m_hp = 0;
-	}
-	//HPが最大値を超えていたら。
-	else if (m_hp > MAXIMUM_HP)
-	{
-		//HPを最大値にする。
-		m_hp = MAXIMUM_HP;
-	}
-
-	Vector3 scale = Vector3::One;
-	//現HP/最大HPをHPバーのスケールにする。
-	//int型同士の計算だと、小数点以下切り捨てになるので。
-	//float型に変換して計算を行う。
-	scale.x = float(m_hp) / float(MAXIMUM_HP);
-	//スケールを設定。
-	//m_spriteRender.SetScale(scale);
-
-	//更新処理。
-	m_spriteRender.Update();*/
 }
 
 void Game::Update()
@@ -150,6 +103,5 @@ void Game::Update()
 
 void Game::Render(RenderContext& rc)
 {
-	m_spriteRender.Draw(rc);                 //タイトルの描画
 	//m_fontRender.Draw(rc);
 }

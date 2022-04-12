@@ -228,6 +228,7 @@
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameCamera2P.cpp" />
     <ClCompile Include="GameCamera3P.cpp" />
+    <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player1.cpp" />
     <ClCompile Include="Player2.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameCamera2P.h" />
     <ClInclude Include="GameCamera3P.h" />
+    <ClInclude Include="GameUI.h" />
     <ClInclude Include="Player1.h" />
     <ClInclude Include="Player2.h" />
     <ClInclude Include="Player3.h" />

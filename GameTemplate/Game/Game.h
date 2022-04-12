@@ -4,6 +4,7 @@ class Player2;
 class Player3;
 class Player4;
 class BackGround;
+class GameUI;
 class GameCamera;
 
 class GameCamera2P;
@@ -31,14 +32,14 @@ public:
 	void Render(RenderContext& rc) override;
 
 private:
-	BackGround* m_backGround;					    //背景。
-	SpriteRender	m_spriteRender;
+	BackGround*		m_backGround;					//背景。
 	FontRender      m_fontRender;					//フォントレンダー
 	ModelRender     m_modelRender;					//モデルレンダー
 	Player1*        m_player;						//プレイヤー1
 	Player2*		m_player2;						//プレイヤー2
 	Player3*		m_player3;						//プレイヤー3
 	Player4*		m_player4;						//プレイヤー4
+	GameUI*			m_gamingshigureui;				//ゲームうい
 	SoySauce*		m_soysauce;						//醤油さし
 	Vector3         m_pointligpos;                  //ポイントライトの座標
 	Vector3         m_directionligColor;		    //セットする色
