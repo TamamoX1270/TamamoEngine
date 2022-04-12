@@ -85,7 +85,7 @@ void Player2::Update()
 	//黒色に設定
 	m_fontRender.SetColor(g_vec4White);
 
-	if (p1_Catch != true || p3_Catch != true) {
+	if (p1_Catch != true && p3_Catch != true) {
 		Move();
 		Rotation();
 	}
@@ -123,6 +123,12 @@ void Player2::Move()
 
 	//掴み中なら。
 	if (m_playerState == 6) {
+		//動けない。
+		return;
+	}
+
+	//ダメージを食らっているなら。
+	if (m_playerState == 5) {
 		//動けない。
 		return;
 	}
@@ -165,6 +171,13 @@ void Player2::Rotation()
 		//動けない。
 		return;
 	}
+
+	//ダメージを食らっているなら。
+	if (m_playerState == 5) {
+		//動けない。
+		return;
+	}
+
 
 	//スティックを左に倒すと。
 	if (g_pad[1]->GetLStickXF() < 0) {

@@ -86,7 +86,7 @@ void Player3::Update()
 	//黒色に設定
 	m_fontRender.SetColor(g_vec4White);
 
-	if (p1_Catch != true|| p2_Catch != true) {
+	if (p1_Catch != true && p2_Catch != true) {
 		Move();
 		Rotation();
 	}
@@ -128,6 +128,12 @@ void Player3::Move()
 		return;
 	}
 
+	//ダメージを食らっているなら。
+	if (m_playerState == 5) {
+		//動けない。
+		return;
+	}
+
 	//Yボタンが押された時に醤油のストックが１以上なら
 	if (g_pad[2]->IsTrigger(enButtonY) && m_soysaucecount >= 1)
 	{
@@ -163,6 +169,12 @@ void Player3::Rotation()
 
 	//掴み中なら。
 	if (m_playerState == 6) {
+		//動けない。
+		return;
+	}
+
+	//ダメージを食らっているなら。
+	if (m_playerState == 5) {
 		//動けない。
 		return;
 	}

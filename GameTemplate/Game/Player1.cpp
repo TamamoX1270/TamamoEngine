@@ -86,9 +86,9 @@ void Player1::Update()
 	//黒色に設定
 	m_fontRender.SetColor(g_vec4White);
 
-	if (p2_Catch != true|| p3_Catch != true) {
-	Move();
-	Rotation();
+	if (p2_Catch != true && p3_Catch != true) {
+		Move();
+		Rotation();
 	}
 
 	AnimationState();
@@ -124,6 +124,12 @@ void Player1::Move()
 
 	//掴み中なら。
 	if (m_playerState == 6) {
+		//動けない。
+		return;
+	}
+
+	//ダメージを食らっているなら。
+	if (m_playerState == 5) {
 		//動けない。
 		return;
 	}
@@ -163,6 +169,12 @@ void Player1::Rotation()
 
 	//掴み中なら。
 	if (m_playerState == 6) {
+		//動けない。
+		return;
+	}
+
+	//ダメージを食らっているなら。
+	if (m_playerState == 5) {
 		//動けない。
 		return;
 	}
