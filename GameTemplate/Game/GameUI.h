@@ -39,8 +39,19 @@ private:
 	SpriteRender	m_soyct4;
 
 	SpriteRender	m_sushihpbar;
+	SpriteRender	m_sushihpbarwaku;
+	SpriteRender	m_sushihpbar2;
+	SpriteRender	m_sushihpbarwaku2;
+	SpriteRender	m_sushihpbar3;
+	SpriteRender	m_sushihpbarwaku3;
+	SpriteRender	m_sushihpbar4;
+	SpriteRender	m_sushihpbarwaku4;
 
-	SpriteRender	m_spriteRender99;
+	SpriteRender	m_spriteRenderwakka;
+	SpriteRender	m_spriteRenderwakka2;
+	SpriteRender	m_spriteRenderwakka3;
+	SpriteRender	m_spriteRenderwakka4;
+	SpriteRender	m_spriteRendertime;
 
 	FontRender		m_fontRender;
 
