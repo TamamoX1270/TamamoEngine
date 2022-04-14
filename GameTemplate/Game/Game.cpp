@@ -58,24 +58,23 @@ void Game::Update()
 	m_pointligpos.z += g_pad[0]->GetLStickYF();
 	*/
 	//m_pointligpos.y = 50.0f;
-	m_pointligpos.x = 5000.0f;
+
+	m_pointligpos.y = 0.0f;
+	m_pointligpos.x = 20000.0f;
 	g_directionLig.SetPointPos(m_pointligpos);
 
-	m_spPosition.y = 50.0f;
-	m_spPosition.x = 5000.0f;
-	//左のアナログスティックで動かす。
-	//m_spPosition.x -= g_pad[0]->GetLStickXF();
-	/*
-	if (g_pad[0]->IsPress(enButtonB)) {
-		//Bボタンが一緒に押されていたらY軸方向に動かす。
-		m_spPosition.y += g_pad[0]->GetLStickYF();
-	}
-	else {
-		//Z軸方向に動かす。
-		m_spPosition.z -= g_pad[0]->GetLStickYF();
-	}
-	*/
+	m_spPosition.x = 0.0f;
+	m_spPosition.y = 250.0f;
+	m_spPosition.z = 100.0f;
+
+	//m_spDirection = { 1.0f,0.0f,1.0f };
+	//m_spDirection.Normalize();
+
+	//g_directionLig.SetSpotAngle(100.0f);
+	//g_directionLig.SetSpotRange(100.0f);
+	//g_directionLig.SetSpotDir({ m_spDirection });
 	g_directionLig.SetSpotPos(m_spPosition);//スポットライトの位置を設定
+
 	
 	/*
 	//初期方向は斜め下にする。
@@ -98,7 +97,7 @@ void Game::Update()
 		m_directionligColor.z += 0.1f;
 	}
 	g_directionLig.SetLigColor({ m_directionligColor });*/
-	g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
+//	g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
 }
 
 void Game::Render(RenderContext& rc)

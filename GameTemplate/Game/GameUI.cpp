@@ -98,11 +98,11 @@ void GameUI::GameHP()
 	//float型に変換して計算を行う。
 	scale.x = float(m_hp) / float(MAXIMUM_HP);
 	//スケールを設定。
-	//m_sushihpbar.SetScale(scale);
+	m_sushihpbar.SetScale(scale);
 
 	m_sushihpbar.SetPivot(Vector2(0.0f, 0.5f));
-	m_sushihpbar.SetLimitedX(0.5f);
-	m_sushihpbar.SetIsDisplayRestrictionLeftSide(0.5f);
+	//m_sushihpbar.SetLimitedX(0.5f);
+	//m_sushihpbar.SetIsDisplayRestrictionLeftSide(0.5f);
 	//更新処理。
 	m_sushihpbar.Update();
 }

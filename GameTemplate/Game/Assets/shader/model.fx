@@ -334,7 +334,7 @@ float3 CalcLigFromSpotLight(SPSIn psIn)
         affect = 0.0f;
     }
     //影響の仕方を指数関数的にする。今回のサンプルでは3乗している。
-    affect = pow(affect, 3.0f);
+    affect = pow(affect, 1.0f);
     // step-10 影響率を乗算して反射光を弱める
     diffSpotLight *= affect;
     specSpotLight *= affect;
@@ -342,7 +342,7 @@ float3 CalcLigFromSpotLight(SPSIn psIn)
     //dot()を利用して内積を求める。
     float angle = dot(ligDir, m_spotLig.spDirection);
     //dot()で求めた値をacos()に渡して角度を求める。
-    angle = acos(angle);
+    angle = abs(acos(angle));
     
     // step-12 角度による影響率を求める
     //角度に比例して小さくなっていく影響率を計算する。
