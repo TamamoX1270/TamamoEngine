@@ -102,6 +102,20 @@ void GameUI::SushiHPBar()
 	m_sushihpbarwaku4.Update();
 }
 
+void GameUI::Timer()
+{
+	game_timer -= g_gameTime->GetFrameDeltaTime();
+	wchar_t wcsbuf[256];
+	swprintf_s(wcsbuf, 256, L"%d", int(game_timer));
+
+	//表示するテキストを設定。
+	m_fontRender.SetText(wcsbuf);
+	//フォントの位置を設定。
+	m_fontRender.SetPosition(Vector3(-95.0f, 500.0f, 0.0f));
+	//フォントの大きさを設定。
+	m_fontRender.SetScale(3.0f);
+}
+
 void GameUI::GameHP()
 {
 	//Aボタンを押したら,体力回復。
@@ -158,6 +172,7 @@ void GameUI::Update()
 	//黒色に設定
 	m_fontRender.SetColor(g_vec4White);
 	GameHP();
+	Timer();
 }
 
 void GameUI::Render(RenderContext& rc)

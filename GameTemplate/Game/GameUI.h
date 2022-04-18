@@ -9,6 +9,9 @@ public:
 	/// <returns></returns>
 	bool Start() override;
 	/// <summary>
+	/// ゲームの残り時間
+	void Timer();
+	/// <summary>
 	/// 醤油さしのプログラム
 	/// </summary>
 	void SoyCT();
@@ -54,6 +57,7 @@ private:
 	SpriteRender	m_spriteRendertime;
 
 	FontRender		m_fontRender;
+	float game_timer = 180.0f;
 
 	int m_hp=50;
 };
