@@ -1,4 +1,9 @@
 #pragma once
+class Player1;
+class Player2;
+class Player3;
+class Player4;
+
 class GameUI : public IGameObject
 {
 public:
@@ -30,6 +35,11 @@ public:
 	void Render(RenderContext& rc) override;
 	void GameHP();
 private:
+	Player1*		m_player1;
+	Player2*		m_player2;
+	Player3*		m_player3;
+	Player4*		m_player4;
+
 	SpriteRender	m_ui;
 	SpriteRender	m_spriteRender;
 	SpriteRender	m_spriteRender2;
@@ -59,6 +69,10 @@ private:
 	FontRender		m_fontRender;
 	float game_timer = 180.0f;
 
-	int m_hp=50;
+	int m_p1hp = 0;
+	int m_p2hp = 0;
+	int m_p3hp = 0;
+	int m_p4hp = 0;
+
 };
 

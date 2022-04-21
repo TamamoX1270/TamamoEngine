@@ -49,7 +49,22 @@ public:
 	{
 		return shine;
 	}
-
+	/// <summary>
+	/// プレイヤーの前方向のベクトルの取得
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetPlayerforward()const
+	{
+		return m_forward;
+	}
+	/// <summary>
+	/// プレイヤーのHPの取得
+	/// </summary>
+	/// <returns></returns>
+	const int& GetPlayerHP()const
+	{
+		return m_hp;
+	}
 	/// <summary>
 	/// キャラクターコントローラーを取得。
 	/// </summary>
@@ -170,10 +185,10 @@ private:
 	SoySauceBullet* m_soysaucebullet;   //醤油弾
 	Vector3			m_forward;			//キャラクターの前方向のベクトル
 	FontRender		m_fontRender;		//文字
-	int m_soysaucecount = 0;			//醤油カウント
+	int m_soysaucecount = 99;			//醤油カウント
 	
 	//HPの仮表示
-	int m_hp = 0;
+	int m_hp = 100;
 	FontRender      m_fontHPRender;					//フォントレンダー
 
 	Vector3		moveSpeed;				//プレイヤーの速さ。

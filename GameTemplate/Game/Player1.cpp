@@ -573,7 +573,7 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -590,7 +590,7 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -607,7 +607,7 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -658,7 +658,7 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -679,7 +679,7 @@ void Player1::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -696,7 +696,7 @@ void Player1::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -713,7 +713,7 @@ void Player1::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -744,7 +744,7 @@ void Player1::Hit3()
 
 			//HPを減らす。
 			if (guard != true) {
-				//m_hp += 1;
+				//m_hp -= 1;
 				////////////////////////////////////////////////////
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
@@ -770,7 +770,7 @@ void Player1::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -789,7 +789,7 @@ void Player1::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}

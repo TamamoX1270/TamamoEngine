@@ -1,17 +1,28 @@
 #include "stdafx.h"
 #include "GameUI.h"
 #include "Game.h"
+#include "Player1.h"
+#include "Player2.h"
+#include "Player3.h"
+#include "Player4.h"
 
 namespace
 {
 	//醤油さしの外側の透明度の設定
 	Vector4 Transparent = { 1.0f, 1.0f, 1.0f, 0.5f };
 	//最大HP。
-	const int MAXIMUM_HP = 50;
+	const int P1MAXIMUM_HP = 100;
+	const int P2MAXIMUM_HP = 100;
+	const int P3MAXIMUM_HP = 100;
+	const int P4MAXIMUM_HP = 100;
 }
 
 bool GameUI::Start()
 {
+	m_player1 = FindGO<Player1>("player1");
+	m_player2 = FindGO<Player2>("player2");
+	m_player3 = FindGO<Player3>("player3");
+	m_player4 = FindGO<Player4>("player4");
 	//m_ui.Init("Assets/sprite/ComprehensiveUI.dds", 1600.0f, 900.0f);
 	m_spriteRenderwakka.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
 	m_spriteRenderwakka2.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
@@ -74,23 +85,23 @@ void GameUI::SoyCT()
 
 void GameUI::SushiHPBar()
 {
-	m_sushihpbar.Init("Assets/sprite/hpbar.DDS", 170.0f, 90.0f);
+	m_sushihpbar.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
 	m_sushihpbarwaku.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
-	m_sushihpbar2.Init("Assets/sprite/hpbar.DDS", 170.0f, 90.0f);
+	m_sushihpbar2.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
 	m_sushihpbarwaku2.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
-	m_sushihpbar3.Init("Assets/sprite/hpbar.DDS", 170.0f, 90.0f);
+	m_sushihpbar3.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
 	m_sushihpbarwaku3.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
-	m_sushihpbar4.Init("Assets/sprite/hpbar.DDS", 170.0f, 90.0f);
+	m_sushihpbar4.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
 	m_sushihpbarwaku4.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
 	//HPバーのピボットを設定。
 	//m_sushihpbar.SetPivot(Vector2(0.5f, 0.5f));
-	m_sushihpbar.SetPosition(Vector3(-669.0f, -363.0f, 0.0f));
+	m_sushihpbar.SetPosition(Vector3(-660.0f, -363.0f, 0.0f));
 	m_sushihpbarwaku.SetPosition(Vector3(-585.0f, -355.0f, 0.0f));
-	m_sushihpbar2.SetPosition(Vector3(-180.0f, -363.0f, 0.0f));
+	m_sushihpbar2.SetPosition(Vector3(-260.0f, -363.0f, 0.0f));
 	m_sushihpbarwaku2.SetPosition(Vector3(-185.0f, -355.0f, 0.0f));
 	m_sushihpbar3.SetPosition(Vector3(217.0f, -363.0f, 0.0f));
 	m_sushihpbarwaku3.SetPosition(Vector3(215.0f, -355.0f, 0.0f));
-	m_sushihpbar4.SetPosition(Vector3(610.0f, -363.0f, 0.0f));
+	m_sushihpbar4.SetPosition(Vector3(605.0f, -363.0f, 0.0f));
 	m_sushihpbarwaku4.SetPosition(Vector3(605.0f, -355.0f, 0.0f));
 	m_sushihpbar.Update();
 	m_sushihpbarwaku.Update();
@@ -118,48 +129,50 @@ void GameUI::Timer()
 
 void GameUI::GameHP()
 {
-	//Aボタンを押したら,体力回復。
-	if (g_pad[0]->IsPress(enButtonA))
-	{
-		m_hp += 1;
-	}
-	//Bボタンを押したら、体力を減らす。
-	else if (g_pad[0]->IsPress(enButtonB))
-	{
-		m_hp -= 1;
-	}
-
+	m_p1hp = m_player1->GetPlayerHP();
+	m_p2hp = m_player2->GetPlayer2HP();
+	//m_p3hp = m_player3->GetPlayer3HP();
+	/*
 	//HPが0より減っていたら。
-	if (m_hp < 0)
+	if (m_p1hp < 0)
 	{
 		//HPを0にする。
-		m_hp = 0;
+		m_p1hp = 0;
 	}
 	//HPが最大値を超えていたら。
-	else if (m_hp > MAXIMUM_HP)
+	else if (m_p1hp > P1MAXIMUM_HP)
 	{
 		//HPを最大値にする。
-		m_hp = MAXIMUM_HP;
-	}
+		m_p1hp = P1MAXIMUM_HP;
+	}*/
 
-	Vector3 scale = Vector3::One;
+	Vector3 p1scale = Vector3::One;
+	Vector3 p2scale = Vector3::One;
+	Vector3 p3scale = Vector3::One;
 	//現HP/最大HPをHPバーのスケールにする。
 	//int型同士の計算だと、小数点以下切り捨てになるので。
 	//float型に変換して計算を行う。
-	scale.x = float(m_hp) / float(MAXIMUM_HP);
+	p1scale.x = float(m_p1hp) / float(P1MAXIMUM_HP);
+	p2scale.x = float(m_p2hp) / float(P2MAXIMUM_HP);
+	p3scale.x = float(m_p3hp) / float(P3MAXIMUM_HP);
 	//スケールを設定。
-	m_sushihpbar.SetScale(scale);
+	m_sushihpbar.SetScale(p1scale);
+	m_sushihpbar2.SetScale(p2scale);
+	//m_sushihpbar3.SetScale(p3scale);
+
 
 	m_sushihpbar.SetPivot(Vector2(0.0f, 0.5f));
-	//m_sushihpbar.SetLimitedX(0.5f);
-	//m_sushihpbar.SetIsDisplayRestrictionLeftSide(0.5f);
+	m_sushihpbar2.SetPivot(Vector2(0.0f, 0.5f));
+	//m_sushihpbar3.SetPivot(Vector2(0.0f, 0.5f));
 	//更新処理。
 	m_sushihpbar.Update();
+	m_sushihpbar2.Update();
+	//m_sushihpbar3.Update();
 }
 
 void GameUI::Update()
 {
-	int b = m_hp;
+	int b = m_p1hp;
 	wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", b);
 

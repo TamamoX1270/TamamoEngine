@@ -11,6 +11,15 @@ bool SoySauceBullet::Start()
 	//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
 	m_position = FindGO<Player1>("player1")->GetPlayer1Position();
 	m_position.y += 100.0f;
+	//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
+	if (FindGO<Player1>("player1")->GetPlayerforward().x < 0.0f)
+	{
+		m_position.x -= 60.0f;
+	}
+	else
+	{
+		m_position.x += 60.0f;
+	}
 	m_playerposition = FindGO<Player1>("player1")->GetPlayer1Position();
 	//弾のモデルを読み込む。
 	m_modelRender.Init("Assets/modelData/SoySauceBullet.tkm");

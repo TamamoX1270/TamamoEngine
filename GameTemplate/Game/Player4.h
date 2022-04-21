@@ -35,7 +35,6 @@ public:
 	{
 		m_position = position;
 	}
-
 private:
 	/// <summary>
 	/// ˆÚ“®ˆ—
