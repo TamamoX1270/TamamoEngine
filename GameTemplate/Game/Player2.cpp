@@ -569,6 +569,24 @@ void Player2::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//player1からplayer2を向くベクトルを求める。
+				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 20.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 20.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+
+
 				m_hp -= 1;
 				m_playerState = 5;
 			}

@@ -10,6 +10,8 @@ class GameCamera;
 class GameCamera2P;
 class GameCamera3P;
 
+class SpecialCamera;
+
 class SoySauce;
 class SideWall;
 
@@ -31,6 +33,10 @@ public:
 	/// </summary>
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc) override;
+
+private:
+	void Camera();
+
 
 private:
 	BackGround*		m_backGround;					//îwåiÅB
@@ -56,5 +62,8 @@ private:
 
 	GameCamera2P* m_gameCamera2;
 	GameCamera3P* m_gameCamera3;
+
+	SpecialCamera* sscamera;
+	int m_cameraState = 0;
 };
 

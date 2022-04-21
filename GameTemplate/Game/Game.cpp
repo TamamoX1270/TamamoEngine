@@ -12,6 +12,8 @@
 #include "SoySauce.h"
 #include "SideWall.h"
 
+#include"SpecialCamera.h"
+
 bool Game::Start()
 {
 	//プレイヤーオブジェクトを作成する。
@@ -29,6 +31,8 @@ bool Game::Start()
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 
+	sscamera = NewGO<SpecialCamera>(0, "specialcamera");
+
 	//m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
 	//m_gameCamera3 = NewGO<GameCamera3P>(0, "gamecamera3");
 	m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
@@ -38,10 +42,13 @@ bool Game::Start()
 
 Game::Game()
 {
+
 }
 
 void Game::Update()
 {
+	Camera();
+
 	int b = 4;
 	wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", b);
@@ -101,6 +108,25 @@ void Game::Update()
 	}
 	g_directionLig.SetLigColor({ m_directionligColor });*/
 //	g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
+}
+
+void Game::Camera()
+{
+	if (g_pad[0]->IsPress(enButtonUp)) {
+		m_cameraState = 1;
+	}
+	else {
+		m_cameraState = 0;
+	}
+
+	switch (m_cameraState) {
+	case 0:
+		m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
+		break;
+	case 1:
+		sscamera = NewGO<SpecialCamera>(0, "specialcamera");
+		break;
+	}
 }
 
 void Game::Render(RenderContext& rc)

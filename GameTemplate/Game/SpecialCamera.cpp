@@ -1,14 +1,13 @@
 #include "stdafx.h"
-#include "GameCamera2P.h"
+#include "SpecialCamera.h"
 
 #include "Player1.h"
 #include "Player2.h"
 
-bool GameCamera2P::Start()
+bool SpecialCamera::Start()
 {
 	//注視点から視点までのベクトルを設定。
-	//0.0f, 00.0f, -200.0f
-	m_toCameraPos.Set(0.0f, 100.0f, -200.0f);
+	m_toCameraPos.Set(0.0f, 50.0f, -150.0f);
 
 	//プレイヤーのインスタンスを探す。
 	m_player1 = FindGO<Player1>("player1");
@@ -21,17 +20,17 @@ bool GameCamera2P::Start()
 	return true;
 }
 
-GameCamera2P::GameCamera2P()
+SpecialCamera::SpecialCamera()
 {
 
 }
 
-GameCamera2P::~GameCamera2P()
+SpecialCamera::~SpecialCamera()
 {
 
 }
 
-void GameCamera2P::Update()
+void SpecialCamera::Update()
 {
 	//カメラを更新。
 	//注視点を計算する。
@@ -66,18 +65,10 @@ void GameCamera2P::Update()
 
 	//プレイヤの足元からちょっと上を注視点とする。
 	//プレイヤーの距離に応じて少し上に上がる。
-	target.y = (m_max - m_min) * 0.05f + 100.0f;
+	target.y = (m_max - m_min) * 0.05f + 80.0f;
 
 	//一番左と一番右のプレイヤーの距離に応じてカメラを引く。
-	target.z = (m_max - m_min) * -0.6f;
-
-	//上限。
-	if (target.z <= -750.0f) {
-		target.z = -749.0f;
-	}
-	else if (target.z >= 30.0f) {
-		target.z = 29.0f;
-	}
+	target.z = (m_max - m_min) * -0.01f;
 
 	//視点を計算する。
 	Vector3 pos = target + m_toCameraPos;
@@ -88,4 +79,8 @@ void GameCamera2P::Update()
 
 	//カメラの更新。
 	g_camera3D->Update();
+
+	/*g_k2EngineLow->SetFrameRateMode
+	(nsK2EngineLow::K2EngineLow::EnFrameRateMode::
+		enFrameRateMode_Variable, 60.0f);*/
 }
