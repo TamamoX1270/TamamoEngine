@@ -44,26 +44,26 @@ bool GameUI::Start()
 void GameUI::SoyCT()
 {
 	//è›ñ˚Ç≥Çµ
-	m_spriteRender.Init("Assets/sprite/soysaucecontainer_1P.dds", 200.0f, 200.0f);
-	m_spriteRender.SetPosition({ -450.0f,-340.0f,0.0f });
-	m_spriteRender2.Init("Assets/sprite/soysaucecontainer_2P.dds", 200.0f, 200.0f);
-	m_spriteRender2.SetPosition({ -55.0f,-340.0f,0.0f });
-	m_spriteRender3.Init("Assets/sprite/soysaucecontainer_3P.dds", 200.0f, 200.0f);
-	m_spriteRender3.SetPosition({ 345.0f,-340.0f,0.0f });
-	m_spriteRender4.Init("Assets/sprite/soysaucecontainer_4P.dds", 200.0f, 200.0f);
-	m_spriteRender4.SetPosition({ 730.0f,-340.0f,0.0f });
+	m_spriteRender.Init("Assets/sprite/soysaucecontainer_1P.dds", 220.0f, 220.0f);
+	m_spriteRender.SetPosition({ -450.0f,-350.0f,0.0f });
+	m_spriteRender2.Init("Assets/sprite/soysaucecontainer_2P.dds", 220.0f, 220.0f);
+	m_spriteRender2.SetPosition({ -55.0f,-350.0f,0.0f });
+	m_spriteRender3.Init("Assets/sprite/soysaucecontainer_3P.dds", 220.0f, 220.0f);
+	m_spriteRender3.SetPosition({ 345.0f,-350.0f,0.0f });
+	m_spriteRender4.Init("Assets/sprite/soysaucecontainer_4P.dds", 220.0f, 220.0f);
+	m_spriteRender4.SetPosition({ 735.0f,-350.0f,0.0f });
 	//è›ñ˚Ç≥ÇµÇ©ÇŒÅ[
-	m_soyct.Init("Assets/sprite/soysaucecontainercover.dds", 200.0f, 200.0f);
-	m_soyct.SetPosition({ -450.0f,-340.0f,0.0f });
+	m_soyct.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
+	m_soyct.SetPosition({ -450.0f,-350.0f,0.0f });
 	m_soyct.SetMulColor({ Transparent });
-	m_soyct2.Init("Assets/sprite/soysaucecontainercover.dds", 200.0f, 200.0f);
-	m_soyct2.SetPosition({ -55.0f,-340.0f,0.0f });
+	m_soyct2.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
+	m_soyct2.SetPosition({ -55.0f,-350.0f,0.0f });
 	m_soyct2.SetMulColor({ Transparent });
-	m_soyct3.Init("Assets/sprite/soysaucecontainercover.dds", 200.0f, 200.0f);
-	m_soyct3.SetPosition({ 345.0f,-340.0f,0.0f });
+	m_soyct3.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
+	m_soyct3.SetPosition({ 345.0f,-350.0f,0.0f });
 	m_soyct3.SetMulColor({ Transparent });
-	m_soyct4.Init("Assets/sprite/soysaucecontainercover.dds", 200.0f, 200.0f);
-	m_soyct4.SetPosition({ 730.0f,-340.0f,0.0f });
+	m_soyct4.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
+	m_soyct4.SetPosition({ 735.0f,-350.0f,0.0f });
 	m_soyct4.SetMulColor({ Transparent });
 	//çXêVèàóù
 	m_soyct.Update();

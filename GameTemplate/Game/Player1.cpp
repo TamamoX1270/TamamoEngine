@@ -133,6 +133,7 @@ void Player1::Move()
 		//動けない。
 		return;
 	}
+
 	
 	//Yボタンが押された時に醤油のストックが１以上なら
 	if (g_pad[0]->IsTrigger(enButtonY) && m_soysaucecount >= 1)
@@ -282,6 +283,10 @@ void Player1::ManageState()
 
 	case 1:
 		m_player.PlayAnimation(enAnimClip_Run, 0.2f);
+		m_isUnderAttack = false;
+		m_catch = false;
+		m_2 = false;
+		m_3 = false;
 		break;
 
 	case 2:

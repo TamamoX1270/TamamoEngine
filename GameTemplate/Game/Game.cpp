@@ -10,6 +10,7 @@
 #include "GameCamera2P.h"
 #include "GameCamera3P.h"
 #include "SoySauce.h"
+#include "SideWall.h"
 
 bool Game::Start()
 {
@@ -23,6 +24,8 @@ bool Game::Start()
 	m_gamingshigureui = NewGO<GameUI>(0, "gameui");
 	//醤油オブジェクトを生成する。
 	m_soysauce = NewGO<SoySauce>(0, "soysauce");
+	//左右の壁オブジェクトを生成する。
+	m_sidewall = NewGO<SideWall>(0, "sidewall");
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 

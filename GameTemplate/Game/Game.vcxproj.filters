@@ -23,6 +23,7 @@
     <ClCompile Include="SoySauce.cpp" />
     <ClCompile Include="SoysauceBullet.cpp" />
     <ClCompile Include="GameUI.cpp" />
+    <ClCompile Include="SideWall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -41,5 +42,6 @@
     <ClInclude Include="SoySauce.h" />
     <ClInclude Include="SoysauceBullet.h" />
     <ClInclude Include="GameUI.h" />
+    <ClInclude Include="SideWall.h" />
   </ItemGroup>
 </Project>

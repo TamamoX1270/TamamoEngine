@@ -11,6 +11,7 @@ class GameCamera2P;
 class GameCamera3P;
 
 class SoySauce;
+class SideWall;
 
 class Game : public IGameObject
 {
@@ -41,6 +42,7 @@ private:
 	Player4*		m_player4;						//プレイヤー4
 	GameUI*			m_gamingshigureui;				//ゲームうい
 	SoySauce*		m_soysauce;						//醤油さし
+	SideWall*		m_sidewall;						//左右の壁
 	Vector3         m_pointligpos;                  //ポイントライトの座標
 	Vector3         m_directionligColor;		    //セットする色
 	Vector3			m_spPosition;					//スポットライトのポジション

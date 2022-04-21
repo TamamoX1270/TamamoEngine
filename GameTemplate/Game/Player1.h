@@ -208,6 +208,9 @@ private:
 	float p2_Catch;		//P2のshineステート。
 	float p3_Catch;		//P3のshineステート。
 
+	int blow_awaystate = false;
+	float blow_awaytimer = 0.0f;
+
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
