@@ -1,4 +1,7 @@
 #pragma once
+
+#include "sound/SoundSource.h"
+
 class Player1;
 class Player2;
 class Player3;
@@ -13,6 +16,9 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool Start() override;
+	/// <summary>
+	/// ƒQ[ƒ€‚ÌBGM
+	void GameBGM();
 	/// <summary>
 	/// ƒQ[ƒ€‚Ìc‚èŠÔ
 	void Timer();
@@ -68,6 +74,8 @@ private:
 
 	FontRender		m_fontRender;
 	float game_timer = 180.0f;
+
+	SoundSource* gameBGM;
 
 	int m_p1hp = 0;
 	int m_p2hp = 0;
