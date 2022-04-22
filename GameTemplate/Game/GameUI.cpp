@@ -5,6 +5,8 @@
 #include "Player2.h"
 #include "Player3.h"
 #include "Player4.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 
 namespace
 {
@@ -48,6 +50,8 @@ bool GameUI::Start()
 	m_spriteRenderwakka3.Update();
 	m_spriteRenderwakka4.Update();
 	m_spriteRendertime.Update();
+
+	GameBGM();
 
 	return true;
 }
@@ -111,6 +115,16 @@ void GameUI::SushiHPBar()
 	m_sushihpbarwaku3.Update();
 	m_sushihpbar4.Update();
 	m_sushihpbarwaku4.Update();
+}
+
+void GameUI::GameBGM()
+{
+	//ゲームのBGMを読み込む。
+	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/game_bgm.wav");
+	//ゲームのBGMを再生する。
+	gameBGM = NewGO<SoundSource>(0);
+	gameBGM->Init(0);
+	gameBGM->Play(true);
 }
 
 void GameUI::Timer()
