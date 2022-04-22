@@ -170,7 +170,8 @@ private:
 		enAnimClip_Punch2,	// 7 : 攻撃２アニメーション。
 		enAnimClip_Kick3,	// 8 : 攻撃３アニメーション。
 		enAnimClip_CPunch,	// 9 : 掴み攻撃アニメーション。
-		enAnimClip_Num,		// 10 : アニメーションクリップの数。
+		enAnimClip_FlyAway,	// 10 : 吹っ飛びアニメーション。
+		enAnimClip_Num,		// 11 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー

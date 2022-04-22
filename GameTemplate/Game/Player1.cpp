@@ -32,9 +32,11 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_Kick3].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_CPunch].Load("Assets/purototype/cpunch.tka");
 	m_animationClipArray[enAnimClip_CPunch].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_FlyAway].Load("Assets/purototype/flyaway.tka");
+	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
 
 	//モデルの読み込み
-	m_player.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
+	m_player.Init("Assets/purototype/model/eggR.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
 
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
@@ -104,6 +106,10 @@ void Player1::Update()
 	MakeCollision2();
 	MakeCollision3();
 	CatchAttackCollision();
+
+	if (g_pad[0]->IsTrigger(enButtonDown)) {
+		m_playerState = 10;
+	}
 
 	m_player.Update();
 }
@@ -353,7 +359,18 @@ void Player1::ManageState()
 			atkState = 0;
 		}
 		break;
+
+
+	case 10:
+		m_player.PlayAnimation(enAnimClip_FlyAway, 0.2f);
+		m_catch = false;
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+			atkState = 0;
+		}
+		break;
 	}
+
 }
 
 void Player1::ManageJump()
