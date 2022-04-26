@@ -36,7 +36,7 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
 
 	//モデルの読み込み
-	m_player.Init("Assets/purototype/model/eggR.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
+	m_player.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
 
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
@@ -95,13 +95,13 @@ void Player1::Update()
 
 	AnimationState();
 	ManageState();
-	ManageJump();
-
+	
 	Hit2();
 	Hit3();
 	MakeGuardCollision();
 	MakeCatchCollision();
 
+	ManageJump();
 	MakeCollision();
 	MakeCollision2();
 	MakeCollision3();
@@ -222,11 +222,7 @@ void Player1::Rotation()
 void Player1::AnimationState()
 {
 	if (m_playerState == 4) {
-
-		m_timer += g_gameTime->GetFrameDeltaTime();
-		if (m_timer >= 1.5f) {
-			m_playerState = 0;
-		}
+		return;
 	}
 
 	//掴み
@@ -248,7 +244,6 @@ void Player1::AnimationState()
 		m_playerState = 7;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB)) {
-		m_timer = 0.0f;
 		m_playerState = 3;
 	}
 
@@ -260,7 +255,6 @@ void Player1::AnimationState()
 		}
 
 		else if (g_pad[0]->IsTrigger(enButtonX)) {
-			m_timer = 0.0f;
 			m_playerState = 4;
 		}
 
@@ -312,7 +306,6 @@ void Player1::ManageState()
 	case 4:
 		m_player.PlayAnimation(enAnimClip_Jump, 0.2f);
 		m_catch = false;
-		moveSpeed.y -= 80.0f;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -375,31 +368,16 @@ void Player1::ManageState()
 
 void Player1::ManageJump()
 {
-	//ジャンプの実装ゾーン
-	if (g_pad[0]->IsTrigger(enButtonX)) {
-		m_jumpState = 1;
-		m_jumpTimer = 0.0f;
+	//重力が悪さするのでいったんジャンプしてる時だけ入れてる。
+	if (m_playerState != 4) {
+		return;
 	}
 
-	/*else {
+	if (m_jumpState == true) {
+		moveSpeed.y = 450.0f;
+	}
+	else {
 		moveSpeed.y -= 80.0f;
-		//80
-	}*/
-
-
-	if (m_jumpState == 1) {
-
-		m_jumpTimer += g_gameTime->GetFrameDeltaTime();
-
-		if (m_jumpTimer >= 0.48f) {
-			m_jumpState = 2;
-		}
-	}
-
-	if (m_jumpState == 2) {
-		moveSpeed.y += 1200.0f;
-		//1200
-		m_jumpState = 0;
 	}
 }
 
@@ -467,6 +445,18 @@ void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 	{
 		//攻撃を終わる。
 		m_cpunch = false;
+	}
+
+	if (wcscmp(eventName, L"Jump_Start") == 0)
+	{
+		//攻撃中にする。
+		m_jumpState = true;
+	}
+	//キーの名前が「attack_end」の時。
+	else if (wcscmp(eventName, L"Jump_End") == 0)
+	{
+		//攻撃を終わる。
+		m_jumpState = false;
 	}
 }
 

@@ -195,10 +195,8 @@ private:
 	Vector3		moveSpeed;				//プレイヤーの速さ。
 
 	int			m_playerState;			//プレイヤーステート。
-	float		m_timer = 0.0f;			//アニメーション用タイマー。
 
-	int			m_jumpState = 0;		//ジャンプ実装用ステート。
-	float		m_jumpTimer = 0.0f;		//ジャンプ実装用タイマー。
+	float		m_jumpState = false;		//ジャンプ実装用ステート。
 
 	int			m_charaRotState = 0;	//キャラの向きを変えるステート。
 

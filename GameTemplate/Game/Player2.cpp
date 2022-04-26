@@ -34,7 +34,7 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_CPunch].SetLoopFlag(false);
 
 	//モデルの読み込み
-	m_player2.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+	m_player2.Init("Assets/purototype/model3/tuna.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
