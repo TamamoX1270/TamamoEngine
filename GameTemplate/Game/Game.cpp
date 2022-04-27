@@ -11,6 +11,7 @@
 #include "GameCamera3P.h"
 #include "SoySauce.h"
 #include "SideWall.h"
+#include "Title.h"
 
 #include"SpecialCamera.h"
 

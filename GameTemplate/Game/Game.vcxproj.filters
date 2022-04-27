@@ -25,6 +25,7 @@
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="SideWall.cpp" />
     <ClCompile Include="SpecialCamera.cpp" />
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -45,5 +46,6 @@
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="SideWall.h" />
     <ClInclude Include="SpecialCamera.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
 </Project>
