@@ -1,4 +1,5 @@
 #pragma once
+#include "sound/SoundSource.h"
 
 class SoySauceBullet;
 
@@ -234,6 +235,8 @@ private:
 	float p3_Catch;		//P3のshineステート。
 
 	Vector3 a;
+
+	SoundSource* P1se;	//P1の効果音。
 
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。
