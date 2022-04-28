@@ -5,6 +5,8 @@
 #include "Player1.h"
 #include "Player3.h"
 #include "SoySauceBullet.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
@@ -70,6 +72,12 @@ bool Player2::Start()
 	m_handBoneId2 = m_player2.FindBoneID(L"mixamorig:LeftHandIndex1");
 	m_handBoneId3 = m_player2.FindBoneID(L"mixamorig:RightToeBase");
 	m_handBoneIdCPunch = m_player2.FindBoneID(L"mixamorig:RightHandIndex1");
+
+	//効果音を読み込む。
+	g_soundEngine->ResistWaveFileBank(7, "Assets/sound/jump_2.wav");
+	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_1.wav");
+	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/punch_2.wav");
+	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/punch_3.wav");
 
 	return true;
 }
@@ -266,6 +274,10 @@ void Player2::AnimationState()
 		}
 
 		else if (g_pad[1]->IsTrigger(enButtonX)) {
+			//効果音を再生する。
+			SoundSource* P2se = NewGO<SoundSource>(7);
+			P2se->Init(7);
+			P2se->Play(false);
 			m_playerState = 4;
 		}
 
@@ -669,6 +681,11 @@ void Player2::Hit1()
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(8);
+				P2se->Init(8);
+				P2se->Play(false);
+
 				//HPの減少。
 				m_hp -= 2;
 
@@ -716,6 +733,11 @@ void Player2::Hit1()
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(9);
+				P2se->Init(9);
+				P2se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 			}
@@ -759,6 +781,11 @@ void Player2::Hit1()
 					moveSpeed.x += a.x * 800.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(10);
+				P2se->Init(10);
+				P2se->Play(false);
 
 				m_hp -= 8;
 				m_playerState = 5;

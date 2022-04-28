@@ -66,7 +66,7 @@ bool Player1::Start()
 	m_handBoneIdCPunch = m_player.FindBoneID(L"mixamorig:RightHandIndex1");
 	
 	//効果音を読み込む。
-	g_soundEngine->ResistWaveFileBank(3, "Assets/sound/jump.wav");
+	g_soundEngine->ResistWaveFileBank(3, "Assets/sound/jump_2.wav");
 	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/punch_1.wav");
 	g_soundEngine->ResistWaveFileBank(5, "Assets/sound/punch_2.wav");
 	g_soundEngine->ResistWaveFileBank(6, "Assets/sound/punch_3.wav");
@@ -274,6 +274,10 @@ void Player1::AnimationState()
 		}
 
 		else if (g_pad[0]->IsTrigger(enButtonX)) {
+			//効果音を再生する。
+			SoundSource* P2se = NewGO<SoundSource>(3);
+			P2se->Init(3);
+			P2se->Play(false);
 			m_playerState = 4;
 		}
 
