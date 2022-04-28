@@ -9,6 +9,10 @@
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
 
+//EffectEmitterを使用する時はファイルをインクルードする必要がある。
+#include "graphics/effect/EffectEmitter.h"
+
+
 bool Player2::Start()
 {
 	//アニメーションクリップをロードする。
@@ -36,6 +40,10 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RiseUp].Load("Assets/purototype/riseup.tka");
 	m_animationClipArray[enAnimClip_RiseUp].SetLoopFlag(false);
+
+	//エフェクトを読み込む。
+	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
+	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
 
 	//モデルの読み込み
 	m_player2.Init("Assets/purototype/model3/tuna.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
@@ -634,6 +642,14 @@ void Player2::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
 
 				//player1からplayer2を向くベクトルを求める。
 				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
@@ -673,6 +689,14 @@ void Player2::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
 
 				//player1からplayer2を向くベクトルを求める。
 				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
@@ -709,6 +733,14 @@ void Player2::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
 
 				//player1からplayer2を向くベクトルを求める。
 				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();

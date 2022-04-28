@@ -37,6 +37,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		g_k2EngineLow->ExecuteRender();
 
+		// 【仮】ここでエフェクトドローしているが、後々移動させる必要がでてくるかも？
+		EffectEngine::GetInstance()->Draw();
+
 		// スプライトレンダーの描画処理を呼び出す。
 		g_renderingEngine.SpriteRenderDraw(renderContext);
 

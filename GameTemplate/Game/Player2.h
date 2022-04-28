@@ -192,6 +192,7 @@ private:
 	Vector3				m_position = Vector3::Zero;				// 座標
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
+	Vector3				m_efpos1;								//エフェクト用のポジション
 
 	//醤油弾の関数
 	SoySauceBullet* m_soysaucebullet;   //醤油弾
