@@ -14,6 +14,7 @@ class SpecialCamera;
 
 class SoySauce;
 class SideWall;
+class Title;
 
 class Game : public IGameObject
 {
@@ -40,6 +41,7 @@ private:
 
 private:
 	BackGround*		m_backGround;					//背景。
+	Title*			m_title;						//タイトル
 	FontRender      m_fontRender;					//フォントレンダー
 	ModelRender     m_modelRender;					//モデルレンダー
 	Player1*        m_player;						//プレイヤー1
