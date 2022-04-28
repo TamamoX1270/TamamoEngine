@@ -32,6 +32,10 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_Kick3].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_CPunch].Load("Assets/purototype/cpunch.tka");
 	m_animationClipArray[enAnimClip_CPunch].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_FlyAway].Load("Assets/purototype/flyaway.tka");
+	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_RiseUp].Load("Assets/purototype/riseup.tka");
+	m_animationClipArray[enAnimClip_RiseUp].SetLoopFlag(false);
 
 	//モデルの読み込み
 	m_player2.Init("Assets/purototype/model3/tuna.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
@@ -92,13 +96,14 @@ void Player2::Update()
 
 	AnimationState();
 	ManageState();
-	ManageJump();
 
 	Hit1();
 	Hit3();
 	MakeGuardCollision();
+	autoGuard();
 	MakeCatchCollision();
 
+	ManageJump();
 	MakeCollision();
 	MakeCollision2();
 	MakeCollision3();
@@ -216,11 +221,7 @@ void Player2::AnimationState()
 {
 
 	if (m_playerState == 4) {
-
-		m_timer += g_gameTime->GetFrameDeltaTime();
-		if (m_timer >= 1.5f) {
-			m_playerState = 0;
-		}
+		return;
 	}
 
 	//掴み
@@ -242,7 +243,6 @@ void Player2::AnimationState()
 		m_playerState = 7;
 	}
 	else if (g_pad[1]->IsTrigger(enButtonB)) {
-		m_timer = 0.0f;
 		m_playerState = 3;
 	}
 
@@ -254,7 +254,6 @@ void Player2::AnimationState()
 		}
 
 		else if (g_pad[1]->IsTrigger(enButtonX)) {
-			m_timer = 0.0f;
 			m_playerState = 4;
 		}
 
@@ -283,6 +282,10 @@ void Player2::ManageState()
 
 	case 1:
 		m_player2.PlayAnimation(enAnimClip_Run, 0.2f);
+		m_isUnderAttack = false;
+		m_catch = false;
+		m_2 = false;
+		m_3 = false;
 		break;
 
 	case 2:
@@ -310,6 +313,7 @@ void Player2::ManageState()
 
 	case 5:
 		m_player2.PlayAnimation(enAnimClip_Hit, 0.2f);
+		m_jumpState = false;
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -318,6 +322,7 @@ void Player2::ManageState()
 
 	case 6:
 		m_player2.PlayAnimation(enAnimClip_Catch, 0.2f);
+		atkState = 0;
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -349,36 +354,38 @@ void Player2::ManageState()
 			atkState = 0;
 		}
 		break;
+
+	case 10:
+		m_player2.PlayAnimation(enAnimClip_FlyAway, 0.2f);
+		m_catch = false;
+		if (m_player2.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+			atkState = 0;
+		}
+		break;
+
+	case 11:
+		m_player2.PlayAnimation(enAnimClip_RiseUp, 0.2f);
+		if (m_player2.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+		}
+		break;
 	}
+
 }
 
 void Player2::ManageJump()
 {
-	//ジャンプの実装ゾーン
-	if (g_pad[1]->IsTrigger(enButtonX)) {
-		m_jumpState = 1;
-		m_jumpTimer = 0.0f;
+	//ジャンプ。
+	if (m_jumpState == true) {
+		moveSpeed.y = 450.0f;
 	}
-
-	/*else {
+	//バグが起こらない重力。
+	else if (m_position.y > 20.0f || m_position.y < -20.0f) {
 		moveSpeed.y -= 80.0f;
-		//80
-	}*/
-
-
-	if (m_jumpState == 1) {
-
-		m_jumpTimer += g_gameTime->GetFrameDeltaTime();
-
-		if (m_jumpTimer >= 0.48f) {
-			m_jumpState = 2;
-		}
 	}
-
-	if (m_jumpState == 2) {
-		moveSpeed.y += 1200.0f;
-		//1200
-		m_jumpState = 0;
+	else {
+		moveSpeed.y = -250.0f;
 	}
 }
 
@@ -446,6 +453,18 @@ void Player2::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 	{
 		//攻撃を終わる。
 		m_cpunch = false;
+	}
+
+	if (wcscmp(eventName, L"Jump_Start") == 0)
+	{
+		//攻撃中にする。
+		m_jumpState = true;
+	}
+	//キーの名前が「attack_end」の時。
+	else if (wcscmp(eventName, L"Jump_End") == 0)
+	{
+		//攻撃を終わる。
+		m_jumpState = false;
 	}
 }
 
@@ -522,7 +541,7 @@ void Player2::MakeCollision3()
 
 void Player2::MakeGuardCollision()
 {
-	if (m_playerState != 2 && m_playerState != 5) {
+	if (m_playerState != 2) {
 		guard = false;
 		return;
 	}
@@ -543,6 +562,47 @@ void Player2::MakeGuardCollision()
 	);
 
 	collisionObject->SetName("P2_Guard");
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player1_attack");
+	//配列をfor文で回す。
+	for (auto collision : collisions1)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(collisionObject))
+		{
+			FindGO<Player1>("player1")->SetPlayer1PlayerState11();
+		}
+
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+}
+
+void Player2::autoGuard()
+{
+	if (m_playerState != 5) {
+		return;
+	}
+	guard = true;
+
+	//コリジョンオブジェクトを作成する。
+	auto collisionObject = NewGO<CollisionObject>(0);
+
+	Vector3 collisionPosition = m_position;
+	//座標をプレイヤーの少し前に設定する。
+	collisionPosition.y += 60.0f;
+
+	//カプセル状のコリジョンを作成する。
+	collisionObject->CreateCapsule(collisionPosition,
+		Quaternion::Identity,
+		35.0f,
+		75.0f
+	);
+
+	collisionObject->SetName("P2_autoGuard");
 }
 
 void Player2::Hit1()
@@ -571,6 +631,7 @@ void Player2::Hit1()
 			if (guard != true) {
 				//player1からplayer2を向くベクトルを求める。
 				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
+				a = a*0.1f;
 				if (a.x > 0) {
 					//体の向きを変える。
 					m_charaRotState = 1;
@@ -758,7 +819,7 @@ void Player2::Hit3()
 
 			//HPを減らす。
 			if (guard != true) {
-				//m_hp += 1;
+				//m_hp -= 1;
 				////////////////////////////////////////////////////
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
@@ -784,7 +845,7 @@ void Player2::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}
@@ -803,7 +864,7 @@ void Player2::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-				m_hp += 1;
+				m_hp -= 1;
 				m_playerState = 5;
 			}
 		}

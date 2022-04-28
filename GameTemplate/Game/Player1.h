@@ -82,6 +82,11 @@ public:
 		m_soysaucecount++;
 	}
 
+	void SetPlayer1PlayerState11()
+	{
+		m_playerState = 11;
+	}
+
 
 private:
 	/// <summary>
@@ -133,6 +138,11 @@ private:
 	void MakeGuardCollision();
 
 	/// <summary>
+	/// 被ダメ後の防御用のコリジョンを作成する。
+	/// </summary>
+	void autoGuard();
+
+	/// <summary>
 	/// プレイヤー2からの被ダメージモーション管理
 	/// </summary>
 	void Hit2();
@@ -171,7 +181,8 @@ private:
 		enAnimClip_Kick3,	// 8 : 攻撃３アニメーション。
 		enAnimClip_CPunch,	// 9 : 掴み攻撃アニメーション。
 		enAnimClip_FlyAway,	// 10 : 吹っ飛びアニメーション。
-		enAnimClip_Num,		// 11 : アニメーションクリップの数。
+		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
+		enAnimClip_Num,		// 12 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー
@@ -222,8 +233,7 @@ private:
 	float p2_Catch;		//P2のshineステート。
 	float p3_Catch;		//P3のshineステート。
 
-	int blow_awaystate = false;
-	float blow_awaytimer = 0.0f;
+	Vector3 a;
 
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。

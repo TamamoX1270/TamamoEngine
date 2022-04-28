@@ -82,6 +82,11 @@ public:
 		m_soysaucecount++;
 	}
 
+	void SetPlayer2PlayerState11()
+	{
+		m_playerState = 11;
+	}
+
 
 private:
 	/// <summary>
@@ -133,6 +138,11 @@ private:
 	void MakeGuardCollision();
 
 	/// <summary>
+	/// 被ダメ後の防御用のコリジョンを作成する。
+	/// </summary>
+	void autoGuard();
+
+	/// <summary>
 	/// プレイヤー1からの被ダメージモーション管理
 	/// </summary>
 	void Hit1();
@@ -170,7 +180,9 @@ private:
 		enAnimClip_Punch2,	// 7 : 攻撃２アニメーション。
 		enAnimClip_Kick3,	// 8 : 攻撃３アニメーション。
 		enAnimClip_CPunch,	// 9 : 掴み攻撃アニメーション。
-		enAnimClip_Num,		// 10 : アニメーションクリップの数。
+		enAnimClip_FlyAway,	// 10 : 吹っ飛びアニメーション。
+		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
+		enAnimClip_Num,		// 12 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player2;								//プレイヤー
@@ -194,10 +206,8 @@ private:
 	Vector3		moveSpeed;				//プレイヤーの速さ。
 
 	int			m_playerState;			//プレイヤーステート。
-	float		m_timer = 0.0f;			//アニメーション用タイマー。
 
 	int			m_jumpState = 0;		//ジャンプ実装用ステート。
-	float		m_jumpTimer = 0.0f;		//ジャンプ実装用タイマー。
 
 	int			m_charaRotState = 0;	//キャラの向きを変えるステート。
 
@@ -218,7 +228,6 @@ private:
 	int			m_handBoneIdCPunch = -1;	//「Hand」ボーンのID。  
 
 	int atkState = 0;					//連続攻撃のためのステート。
-
 	float guard = false;				//ガードをしているかどうか。
 
 	float p1_Catch;		//P1のshineステート。

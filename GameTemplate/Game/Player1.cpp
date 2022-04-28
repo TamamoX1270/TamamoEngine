@@ -34,6 +34,8 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_CPunch].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_FlyAway].Load("Assets/purototype/flyaway.tka");
 	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_RiseUp].Load("Assets/purototype/riseup.tka");
+	m_animationClipArray[enAnimClip_RiseUp].SetLoopFlag(false);
 
 	//モデルの読み込み
 	m_player.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
@@ -61,7 +63,6 @@ bool Player1::Start()
 	m_handBoneId3 = m_player.FindBoneID(L"mixamorig:RightToeBase");
 	m_handBoneIdCPunch = m_player.FindBoneID(L"mixamorig:RightHandIndex1");
 	
-
 	return true;
 }
 
@@ -99,6 +100,7 @@ void Player1::Update()
 	Hit2();
 	Hit3();
 	MakeGuardCollision();
+	autoGuard();
 	MakeCatchCollision();
 
 	ManageJump();
@@ -109,6 +111,9 @@ void Player1::Update()
 
 	if (g_pad[0]->IsTrigger(enButtonDown)) {
 		m_playerState = 10;
+	}
+	if (g_pad[0]->IsTrigger(enButtonUp)) {
+		m_playerState = 11;
 	}
 
 	m_player.Update();
@@ -313,6 +318,7 @@ void Player1::ManageState()
 
 	case 5:
 		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
+		m_jumpState = false;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -321,6 +327,7 @@ void Player1::ManageState()
 
 	case 6:
 		m_player.PlayAnimation(enAnimClip_Catch, 0.2f);
+		atkState = 0;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -353,7 +360,6 @@ void Player1::ManageState()
 		}
 		break;
 
-
 	case 10:
 		m_player.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
@@ -362,22 +368,29 @@ void Player1::ManageState()
 			atkState = 0;
 		}
 		break;
+
+	case 11:
+		m_player.PlayAnimation(enAnimClip_RiseUp, 0.2f);
+		if (m_player.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+		}
+		break;
 	}
 
 }
 
 void Player1::ManageJump()
 {
-	//重力が悪さするのでいったんジャンプしてる時だけ入れてる。
-	if (m_playerState != 4) {
-		return;
-	}
-
+	//ジャンプ。
 	if (m_jumpState == true) {
 		moveSpeed.y = 450.0f;
 	}
-	else {
+	//バグが起こらない重力。
+	else if (m_position.y > 20.0f|| m_position.y < -20.0f) {
 		moveSpeed.y -= 80.0f;
+	}
+	else {
+		moveSpeed.y = -250.0f;
 	}
 }
 
@@ -533,7 +546,7 @@ void Player1::MakeCollision3()
 
 void Player1::MakeGuardCollision()
 {
-	if (m_playerState != 2 && m_playerState != 5) {
+	if (m_playerState != 2) {
 		guard = false;
 		return;
 	}
@@ -554,6 +567,47 @@ void Player1::MakeGuardCollision()
 	);
 
 	collisionObject->SetName("P1_Guard");
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player2_attack");
+	//配列をfor文で回す。
+	for (auto collision : collisions1)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(collisionObject))
+		{
+			FindGO<Player2>("player2")->SetPlayer2PlayerState11();
+		}
+
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+}
+
+void Player1::autoGuard()
+{
+	if (m_playerState != 5) {
+		return;
+	}
+	guard = true;
+
+	//コリジョンオブジェクトを作成する。
+	auto collisionObject = NewGO<CollisionObject>(0);
+
+	Vector3 collisionPosition = m_position;
+	//座標をプレイヤーの少し前に設定する。
+	collisionPosition.y += 60.0f;
+
+	//カプセル状のコリジョンを作成する。
+	collisionObject->CreateCapsule(collisionPosition,
+		Quaternion::Identity,
+		35.0f,
+		75.0f
+	);
+
+	collisionObject->SetName("P1_autoGuard");
 }
 
 void Player1::Hit2()
@@ -580,6 +634,24 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//player1からplayer2を向くベクトルを求める。
+				a = m_position - FindGO<Player2>("player2")->GetPlayer2Position();
+				a.Normalize();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 20.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 20.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+
+
 				m_hp -= 1;
 				m_playerState = 5;
 			}
@@ -645,7 +717,7 @@ void Player1::Hit2()
 
 			//HPを減らす。
 			if (guard != true) {
-				//m_hp += 1;
+				//m_hp -= 1;
 				////////////////////////////////////////////////////
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
