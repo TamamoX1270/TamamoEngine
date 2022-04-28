@@ -112,7 +112,7 @@ void Player1::Update()
 	if (g_pad[0]->IsTrigger(enButtonDown)) {
 		m_playerState = 10;
 	}
-	if (g_pad[0]->IsTrigger(enButtonUp)) {
+	if (g_pad[0]->IsTrigger(enButtonLeft)) {
 		m_playerState = 11;
 	}
 
@@ -157,6 +157,7 @@ void Player1::Move()
 	
 	//移動。
 	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
+	//moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
 
 	//キャラの当たり判定の更新。
 	m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -641,13 +642,13 @@ void Player1::Hit2()
 					//体の向きを変える。
 					m_charaRotState = 1;
 					//少しノックバックする。
-					moveSpeed.x += a.x * 20.0f;
+					moveSpeed.x += a.x * 2000.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 				else if (a.x < 0) {
 					m_charaRotState = 0;
 					//少しノックバックする。
-					moveSpeed.x += a.x * 20.0f;
+					moveSpeed.x += a.x * 2000.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 
