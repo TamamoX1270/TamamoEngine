@@ -25,7 +25,7 @@ Title::~Title()
 
 void Title::Update()
 {
-	if (g_pad[0]->IsTrigger(enButtonA))
+	if (g_pad[0]->IsTrigger(enButtonA)|| g_pad[1]->IsTrigger(enButtonA) || g_pad[2]->IsTrigger(enButtonA))
 	{
 		NewGO<Game>(0,"game");
 		DeleteGO(this);
