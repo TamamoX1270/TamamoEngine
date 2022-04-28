@@ -8,11 +8,19 @@ Title::Title()
 {
 	spriteRender.Init("Assets/sprite/Title.dds", 1600.0f, 900.0f);
 
+	//タイトルのBGMを読み込む
+	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/title_bgm.wav");
+	//決定音を読み込む
+	g_soundEngine->ResistWaveFileBank(2, "Assets/sound/kettei_se.wav");
+	//タイトルのBGMを再生する
+	titleBGM = NewGO<SoundSource>(1);
+	titleBGM->Init(1);
+	titleBGM->Play(true);
 }
 
 Title::~Title()
 {
-
+	DeleteGO(titleBGM);
 }
 
 void Title::Update()
@@ -21,6 +29,10 @@ void Title::Update()
 	{
 		NewGO<Game>(0,"game");
 		DeleteGO(this);
+		//決定音を再生
+		SoundSource* se = NewGO<SoundSource>(2);
+		se->Init(2);
+		se->Play(false);
 
 	}
 }
