@@ -167,6 +167,11 @@ void Player1::Move()
 	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
 	//moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
 
+	//キャラがｚ軸方向にずれるのを防ぐコード
+	if (m_position.z > 0.1f || m_position.z < -0.1f) {
+		m_position.z = 0.0f;
+	}
+
 	//キャラの当たり判定の更新。
 	m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 
@@ -235,7 +240,7 @@ void Player1::Rotation()
 
 void Player1::AnimationState()
 {
-	if (m_playerState == 4) {
+	if (m_playerState == 4 || m_playerState == 5) {
 		return;
 	}
 
@@ -328,6 +333,7 @@ void Player1::ManageState()
 	case 5:
 		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
 		m_jumpState = false;
+		atkState = 0;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -767,6 +773,14 @@ void Player1::Hit2()
 			}
 		}
 
+	}
+
+	//HPの上限下限の設定。
+	if (m_hp > m_max) {
+		m_hp = m_max;
+	}
+	else if (m_hp < m_min) {
+		m_hp = m_min;
 	}
 }
 

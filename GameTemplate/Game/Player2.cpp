@@ -150,6 +150,11 @@ void Player2::Move()
 	//移動。
 	moveSpeed.x = g_pad[1]->GetLStickXF() * 120.0f;
 
+	//キャラがｚ軸方向にずれるのを防ぐコード
+	if (m_position.z > 0.1f || m_position.z < -0.1f) {
+		m_position.z = 0.0f;
+	}
+
 	//キャラの当たり判定の更新。
 	m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 
@@ -219,8 +224,7 @@ void Player2::Rotation()
 
 void Player2::AnimationState()
 {
-
-	if (m_playerState == 4) {
+	if (m_playerState == 4 || m_playerState == 5) {
 		return;
 	}
 
@@ -314,6 +318,7 @@ void Player2::ManageState()
 	case 5:
 		m_player2.PlayAnimation(enAnimClip_Hit, 0.2f);
 		m_jumpState = false;
+		atkState = 0;
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
