@@ -642,18 +642,18 @@ void Player1::Hit2()
 					//体の向きを変える。
 					m_charaRotState = 1;
 					//少しノックバックする。
-					moveSpeed.x += a.x * 2000.0f;
+					moveSpeed.x += a.x * 200.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 				else if (a.x < 0) {
 					m_charaRotState = 0;
 					//少しノックバックする。
-					moveSpeed.x += a.x * 2000.0f;
+					moveSpeed.x += a.x * 200.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 
 
-				m_hp -= 1;
+				m_hp -= 2;
 				m_playerState = 5;
 			}
 		}
@@ -670,7 +670,7 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -687,7 +687,7 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 8;
 				m_playerState = 5;
 			}
 		}
@@ -738,7 +738,7 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 2;
 				m_playerState = 5;
 			}
 		}
@@ -850,7 +850,7 @@ void Player1::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-				m_hp -= 1;
+				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
