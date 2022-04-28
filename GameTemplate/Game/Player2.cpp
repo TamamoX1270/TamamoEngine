@@ -780,6 +780,14 @@ void Player2::Hit1()
 		}
 
 	}
+
+	//HP‚ÌãŒÀ‰ºŒÀ‚ÌÝ’èB
+	if (m_hp > m_max) {
+		m_hp = m_max;
+	}
+	else if (m_hp < m_min) {
+		m_hp = m_min;
+	}
 }
 
 void Player2::Hit3()

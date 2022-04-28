@@ -199,8 +199,10 @@ private:
 	FontRender		m_fontRender;		//文字
 	int m_soysaucecount = 0;			//醤油カウント
 
-	//HPの仮表示
+	//HPの表示
 	int m_hp = 100;
+	int m_max = 100;
+	int m_min = 0;
 	FontRender      m_fontHPRender;					//フォントレンダー
 
 	Vector3		moveSpeed;				//プレイヤーの速さ。
