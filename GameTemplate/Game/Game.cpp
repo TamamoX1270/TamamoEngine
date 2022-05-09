@@ -10,9 +10,10 @@
 #include "GameCamera2P.h"
 #include "GameCamera3P.h"
 #include "SoySauce.h"
+#include "SoySauceBullet.h"
 #include "SideWall.h"
 #include "Title.h"
-
+#include "Result.h"
 #include"SpecialCamera.h"
 
 bool Game::Start()
@@ -46,8 +47,18 @@ Game::Game()
 
 }
 
+Game::~Game()
+{
+	DeleteGO(m_gameCamera);
+	DeleteGO(m_gameCamera2);
+	DeleteGO(sscamera);
+	DeleteGO(m_backGround);
+	DeleteGO(m_sidewall);
+	DeleteGO(m_gamingshigureui);
+}
 void Game::Update()
 {
+	GameDelete();
 	Camera();
 
 	int b = 4;
@@ -113,23 +124,73 @@ void Game::Update()
 
 void Game::Camera()
 {
-	if (g_pad[0]->IsPress(enButtonUp)) {
-		m_cameraState = 1;
-	}
-	else {
-		m_cameraState = 0;
+	//ゲームデリートステートがtrueじゃない時
+	if (m_gamedelete == true)
+	{
+		return;
 	}
 
-	switch (m_cameraState) {
-	case 0:
-		m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
-		break;
-	case 1:
-		sscamera = NewGO<SpecialCamera>(0, "specialcamera");
-		break;
-	}
+		if (g_pad[0]->IsPress(enButtonUp)) {
+			m_cameraState = 1;
+		}
+		else {
+			m_cameraState = 0;
+		}
+
+		switch (m_cameraState) {
+		case 0:
+			m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
+			break;
+		case 1:
+			sscamera = NewGO<SpecialCamera>(0, "specialcamera");
+			break;
+		}
 }
 
+void Game::GameDelete()
+{
+	//ゲームデリートステートがtrueの時
+	if (m_gamedelete == true)
+	{
+		NewGO<Result>(0, "result");
+	const auto& soysauces = FindGOs<SoySauce>("soysauce");
+	//配列の個数を取得する
+	int number = soysauces.size();
+	for (int i = 0; i < number; i++)
+	{
+		DeleteGO(soysauces[i]);
+	}
+	const auto& soysaucebullets = FindGOs<SoySauceBullet>("soysaucebullet");
+	//配列の個数を取得する
+	int number2 = soysaucebullets.size();
+	for (int s = 0; s < number2; s++)
+	{
+		DeleteGO(soysaucebullets[s]);
+	}
+	const auto& gamecamera2 = FindGOs<GameCamera2P>("gamecamera2");
+	//配列の個数を取得する
+	int number3 = gamecamera2.size();
+	for (int c = 0; c < number3; c++)
+	{
+		DeleteGO(gamecamera2[c]);
+	}
+	DeleteGO(m_player);
+	DeleteGO(m_player2);
+	DeleteGO(this);
+	}
+	//ゲームデリートステートがtrueじゃない時
+	else
+	{
+		if (FindGO<Player1>("player1")->GetPlayerHP() <= 0)
+		{
+			m_gamedelete = true;
+		}
+		else if (FindGO<Player2>("player2")->GetPlayer2HP() <= 0)
+		{
+			m_gamedelete = true;
+		}
+	}
+}
 void Game::Render(RenderContext& rc)
 {
 	//m_fontRender.Draw(rc);

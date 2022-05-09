@@ -168,7 +168,7 @@ void Player1::Move()
 	//moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
 
 	//キャラがｚ軸方向にずれるのを防ぐコード
-	if (m_position.z > 0.1f || m_position.z < -0.1f) {
+	if (m_position.z > 0.01f || m_position.z < -0.01f) {
 		m_position.z = 0.0f;
 	}
 

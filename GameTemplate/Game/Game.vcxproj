@@ -234,6 +234,7 @@
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Player3.cpp" />
     <ClCompile Include="Player4.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="SideWall.cpp" />
     <ClCompile Include="SoySauce.cpp" />
     <ClCompile Include="SoysauceBullet.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Player2.h" />
     <ClInclude Include="Player3.h" />
     <ClInclude Include="Player4.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="SideWall.h" />
     <ClInclude Include="SoySauce.h" />
     <ClInclude Include="SoysauceBullet.h" />

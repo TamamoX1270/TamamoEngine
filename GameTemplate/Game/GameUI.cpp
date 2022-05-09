@@ -56,6 +56,11 @@ bool GameUI::Start()
 	return true;
 }
 
+GameUI::~GameUI()
+{
+	DeleteGO(gameBGM);
+}
+
 void GameUI::SoyCT()
 {
 	//è›ñ˚Ç≥Çµ

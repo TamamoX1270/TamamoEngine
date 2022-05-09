@@ -20,6 +20,7 @@ class Game : public IGameObject
 {
 public:
 	Game();
+	~Game();
 	/// <summary>
 	/// 開始の処理
 	/// </summary>
@@ -35,8 +36,19 @@ public:
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc) override;
 
+	/// <summary>
+	/// ゲームを消す。
+	/// </summary>
+	/// <param name="kill">ゲーム削除。</param>
+	void SetGameDelete(const int& kill)
+	{
+		m_gamedelete = kill;
+	}
+
 private:
 	void Camera();
+	//消すときに回す配列の為の関数
+	void GameDelete();
 
 
 private:
@@ -67,5 +79,6 @@ private:
 
 	SpecialCamera* sscamera;
 	int m_cameraState = 0;
+	int m_gamedelete = false;							//ゲーム削除ステート
 };
 

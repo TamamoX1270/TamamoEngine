@@ -26,6 +26,7 @@
     <ClCompile Include="SideWall.cpp" />
     <ClCompile Include="SpecialCamera.cpp" />
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="Result.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -47,5 +48,6 @@
     <ClInclude Include="SideWall.h" />
     <ClInclude Include="SpecialCamera.h" />
     <ClInclude Include="Title.h" />
+    <ClInclude Include="Result.h" />
   </ItemGroup>
 </Project>

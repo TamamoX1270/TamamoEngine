@@ -11,6 +11,7 @@ class GameUI : public IGameObject
 {
 public:
 	GameUI() {};
+	~GameUI();
 	/// <summary>
 	/// ŠJn‚Ìˆ—
 	/// </summary>
