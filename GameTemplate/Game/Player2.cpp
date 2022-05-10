@@ -38,7 +38,7 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_Kick3].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_CPunch].Load("Assets/purototype/cpunch.tka");
 	m_animationClipArray[enAnimClip_CPunch].SetLoopFlag(false);
-	m_animationClipArray[enAnimClip_FlyAway].Load("Assets/purototype/flyaway.tka");
+	m_animationClipArray[enAnimClip_FlyAway].Load("Assets/purototype/hardhit.tka");
 	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RiseUp].Load("Assets/purototype/riseup.tka");
 	m_animationClipArray[enAnimClip_RiseUp].SetLoopFlag(false);
@@ -149,7 +149,13 @@ void Player2::Move()
 	}
 
 	//ダメージを食らっているなら。
-	if (m_playerState == 5) {
+	if (m_playerState == 5 || m_playerState == 10) {
+		//動けない。
+		return;
+	}
+
+	//起き上がっているなら。
+	if (m_playerState == 11) {
 		//動けない。
 		return;
 	}
@@ -199,7 +205,13 @@ void Player2::Rotation()
 	}
 
 	//ダメージを食らっているなら。
-	if (m_playerState == 5) {
+	if (m_playerState == 5 || m_playerState == 10) {
+		//動けない。
+		return;
+	}
+
+	//起き上がっているなら。
+	if (m_playerState == 11) {
 		//動けない。
 		return;
 	}
@@ -240,7 +252,7 @@ void Player2::Rotation()
 
 void Player2::AnimationState()
 {
-	if (m_playerState == 4 || m_playerState == 5) {
+	if (m_playerState == 4 || m_playerState == 5 || m_playerState == 10 || m_playerState == 11) {
 		return;
 	}
 
@@ -384,7 +396,7 @@ void Player2::ManageState()
 		m_player2.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
 		if (m_player2.IsPlayingAnimation() == false) {
-			m_playerState = 0;
+			m_playerState = 11;
 			atkState = 0;
 		}
 		break;
@@ -608,7 +620,7 @@ void Player2::MakeGuardCollision()
 
 void Player2::autoGuard()
 {
-	if (m_playerState != 5) {
+	if (m_playerState != 5 && m_playerState != 10 && m_playerState != 11) {
 		return;
 	}
 	guard = true;
@@ -788,7 +800,7 @@ void Player2::Hit1()
 				P2se->Play(false);
 
 				m_hp -= 8;
-				m_playerState = 5;
+				m_playerState = 10;
 			}
 		}
 

@@ -34,7 +34,7 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_Kick3].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_CPunch].Load("Assets/purototype/cpunch.tka");
 	m_animationClipArray[enAnimClip_CPunch].SetLoopFlag(false);
-	m_animationClipArray[enAnimClip_FlyAway].Load("Assets/purototype/flyaway.tka");
+	m_animationClipArray[enAnimClip_FlyAway].Load("Assets/purototype/hardhit.tka");
 	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RiseUp].Load("Assets/purototype/riseup.tka");
 	m_animationClipArray[enAnimClip_RiseUp].SetLoopFlag(false);
@@ -117,13 +117,6 @@ void Player1::Update()
 	MakeCollision3();
 	CatchAttackCollision();
 
-	if (g_pad[0]->IsTrigger(enButtonDown)) {
-		m_playerState = 10;
-	}
-	if (g_pad[0]->IsTrigger(enButtonLeft)) {
-		m_playerState = 11;
-	}
-
 	m_player.Update();
 }
 
@@ -148,7 +141,13 @@ void Player1::Move()
 	}
 
 	//ダメージを食らっているなら。
-	if (m_playerState == 5) {
+	if (m_playerState == 5 || m_playerState == 10) {
+		//動けない。
+		return;
+	}
+
+	//起き上がっているなら。
+	if (m_playerState == 11) {
 		//動けない。
 		return;
 	}
@@ -200,7 +199,13 @@ void Player1::Rotation()
 	}
 
 	//ダメージを食らっているなら。
-	if (m_playerState == 5) {
+	if (m_playerState == 5 || m_playerState == 10) {
+		//動けない。
+		return;
+	}
+
+	//起き上がっているなら。
+	if (m_playerState == 11) {
 		//動けない。
 		return;
 	}
@@ -240,7 +245,7 @@ void Player1::Rotation()
 
 void Player1::AnimationState()
 {
-	if (m_playerState == 4 || m_playerState == 5) {
+	if (m_playerState == 4 || m_playerState == 5 || m_playerState == 10 || m_playerState == 11) {
 		return;
 	}
 
@@ -383,7 +388,7 @@ void Player1::ManageState()
 		m_player.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
 		if (m_player.IsPlayingAnimation() == false) {
-			m_playerState = 0;
+			m_playerState = 11;
 			atkState = 0;
 		}
 		break;
@@ -607,7 +612,7 @@ void Player1::MakeGuardCollision()
 
 void Player1::autoGuard()
 {
-	if (m_playerState != 5) {
+	if (m_playerState != 5 && m_playerState != 10 && m_playerState != 11) {
 		return;
 	}
 	guard = true;
@@ -722,7 +727,7 @@ void Player1::Hit2()
 				P1se->Play(false);
 
 				m_hp -= 8;
-				m_playerState = 5;
+				m_playerState = 10;
 			}
 		}
 
