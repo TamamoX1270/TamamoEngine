@@ -130,6 +130,7 @@ void Player2::Update()
 
 void Player2::Move()
 {
+	/*
 	//ガード中なら。
 	if (m_playerState == 2) {
 		//動けない。
@@ -158,7 +159,7 @@ void Player2::Move()
 	if (m_playerState == 11) {
 		//動けない。
 		return;
-	}
+	}*/
 
 	//Yボタンが押された時に醤油のストックが１以上なら
 	if (g_pad[1]->IsTrigger(enButtonY) && m_soysaucecount >= 1)
@@ -169,17 +170,21 @@ void Player2::Move()
 		m_soysaucebullet->m_moveSpeed = m_forward;
 	}
 
-	//移動。
-	moveSpeed.x = g_pad[1]->GetLStickXF() * 120.0f;
+	if (m_playerState == 0 || m_playerState == 1 || m_playerState == 4 || m_playerState == 9) {
+		//移動。
+		moveSpeed.x = g_pad[1]->GetLStickXF() * 120.0f;
+	}
 
 	//キャラがｚ軸方向にずれるのを防ぐコード
 	if (m_position.z > 0.1f || m_position.z < -0.1f) {
 		m_position.z = 0.0f;
 	}
 
-	//キャラの当たり判定の更新。
-	m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
-
+	if (m_playerState == 0 || m_playerState == 1 || m_playerState == 4 || m_playerState == 9) {
+		//キャラの当たり判定の更新。
+		m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+	}
+	
 	m_player2.SetScale(m_scale);
 	m_player2.SetPosition(m_position);
 }
