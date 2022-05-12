@@ -51,6 +51,9 @@ bool GameUI::Start()
 	m_spriteRenderwakka4.Update();
 	m_spriteRendertime.Update();
 
+	//í“¬I—¹SE‚ð“Ç‚Ýž‚ÞB
+	g_soundEngine->ResistWaveFileBank(999, "Assets/sound/fightend.wav");
+
 	GameBGM();
 
 	return true;
@@ -138,6 +141,17 @@ void GameUI::Timer()
 	if (m_sokomade == true)
 	{
 		game_timer = 0.0f;
+	}
+	if (m_sokomade == true && sokomade_timer <= 0.1f)
+	{
+		m_gameendse = true;
+	}
+	else if (m_sokomade == true && m_gameendse == true)
+	{
+		m_gameendse = false;
+		endSE = NewGO<SoundSource>(0);
+		endSE->Init(999);
+		endSE->Play(false);
 	}
 	wchar_t wcsbuf[256];
 	swprintf_s(wcsbuf, 256, L"%d", int(game_timer));

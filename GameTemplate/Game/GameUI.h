@@ -80,6 +80,7 @@ private:
 	float sokomade_timer = 0.0f;
 
 	SoundSource* gameBGM;
+	SoundSource* endSE;
 
 	int m_p1hp = 0;
 	int m_p2hp = 0;
@@ -87,6 +88,7 @@ private:
 	int m_p4hp = 0;
 
 	int m_sokomade = false;
+	int m_gameendse = false;
 
 };
 
