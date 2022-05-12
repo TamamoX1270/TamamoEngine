@@ -976,6 +976,15 @@ void Player2::AfterCatch()
 			if (guard != true) {
 				shine = false;
 
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
 				//player1からplayer2を向くベクトルを求める。
 				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
 				a.Normalize();
@@ -993,6 +1002,11 @@ void Player2::AfterCatch()
 					moveSpeed.x += a.x * 2000.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(10);
+				P2se->Init(10);
+				P2se->Play(false);
 
 				m_hp -= 5;
 				m_playerState = 5;
