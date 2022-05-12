@@ -73,8 +73,11 @@ private:
 	SpriteRender	m_spriteRenderwakka4;
 	SpriteRender	m_spriteRendertime;
 
+	SpriteRender	m_spriteRendersokomade;
+
 	FontRender		m_fontRender;
-	float game_timer = 180.0f;
+	float game_timer = 5.0f;
+	float sokomade_timer = 0.0f;
 
 	SoundSource* gameBGM;
 
@@ -82,6 +85,8 @@ private:
 	int m_p2hp = 0;
 	int m_p3hp = 0;
 	int m_p4hp = 0;
+
+	int m_sokomade = false;
 
 };
 

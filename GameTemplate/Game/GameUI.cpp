@@ -31,7 +31,7 @@ bool GameUI::Start()
 	m_spriteRenderwakka3.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
 	m_spriteRenderwakka4.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
 	m_spriteRendertime.Init("Assets/sprite/timer_UI2.dds", 520.0f, 300.0f);
-
+	m_spriteRendersokomade.Init("Assets/sprite/sokomade.dds", 1600.0f, 900.0f);
 	SoyCT();
 	SushiHPBar();
 
@@ -135,6 +135,10 @@ void GameUI::GameBGM()
 void GameUI::Timer()
 {
 	game_timer -= g_gameTime->GetFrameDeltaTime();
+	if (m_sokomade == true)
+	{
+		game_timer = 0.0f;
+	}
 	wchar_t wcsbuf[256];
 	swprintf_s(wcsbuf, 256, L"%d", int(game_timer));
 
@@ -144,6 +148,12 @@ void GameUI::Timer()
 	m_fontRender.SetPosition(Vector3(-95.0f, 500.0f, 0.0f));
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(3.0f);
+
+	//タイマーが0になったらゲームを削除
+	if (game_timer <= 0.0f)
+	{
+		m_sokomade = true;
+	}
 }
 
 void GameUI::GameHP()
@@ -205,6 +215,15 @@ void GameUI::Update()
 	m_fontRender.SetColor(g_vec4White);
 	GameHP();
 	Timer();
+
+	if (m_sokomade == true)
+	{
+		sokomade_timer += g_gameTime->GetFrameDeltaTime();
+	}
+	if (m_sokomade == true && sokomade_timer >= 2.0f)
+	{
+		FindGO<Game>("game")->SetGameDelete(true);
+	}
 }
 
 void GameUI::Render(RenderContext& rc)
@@ -236,4 +255,8 @@ void GameUI::Render(RenderContext& rc)
 	m_sushihpbar4.Draw(rc);
 	m_sushihpbarwaku4.Draw(rc);
 	m_fontRender.Draw(rc);
+	if (m_sokomade == true)
+	{
+		m_spriteRendersokomade.Draw(rc);
+	}
 }

@@ -6,7 +6,7 @@
 
 Title::Title()
 {
-	spriteRender.Init("Assets/sprite/Title.dds", 1600.0f, 900.0f);
+	spriteRender.Init("Assets/sprite/sushifighter.dds", 1600.0f, 900.0f);
 
 	//ƒ^ƒCƒgƒ‹‚ÌBGM‚ð“Ç‚Ýž‚Þ
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/title_bgm.wav");
