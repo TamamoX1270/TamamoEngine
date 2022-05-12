@@ -70,6 +70,9 @@ bool Player1::Start()
 	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/punch_1.wav");
 	g_soundEngine->ResistWaveFileBank(5, "Assets/sound/punch_2.wav");
 	g_soundEngine->ResistWaveFileBank(6, "Assets/sound/punch_3.wav");
+	g_soundEngine->ResistWaveFileBank(11, "Assets/sound/punch_suburi1.wav");
+	g_soundEngine->ResistWaveFileBank(12, "Assets/sound/punch_suburi2.wav");
+	g_soundEngine->ResistWaveFileBank(13, "Assets/sound/kick_suburi.wav");
 
 	return true;
 }
@@ -268,12 +271,21 @@ void Player1::AnimationState()
 	}
 	//通常攻撃
 	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 2) {
+		/*SoundSource* P1se = NewGO<SoundSource>(13);
+		P1se->Init(13);
+		P1se->Play(false);*/
 		m_playerState = 8;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 1) {
+		/*SoundSource* P1se = NewGO<SoundSource>(12);
+		P1se->Init(12);
+		P1se->Play(false);*/
 		m_playerState = 7;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB)) {
+		SoundSource* P1se = NewGO<SoundSource>(11);
+		P1se->Init(11);
+		P1se->Play(false);
 		m_playerState = 3;
 	}
 
@@ -286,9 +298,9 @@ void Player1::AnimationState()
 
 		else if (g_pad[0]->IsTrigger(enButtonX)) {
 			//効果音を再生する。
-			SoundSource* P2se = NewGO<SoundSource>(3);
-			P2se->Init(3);
-			P2se->Play(false);
+			SoundSource* P1se = NewGO<SoundSource>(3);
+			P1se->Init(3);
+			P1se->Play(false);
 			m_playerState = 4;
 		}
 
@@ -731,6 +743,7 @@ void Player1::Hit2()
 				SoundSource* P1se = NewGO<SoundSource>(6);
 				P1se->Init(6);
 				P1se->Play(false);
+
 
 				m_hp -= 8;
 				m_playerState = 10;

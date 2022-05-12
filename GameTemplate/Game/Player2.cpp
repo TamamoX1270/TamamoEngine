@@ -78,6 +78,9 @@ bool Player2::Start()
 	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_1.wav");
 	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/punch_2.wav");
 	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/punch_3.wav");
+	g_soundEngine->ResistWaveFileBank(14, "Assets/sound/punch_suburi1.wav");
+	g_soundEngine->ResistWaveFileBank(15, "Assets/sound/punch_suburi2.wav");
+	g_soundEngine->ResistWaveFileBank(16, "Assets/sound/kick_suburi.wav");
 
 	return true;
 }
