@@ -21,8 +21,14 @@ bool Game::Start()
 	//プレイヤーオブジェクトを作成する。
 	m_player = NewGO<Player1>(0, "player1");
 	m_player2 = NewGO<Player2>(0, "player2");
-	//m_player3 = NewGO<Player3>(0, "player3");
-	//m_player4 = NewGO<Player4>(0, "player4");
+	if (m_player3 != nullptr)
+	{
+		m_player3 = NewGO<Player3>(0, "player3");
+	}
+	if (m_player4 != nullptr)
+	{
+		m_player4 = NewGO<Player4>(0, "player4");
+	}
 
 	//GameUIの生成
 	m_gamingshigureui = NewGO<GameUI>(0, "gameui");
@@ -153,30 +159,64 @@ void Game::GameDelete()
 	if (m_gamedelete == true)
 	{
 		NewGO<Result>(0, "result");
-	const auto& soysauces = FindGOs<SoySauce>("soysauce");
-	//配列の個数を取得する
-	int number = soysauces.size();
-	for (int i = 0; i < number; i++)
-	{
-		DeleteGO(soysauces[i]);
-	}
-	const auto& soysaucebullets = FindGOs<SoySauceBullet>("soysaucebullet");
-	//配列の個数を取得する
-	int number2 = soysaucebullets.size();
-	for (int s = 0; s < number2; s++)
-	{
-		DeleteGO(soysaucebullets[s]);
-	}
-	const auto& gamecamera2 = FindGOs<GameCamera2P>("gamecamera2");
-	//配列の個数を取得する
-	int number3 = gamecamera2.size();
-	for (int c = 0; c < number3; c++)
-	{
-		DeleteGO(gamecamera2[c]);
-	}
-	DeleteGO(m_player);
-	DeleteGO(m_player2);
-	DeleteGO(this);
+
+		//PHPにプレイヤーのHPを格納する。
+		int MaxPHP = 0;
+		int PHP[3];
+		int p = 1;
+		PHP[0] = m_player->GetPlayerHP();
+		PHP[1] = m_player2->GetPlayer2HP();
+		if (m_player3 != nullptr)
+		{
+			PHP[2] = m_player3->GetPlayer3HP();
+			p = 2;
+		}
+		if (m_player4 != nullptr)
+		{
+			PHP[3] = m_player4->GetPlayer4HP();
+			p = 3;
+		}
+		//プレイヤーの数だけ配列を回す
+		for (int h = 0; h < p; h++)
+		{
+			//今入っているPlayerのHPより大きければMaxPHPに格納する。
+			if (MaxPHP < PHP[h])
+			{
+				MaxPHP = PHP[h];
+				//HPの一番高いプレイヤーの番号をリザルトに格納
+				FindGO<Result>("result")->SetWinPlayer(h);
+			}
+			//もし同じ値なら引き分けフラグをtrueにする。
+			if (MaxPHP == PHP[h])
+			{
+				FindGO<Result>("result")->SetDrawFlag();
+			}
+		}
+
+		const auto& soysauces = FindGOs<SoySauce>("soysauce");
+		//配列の個数を取得する
+		int number = soysauces.size();
+		for (int i = 0; i < number; i++)
+		{
+			DeleteGO(soysauces[i]);
+		}
+		const auto& soysaucebullets = FindGOs<SoySauceBullet>("soysaucebullet");
+		//配列の個数を取得する
+		int number2 = soysaucebullets.size();
+		for (int s = 0; s < number2; s++)
+		{
+			DeleteGO(soysaucebullets[s]);
+		}
+		const auto& gamecamera2 = FindGOs<GameCamera2P>("gamecamera2");
+		//配列の個数を取得する
+		int number3 = gamecamera2.size();
+		for (int c = 0; c < number3; c++)
+		{
+			DeleteGO(gamecamera2[c]);
+		}
+		DeleteGO(m_player);
+		DeleteGO(m_player2);
+		DeleteGO(this);
 	}
 	//ゲームデリートステートがtrueじゃない時
 	else

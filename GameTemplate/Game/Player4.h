@@ -26,7 +26,14 @@ public:
 	{
 		return m_position;
 	}
-
+	/// <summary>
+	/// プレイヤーのHPの取得
+	/// </summary>
+	/// <returns></returns>
+	const int& GetPlayer4HP()const
+	{
+		return m_hp;
+	}
 	/// <summary>
 	/// プレイヤーの座標を設定する。
 	/// </summary>
@@ -61,4 +68,9 @@ private:
 	Vector3 m_position = Vector3::Zero;				   // 座標
 	Quaternion m_rotation = Quaternion::Identity;;     // 回転
 	Vector3 m_scale = Vector3::One;	                   // 拡大率
+
+	//HPの表示
+	int m_hp = 100;
+	int m_max = 100;
+	int m_min = 0;
 };

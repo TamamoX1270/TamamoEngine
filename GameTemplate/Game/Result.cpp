@@ -33,11 +33,55 @@ void Result::Update()
 		SoundSource* se = NewGO<SoundSource>(2);
 		se->Init(2);
 		se->Play(false);
+	}
+	if (m_draw == true)
+	{
+		wchar_t wcsbuf[256];
+		swprintf_s(wcsbuf, 256, L"引き分け");
 
+		//表示するテキストを設定。
+		m_fontRender.SetText(wcsbuf);
+		//フォントの位置を設定。
+		m_fontRender.SetPosition(Vector3(-95.0f, 500.0f, 0.0f));
+		//フォントの大きさを設定。
+		m_fontRender.SetScale(3.0f);
+	}
+	else if (m_draw == false)
+	{
+		wchar_t wcsbuf[256];
+		swprintf_s(wcsbuf, 256, L"%dの勝ち", m_winplayer);
+
+		//表示するテキストを設定。
+		m_fontRender.SetText(wcsbuf);
+		//フォントの位置を設定。
+		m_fontRender.SetPosition(Vector3(-95.0f, 500.0f, 0.0f));
+		//フォントの大きさを設定。
+		m_fontRender.SetScale(3.0f);
 	}
 }
 
 void Result::Render(RenderContext& rc)
 {
 	spriteRender.Draw(rc);
+	m_fontRender.Draw(rc);
+	//プレイヤー１の勝ち
+	if (m_winplayer == 0)
+	{
+
+	}
+	//プレイヤー２の勝ち
+	if (m_winplayer == 1)
+	{
+
+	}
+	//プレイヤー３の勝ち
+	if (m_winplayer == 2)
+	{
+
+	}
+	//プレイヤー４の勝ち
+	if (m_winplayer == 3)
+	{
+
+	}
 }
