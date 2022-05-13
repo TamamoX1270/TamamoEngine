@@ -7,8 +7,11 @@
 
 Result::Result()
 {
-	spriteRender.Init("Assets/sprite/Result.dds", 1600.0f, 900.0f);
-
+	m_samonwin.Init("Assets/sprite/samonwin.dds", 1600.0f, 900.0f);
+	m_magurowin.Init("Assets/sprite/magurowin.dds", 1600.0f, 900.0f);
+	m_tamagowin.Init("Assets/sprite/tamagowin.dds", 1600.0f, 900.0f);
+	m_ebiwin.Init("Assets/sprite/ebiwin.dds", 1600.0f, 900.0f);
+	m_select.Init("Assets/sprite/select.dds", 1600.0f, 900.0f);
 	//タイトルのBGMを読み込む
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/title_bgm.wav");
 	//決定音を読み込む
@@ -88,26 +91,25 @@ void Result::Update()
 
 void Result::Render(RenderContext& rc)
 {
-	spriteRender.Draw(rc);
-	m_fontRender.Draw(rc);
 	//プレイヤー１の勝ち
 	if (m_winplayer == 0)
 	{
-
+		m_samonwin.Draw(rc);
 	}
 	//プレイヤー２の勝ち
 	if (m_winplayer == 1)
 	{
-
+		m_magurowin.Draw(rc);
 	}
 	//プレイヤー３の勝ち
 	if (m_winplayer == 2)
 	{
-
+		m_tamagowin.Draw(rc);
 	}
 	//プレイヤー４の勝ち
 	if (m_winplayer == 3)
 	{
-
+		m_ebiwin.Draw(rc);
 	}
+	m_select.Draw(rc);
 }

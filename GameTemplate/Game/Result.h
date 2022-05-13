@@ -22,7 +22,11 @@ public:
 
 private:
 	ModelRender* m_player;								//ƒvƒŒƒCƒ„[
-	SpriteRender spriteRender;
+	SpriteRender m_magurowin;
+	SpriteRender m_samonwin;
+	SpriteRender m_tamagowin;
+	SpriteRender m_ebiwin;
+	SpriteRender m_select;
 	FontRender	 m_fontRender;
 	SoundSource* titleBGM;
 	SoundSource* se;
