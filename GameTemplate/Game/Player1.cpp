@@ -120,6 +120,8 @@ void Player1::Update()
 	MakeCollision3();
 	CatchAttackCollision();
 
+	RingOut();
+
 	m_player.Update();
 }
 
@@ -990,6 +992,19 @@ void Player1::CatchAttackCollision()
 		//「Sword」ボーンのワールド行列をコリジョンに適用する。
 		collisionObject->SetWorldMatrix(matrix);
 	}
+}
+
+void Player1::RingOut()
+{
+	//左端。
+	if (m_position.x < -1070.0f && m_position.y < -160.0f) {
+		m_hp -= 5;
+	}
+	//右端。
+	if (m_position.x > 1070.0f && m_position.y < -160.0f) {
+		m_hp -= 5;
+	}
+
 }
 
 void Player1::Render(RenderContext& rc)

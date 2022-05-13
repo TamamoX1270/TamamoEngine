@@ -168,6 +168,11 @@ private:
 	/// </summary>
 	void CatchAttackCollision();
 
+	/// <summary>
+	/// リングアウトした場合の処理。
+	/// </summary>
+	void RingOut();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
