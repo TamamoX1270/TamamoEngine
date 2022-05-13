@@ -60,7 +60,7 @@ private:
 	Player2*		m_player2;						//プレイヤー2
 	Player3*		m_player3;						//プレイヤー3
 	Player4*		m_player4;						//プレイヤー4
-	GameUI*			m_gamingshigureui;				//ゲームうい
+	GameUI*			m_gamingshigureui;				//ゲーミングなういママ(GameUI)
 	SoySauce*		m_soysauce;						//醤油さし
 	SideWall*		m_sidewall;						//左右の壁
 	Vector3         m_pointligpos;                  //ポイントライトの座標

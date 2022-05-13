@@ -67,18 +67,6 @@ void Game::Update()
 	GameDelete();
 	Camera();
 
-	int b = 4;
-	wchar_t wcsbuf1[256];
-	swprintf_s(wcsbuf1, 256, L"%d", b);
-
-	//表示するテキストを設定。
-	m_fontRender.SetText(wcsbuf1);
-	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-	//フォントの大きさを設定。
-	m_fontRender.SetScale(1.5f);
-	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);
 	//(*･ω･)/ﾊｰｲ
 	/*
 	// 左スティック(キーボード：WASD)で平行移動。
@@ -126,16 +114,11 @@ void Game::Update()
 	}
 	g_directionLig.SetLigColor({ m_directionligColor });*/
 //	g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
+
 }
 
 void Game::Camera()
 {
-	//ゲームデリートステートがtrueじゃない時
-	if (m_gamedelete == true)
-	{
-		return;
-	}
-
 		if (g_pad[0]->IsPress(enButtonUp)) {
 			m_cameraState = 1;
 		}
@@ -177,7 +160,7 @@ void Game::GameDelete()
 			PHP4 = m_player4->GetPlayer4HP();
 		}
 
-		//一番大きい奴を格納する。
+		//一番大きいHPの奴を格納する。
 		if (MaxPHP < PHP)
 		{
 			MaxPHP = PHP;
@@ -257,17 +240,46 @@ void Game::GameDelete()
 	//ゲームデリートステートがtrueじゃない時
 	else
 	{
-		if (FindGO<Player1>("player1")->GetPlayerHP() <= 0)
+		if (m_player4 != nullptr)
 		{
-			m_gamedelete = true;
+			if (m_player->GetPlayerHP() <= 0 &&
+				m_player2->GetPlayer2HP() <= 0 &&
+				m_player3->GetPlayer3HP() <= 0 ||
+				m_player->GetPlayerHP() <= 0 &&
+				m_player2->GetPlayer2HP() <= 0 &&
+				m_player4->GetPlayer4HP() <= 0 ||
+				m_player->GetPlayerHP() <= 0 &&
+				m_player3->GetPlayer3HP() <= 0 &&
+				m_player4->GetPlayer4HP() <= 0 ||
+				m_player2->GetPlayer2HP() <= 0 &&
+				m_player3->GetPlayer3HP() <= 0 &&
+				m_player4->GetPlayer4HP() <= 0)
+			{
+				m_gamingshigureui->SetSokomade();
+			}
 		}
-		else if (FindGO<Player2>("player2")->GetPlayer2HP() <= 0)
+		else if (m_player3 != nullptr)
 		{
-			m_gamedelete = true;
+			if (m_player->GetPlayerHP() <= 0 &&
+				m_player2->GetPlayer2HP() <= 0 ||
+				m_player->GetPlayerHP() <= 0 &&
+				m_player3->GetPlayer3HP() <= 0 ||
+				m_player2->GetPlayer2HP() <= 0 &&
+				m_player3->GetPlayer3HP() <= 0)
+			{
+				m_gamingshigureui->SetSokomade();
+			}
+		}
+		else
+		{
+			if (m_player->GetPlayerHP() <= 0 ||
+				m_player2->GetPlayer2HP() <= 0)
+			{
+				m_gamingshigureui->SetSokomade();
+			}
 		}
 	}
 }
 void Game::Render(RenderContext& rc)
 {
-	//m_fontRender.Draw(rc);
 }

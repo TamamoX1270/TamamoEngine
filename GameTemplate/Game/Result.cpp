@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Result.h"
+#include "Title.h"
 #include "Game.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
@@ -28,6 +29,15 @@ void Result::Update()
 	if (g_pad[0]->IsTrigger(enButtonA) || g_pad[1]->IsTrigger(enButtonA) || g_pad[2]->IsTrigger(enButtonA))
 	{
 		NewGO<Game>(0, "game");
+		DeleteGO(this);
+		//Œˆ’è‰¹‚ğÄ¶
+		SoundSource* se = NewGO<SoundSource>(2);
+		se->Init(2);
+		se->Play(false);
+	}
+	else if (g_pad[0]->IsTrigger(enButtonB) || g_pad[1]->IsTrigger(enButtonA) || g_pad[2]->IsTrigger(enButtonA))
+	{
+		NewGO<Title>(0, "title");
 		DeleteGO(this);
 		//Œˆ’è‰¹‚ğÄ¶
 		SoundSource* se = NewGO<SoundSource>(2);

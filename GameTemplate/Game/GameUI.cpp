@@ -137,10 +137,9 @@ void GameUI::GameBGM()
 
 void GameUI::Timer()
 {
-	game_timer -= g_gameTime->GetFrameDeltaTime();
-	if (m_sokomade == true)
+	if (m_sokomade == false)
 	{
-		game_timer = 0.0f;
+		game_timer -= g_gameTime->GetFrameDeltaTime();
 	}
 	if (m_sokomade == true && sokomade_timer <= 0.1f)
 	{

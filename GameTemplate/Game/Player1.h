@@ -201,7 +201,7 @@ private:
 	int m_soysaucecount = 99;			//醤油カウント
 	
 	//HPの表示
-	int m_hp = 100;
+	int m_hp = 1;
 	int m_max = 100;
 	int m_min = 0;
 	FontRender      m_fontHPRender;					//フォントレンダー

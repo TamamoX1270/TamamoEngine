@@ -32,6 +32,13 @@ public:
 	/// </summary>
 	void SushiHPBar();
 	/// <summary>
+	/// そこまで！をtrueにする。
+	/// </summary>
+	void SetSokomade()
+	{
+		m_sokomade = true;
+	}
+	/// <summary>
 	/// 更新処理
 	/// </summary>
 	void Update() override;
