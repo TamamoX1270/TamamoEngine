@@ -48,8 +48,24 @@ void Result::Update()
 	}
 	else if (m_draw == false)
 	{
+		int winp;
 		wchar_t wcsbuf[256];
-		swprintf_s(wcsbuf, 256, L"%dの勝ち", m_winplayer);
+		if (m_winplayer == 0)
+		{
+			swprintf_s(wcsbuf, 256, L"1Pの勝ち", m_winplayer);
+		}
+		else if (m_winplayer == 1)
+		{
+			swprintf_s(wcsbuf, 256, L"2Pの勝ち", m_winplayer);
+		}
+		else if (m_winplayer == 2)
+		{
+			swprintf_s(wcsbuf, 256, L"3Pの勝ち", m_winplayer);
+		}
+		else if (m_winplayer == 3)
+		{
+			swprintf_s(wcsbuf, 256, L"4Pの勝ち", m_winplayer);
+		}
 
 		//表示するテキストを設定。
 		m_fontRender.SetText(wcsbuf);

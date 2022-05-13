@@ -162,32 +162,68 @@ void Game::GameDelete()
 
 		//PHPにプレイヤーのHPを格納する。
 		int MaxPHP = 0;
-		int PHP[3];
-		int p = 1;
-		PHP[0] = m_player->GetPlayerHP();
-		PHP[1] = m_player2->GetPlayer2HP();
+		int PHP  = 0;
+		int PHP2 = 0;
+		int PHP3 = 0;
+		int PHP4 = 0;
+		PHP = m_player->GetPlayerHP();
+		PHP2 = m_player2->GetPlayer2HP();
 		if (m_player3 != nullptr)
 		{
-			PHP[2] = m_player3->GetPlayer3HP();
-			p = 2;
+			PHP3 = m_player3->GetPlayer3HP();
 		}
 		if (m_player4 != nullptr)
 		{
-			PHP[3] = m_player4->GetPlayer4HP();
-			p = 3;
+			PHP4 = m_player4->GetPlayer4HP();
 		}
-		//プレイヤーの数だけ配列を回す
-		for (int h = 0; h < p; h++)
+
+		//一番大きい奴を格納する。
+		if (MaxPHP < PHP)
 		{
-			//今入っているPlayerのHPより大きければMaxPHPに格納する。
-			if (MaxPHP < PHP[h])
+			MaxPHP = PHP;
+			FindGO<Result>("result")->SetWinPlayer(0);
+		}
+		if (MaxPHP < PHP2)
+		{
+			MaxPHP = PHP2;
+			FindGO<Result>("result")->SetWinPlayer(1);
+		}
+		if (m_player3 != nullptr)
+		{
+			if (MaxPHP < PHP3)
 			{
-				MaxPHP = PHP[h];
-				//HPの一番高いプレイヤーの番号をリザルトに格納
-				FindGO<Result>("result")->SetWinPlayer(h);
+				MaxPHP = PHP3;
+				FindGO<Result>("result")->SetWinPlayer(2);
 			}
-			//もし同じ値なら引き分けフラグをtrueにする。
-			if (MaxPHP == PHP[h])
+		}
+		if (m_player4 != nullptr)
+		{
+			if (MaxPHP < PHP4)
+			{
+				MaxPHP = PHP4;
+				FindGO<Result>("result")->SetWinPlayer(3);
+			}
+		}
+
+		//引き分け
+		if (PHP == PHP2)
+		{
+			FindGO<Result>("result")->SetDrawFlag();
+		}
+		if (m_player3 != nullptr)
+		{
+			if (PHP==PHP3||
+				PHP2==PHP3)
+			{
+				FindGO<Result>("result")->SetDrawFlag();
+			}
+		}
+		if (m_player4 != nullptr)
+		{
+			if (PHP==PHP4||
+				PHP2==PHP4||
+				PHP3==PHP4
+				)
 			{
 				FindGO<Result>("result")->SetDrawFlag();
 			}
