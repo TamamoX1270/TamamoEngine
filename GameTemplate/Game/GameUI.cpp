@@ -111,9 +111,9 @@ void GameUI::SushiHPBar()
 	m_sushihpbarwaku.SetPosition(Vector3(-585.0f, -355.0f, 0.0f));
 	m_sushihpbar2.SetPosition(Vector3(-260.0f, -363.0f, 0.0f));
 	m_sushihpbarwaku2.SetPosition(Vector3(-185.0f, -355.0f, 0.0f));
-	m_sushihpbar3.SetPosition(Vector3(217.0f, -363.0f, 0.0f));
+	m_sushihpbar3.SetPosition(Vector3(140.0f, -363.0f, 0.0f));
 	m_sushihpbarwaku3.SetPosition(Vector3(215.0f, -355.0f, 0.0f));
-	m_sushihpbar4.SetPosition(Vector3(605.0f, -363.0f, 0.0f));
+	m_sushihpbar4.SetPosition(Vector3(530.0f, -363.0f, 0.0f));
 	m_sushihpbarwaku4.SetPosition(Vector3(605.0f, -355.0f, 0.0f));
 	m_sushihpbar.Update();
 	m_sushihpbarwaku.Update();
@@ -173,7 +173,8 @@ void GameUI::GameHP()
 {
 	m_p1hp = m_player1->GetPlayerHP();
 	m_p2hp = m_player2->GetPlayer2HP();
-	//m_p3hp = m_player3->GetPlayer3HP();
+	m_p3hp = m_player3->GetPlayer3HP();
+	m_p4hp = m_player4->GetPlayer4HP();
 	/*
 	//HPが0より減っていたら。
 	if (m_p1hp < 0)
@@ -191,25 +192,30 @@ void GameUI::GameHP()
 	Vector3 p1scale = Vector3::One;
 	Vector3 p2scale = Vector3::One;
 	Vector3 p3scale = Vector3::One;
+	Vector3 p4scale = Vector3::One;
 	//現HP/最大HPをHPバーのスケールにする。
 	//int型同士の計算だと、小数点以下切り捨てになるので。
 	//float型に変換して計算を行う。
 	p1scale.x = float(m_p1hp) / float(P1MAXIMUM_HP);
 	p2scale.x = float(m_p2hp) / float(P2MAXIMUM_HP);
 	p3scale.x = float(m_p3hp) / float(P3MAXIMUM_HP);
+	p4scale.x = float(m_p4hp) / float(P4MAXIMUM_HP);
 	//スケールを設定。
 	m_sushihpbar.SetScale(p1scale);
 	m_sushihpbar2.SetScale(p2scale);
-	//m_sushihpbar3.SetScale(p3scale);
+	m_sushihpbar3.SetScale(p3scale);
+	m_sushihpbar4.SetScale(p4scale);
 
 
 	m_sushihpbar.SetPivot(Vector2(0.0f, 0.5f));
 	m_sushihpbar2.SetPivot(Vector2(0.0f, 0.5f));
-	//m_sushihpbar3.SetPivot(Vector2(0.0f, 0.5f));
+	m_sushihpbar3.SetPivot(Vector2(0.0f, 0.5f));
+	m_sushihpbar4.SetPivot(Vector2(0.0f, 0.5f));
 	//更新処理。
 	m_sushihpbar.Update();
 	m_sushihpbar2.Update();
-	//m_sushihpbar3.Update();
+	m_sushihpbar3.Update();
+	m_sushihpbar4.Update();
 }
 
 void GameUI::Update()

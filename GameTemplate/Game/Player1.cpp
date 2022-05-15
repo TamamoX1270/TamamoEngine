@@ -1,15 +1,21 @@
 ﻿#include "stdafx.h"
 #include "Player1.h"
 #include "Game.h"
+#include "GameUI.h"
 
 #include "Player2.h"
 #include "Player3.h"
+#include "Player4.h"
 #include "SoySauceBullet.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
+
+//EffectEmitterを使用する時はファイルをインクルードする必要がある。
+#include "graphics/effect/EffectEmitter.h"
+
 
 bool Player1::Start()
 {
@@ -38,6 +44,10 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RiseUp].Load("Assets/purototype/riseup.tka");
 	m_animationClipArray[enAnimClip_RiseUp].SetLoopFlag(false);
+
+	//エフェクトを読み込む。
+	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
+	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
 
 	//モデルの読み込み
 	m_player.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
@@ -79,13 +89,21 @@ bool Player1::Start()
 
 void Player1::Update()
 {
+	if (m_owaowari == true) {
+		m_player.PlayAnimation(enAnimClip_Idle,0.2f);
+		m_player.Update();
+		return;
+	}
+	m_owaowari = FindGO<GameUI>("gameui")->GetSokomade();
+
 	if (shine == true) {
 		AfterCatch();
 		return;
 	}
 
 	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
-	//p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	p4_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 
 	int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
@@ -94,13 +112,13 @@ void Player1::Update()
 	//表示するテキストを設定。
 	m_fontRender.SetText(wcsbuf1);
 	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(-570.0f, -400.0f, 0.0f));
+	m_fontRender.SetPosition(Vector3(-580.0f, -400.0f, 0.0f));
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(1.5f);
 	//黒色に設定
 	m_fontRender.SetColor(g_vec4White);
 
-	if (p2_Catch != true && p3_Catch != true) {
+	if (p2_Catch != true && p3_Catch != true && p4_Catch != true) {
 		Move();
 		Rotation();
 	}
@@ -110,6 +128,7 @@ void Player1::Update()
 	
 	Hit2();
 	Hit3();
+	Hit4();
 	MakeGuardCollision();
 	autoGuard();
 	MakeCatchCollision();
@@ -157,7 +176,6 @@ void Player1::Move()
 		//動けない。
 		return;
 	}*/
-
 	
 	//Yボタンが押された時に醤油のストックが１以上なら
 	if (g_pad[0]->IsTrigger(enButtonY) && m_soysaucecount >= 1)
@@ -171,7 +189,6 @@ void Player1::Move()
 	if (m_playerState == 0 || m_playerState == 1 || m_playerState == 4 || m_playerState == 9) {
 		//移動。
 		moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
-		//moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
 	}
 
 	//キャラがｚ軸方向にずれるのを防ぐコード
@@ -266,7 +283,7 @@ void Player1::AnimationState()
 	}
 	
 	//掴み攻撃
-	if (p2_Catch == true||p3_Catch == true) {
+	if (p2_Catch == true|| p3_Catch == true || p4_Catch == true) {
 		if (g_pad[0]->IsTrigger(enButtonB)) {
 			m_playerState = 9;
 		}
@@ -678,12 +695,22 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
 				//player1からplayer2を向くベクトルを求める。
 				a = m_position - FindGO<Player2>("player2")->GetPlayer2Position();
 				a.Normalize();
 				if (a.x > 0) {
 					//体の向きを変える。
 					m_charaRotState = 1;
+
 					//少しノックバックする。
 					moveSpeed.x += a.x * 200.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -700,11 +727,13 @@ void Player1::Hit2()
 				P1se->Init(4);
 				P1se->Play(false);
 
+				//HPの減少。
 				m_hp -= 2;
+
+				//被ダメモーションの再生。
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -717,6 +746,32 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				//player2からplayer1を向くベクトルを求める。
+				Vector3 a = m_position - FindGO<Player2>("player2")->GetPlayer2Position();
+				a.Normalize();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P1se = NewGO<SoundSource>(5);
@@ -727,7 +782,6 @@ void Player1::Hit2()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -740,18 +794,42 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				//player2からplayer1を向くベクトルを求める。
+				Vector3 a = m_position - FindGO<Player2>("player2")->GetPlayer2Position();
+				a.Normalize();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 800.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 800.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P1se = NewGO<SoundSource>(6);
 				P1se->Init(6);
 				P1se->Play(false);
 
-
 				m_hp -= 8;
 				m_playerState = 10;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -775,7 +853,6 @@ void Player1::Hit2()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				//m_hp -= 1;
@@ -785,7 +862,6 @@ void Player1::Hit2()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//醤油攻撃用のコリジョンの配列を取得する。
@@ -802,7 +878,6 @@ void Player1::Hit2()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//HPの上限下限の設定。
@@ -816,7 +891,6 @@ void Player1::Hit2()
 
 void Player1::Hit3()
 {
-
 	//敵の攻撃用のコリジョンの配列を取得する。
 	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player3_attack");
 	//配列をfor文で回す。
@@ -831,7 +905,6 @@ void Player1::Hit3()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -848,7 +921,6 @@ void Player1::Hit3()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -865,7 +937,6 @@ void Player1::Hit3()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -889,7 +960,6 @@ void Player1::Hit3()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				//m_hp -= 1;
@@ -899,9 +969,90 @@ void Player1::Hit3()
 				m_playerState = 5;
 			}
 		}
+	}
+}
 
+void Player1::Hit4()
+{
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player4_attack");
+	//配列をfor文で回す。
+	for (auto collision : collisions1)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
 	}
 
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions2 = g_collisionObjectManager->FindCollisionObjects("player4_attack2");
+	//配列をfor文で回す。
+	for (auto collision : collisions2)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions3 = g_collisionObjectManager->FindCollisionObjects("player4_attack3");
+	//配列をfor文で回す。
+	for (auto collision : collisions3)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player4_catch");
+	//配列をfor文で回す。
+	for (auto collision : collisions4)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			m_Catchtimer = 0.0f;
+			shine = true;
+		}
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions5 = g_collisionObjectManager->FindCollisionObjects("player4_cpunch");
+	//配列をfor文で回す。
+	for (auto collision : collisions5)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				//m_hp -= 1;
+				////////////////////////////////////////////////////
+				///ここが改善すべき点！！！
+				//////////////////////////////////////////////////// 
+				m_playerState = 5;
+			}
+		}
+	}
 }
 
 void Player1::AfterCatch()
@@ -914,15 +1065,46 @@ void Player1::AfterCatch()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
+
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				//player2からplayer1を向くベクトルを求める。
+				Vector3 a = m_position - FindGO<Player2>("player2")->GetPlayer2Position();
+				a.Normalize();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 2000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 2000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(6);
+				P2se->Init(6);
+				P2se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -933,7 +1115,6 @@ void Player1::AfterCatch()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
@@ -941,10 +1122,27 @@ void Player1::AfterCatch()
 				m_playerState = 5;
 			}
 		}
+	}
 
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player4_cpunch");
+	//配列をfor文で回す。
+	for (auto collision : collisions4)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				shine = false;
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
 	}
 
 	m_Catchtimer += g_gameTime->GetFrameDeltaTime();
+
 	if (m_Catchtimer >= 3.0f) {
 		shine = false;
 	}
@@ -1004,7 +1202,6 @@ void Player1::RingOut()
 	if (m_position.x > 1070.0f && m_position.y < -160.0f) {
 		m_hp -= 5;
 	}
-
 }
 
 void Player1::Render(RenderContext& rc)

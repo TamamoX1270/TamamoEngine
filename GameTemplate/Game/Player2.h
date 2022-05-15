@@ -154,6 +154,11 @@ private:
 	void Hit3();
 
 	/// <summary>
+	/// プレイヤー4からの被ダメージモーション管理
+	/// </summary>
+	void Hit4();
+
+	/// <summary>
 	/// 掴まれ後の管理
 	/// </summary>
 	void AfterCatch();
@@ -167,6 +172,11 @@ private:
 	/// 掴み攻撃をするコリジョンを作成する。
 	/// </summary>
 	void CatchAttackCollision();
+
+	/// <summary>
+	/// リングアウトした場合の処理。
+	/// </summary>
+	void RingOut();
 
 private:
 	// アニメーションクリップの番号を表す列挙型。
@@ -202,7 +212,7 @@ private:
 	int m_soysaucecount = 0;			//醤油カウント
 
 	//HPの表示
-	int m_hp = 1;
+	int m_hp = 100;
 	int m_max = 100;
 	int m_min = 0;
 	FontRender      m_fontHPRender;					//フォントレンダー
@@ -211,7 +221,7 @@ private:
 
 	int			m_playerState;			//プレイヤーステート。
 
-	int			m_jumpState = 0;		//ジャンプ実装用ステート。
+	float		m_jumpState = false;	//ジャンプ実装用ステート。
 
 	int			m_charaRotState = 0;	//キャラの向きを変えるステート。
 
@@ -236,10 +246,15 @@ private:
 
 	float p1_Catch;		//P1のshineステート。
 	float p3_Catch;		//P3のshineステート。
+	float p4_Catch;		//P4のshineステート。
+
+	Vector3 a;
 
 	SoundSource* P2se;	//P2の効果音。
 
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
+
+	int m_owaowari; //そこまで！ステートを受け取る。
 };

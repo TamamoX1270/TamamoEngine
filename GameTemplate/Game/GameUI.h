@@ -25,7 +25,6 @@ public:
 	void Timer();
 	/// <summary>
 	/// 醤油さしのプログラム
-	/// </summary>
 	void SoyCT();
 	/// <summary>
 	/// 寿司のHPバー
@@ -37,6 +36,12 @@ public:
 	void SetSokomade()
 	{
 		m_sokomade = true;
+	}/// <summary>
+	/// そこまで！のtrueを受け取る。
+	/// </summary>
+	const int& GetSokomade()const
+	{
+		return m_sokomade;
 	}
 	/// <summary>
 	/// 更新処理
@@ -83,7 +88,7 @@ private:
 	SpriteRender	m_spriteRendersokomade;
 
 	FontRender		m_fontRender;
-	float game_timer = 5.0f;
+	float game_timer = 115.0f;
 	float sokomade_timer = 0.0f;
 
 	SoundSource* gameBGM;

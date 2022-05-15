@@ -154,6 +154,11 @@ private:
 	void Hit3();
 
 	/// <summary>
+	/// プレイヤー3からの被ダメージモーション管理
+	/// </summary>
+	void Hit4();
+
+	/// <summary>
 	/// 掴まれ後の管理
 	/// </summary>
 	void AfterCatch();
@@ -198,6 +203,7 @@ private:
 	Vector3				m_position= Vector3::Zero;				// 座標
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
+	Vector3				m_efpos1;								//エフェクト用のポジション
 
 	//醤油弾の関数
 	SoySauceBullet* m_soysaucebullet;   //醤油弾
@@ -206,7 +212,7 @@ private:
 	int m_soysaucecount = 99;			//醤油カウント
 	
 	//HPの表示
-	int m_hp = 1;
+	int m_hp = 100;
 	int m_max = 100;
 	int m_min = 0;
 	FontRender      m_fontHPRender;					//フォントレンダー
@@ -240,12 +246,15 @@ private:
 
 	float p2_Catch;		//P2のshineステート。
 	float p3_Catch;		//P3のshineステート。
+	float p4_Catch;		//P3のshineステート。
 
-	Vector3 a;
+	Vector3 a; //P1からP2に向かうベクトル。
 
 	SoundSource* P1se;	//P1の効果音。
 
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
+
+	int m_owaowari; //そこまで！ステートを受け取る。
 };

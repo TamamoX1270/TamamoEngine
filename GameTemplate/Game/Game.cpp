@@ -21,14 +21,14 @@ bool Game::Start()
 	//プレイヤーオブジェクトを作成する。
 	m_player = NewGO<Player1>(0, "player1");
 	m_player2 = NewGO<Player2>(0, "player2");
-	if (m_player3 != nullptr)
-	{
+	//if (m_player3 != nullptr)
+	//{
 		m_player3 = NewGO<Player3>(0, "player3");
-	}
-	if (m_player4 != nullptr)
-	{
+	//}
+	//if (m_player4 != nullptr)
+	//{
 		m_player4 = NewGO<Player4>(0, "player4");
-	}
+	//}
 
 	//GameUIの生成
 	m_gamingshigureui = NewGO<GameUI>(0, "gameui");
@@ -41,9 +41,9 @@ bool Game::Start()
 
 	sscamera = NewGO<SpecialCamera>(0, "specialcamera");
 
-	//m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
+	m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
 	//m_gameCamera3 = NewGO<GameCamera3P>(0, "gamecamera3");
-	m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
+	//m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
 
 	return true;
 }
@@ -56,7 +56,7 @@ Game::Game()
 Game::~Game()
 {
 	DeleteGO(m_gameCamera);
-	DeleteGO(m_gameCamera2);
+	//DeleteGO(m_gameCamera2);
 	DeleteGO(sscamera);
 	DeleteGO(m_backGround);
 	DeleteGO(m_sidewall);
@@ -128,7 +128,7 @@ void Game::Camera()
 
 		switch (m_cameraState) {
 		case 0:
-			m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
+			m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
 			break;
 		case 1:
 			sscamera = NewGO<SpecialCamera>(0, "specialcamera");
@@ -151,14 +151,14 @@ void Game::GameDelete()
 		int PHP4 = 0;
 		PHP = m_player->GetPlayerHP();
 		PHP2 = m_player2->GetPlayer2HP();
-		if (m_player3 != nullptr)
-		{
+		//if (m_player3 != nullptr)
+		//{
 			PHP3 = m_player3->GetPlayer3HP();
-		}
-		if (m_player4 != nullptr)
-		{
+		//}
+		//if (m_player4 != nullptr)
+		//{
 			PHP4 = m_player4->GetPlayer4HP();
-		}
+		//}
 
 		//一番大きいHPの奴を格納する。
 		if (MaxPHP < PHP)
@@ -171,22 +171,22 @@ void Game::GameDelete()
 			MaxPHP = PHP2;
 			FindGO<Result>("result")->SetWinPlayer(1);
 		}
-		if (m_player3 != nullptr)
-		{
+		//if (m_player3 != nullptr)
+		//{
 			if (MaxPHP < PHP3)
 			{
 				MaxPHP = PHP3;
 				FindGO<Result>("result")->SetWinPlayer(2);
 			}
-		}
-		if (m_player4 != nullptr)
-		{
+		//}
+		//if (m_player4 != nullptr)
+		//{
 			if (MaxPHP < PHP4)
 			{
 				MaxPHP = PHP4;
 				FindGO<Result>("result")->SetWinPlayer(3);
 			}
-		}
+		//}
 
 		//引き分け
 		if (PHP == PHP2)
@@ -226,6 +226,13 @@ void Game::GameDelete()
 		{
 			DeleteGO(soysaucebullets[s]);
 		}
+		const auto& gamecamera = FindGOs<GameCamera>("gamecamera");
+		//配列の個数を取得する
+		int number4 = gamecamera.size();
+		for (int c = 0; c < number4; c++)
+		{
+			DeleteGO(gamecamera[c]);
+		}
 		const auto& gamecamera2 = FindGOs<GameCamera2P>("gamecamera2");
 		//配列の個数を取得する
 		int number3 = gamecamera2.size();
@@ -235,6 +242,8 @@ void Game::GameDelete()
 		}
 		DeleteGO(m_player);
 		DeleteGO(m_player2);
+		DeleteGO(m_player3);
+		DeleteGO(m_player4);
 		DeleteGO(this);
 	}
 	//ゲームデリートステートがtrueじゃない時

@@ -1,4 +1,5 @@
 #pragma once
+#include "sound/SoundSource.h"
 
 class SoySauceBullet;
 
@@ -49,6 +50,7 @@ public:
 	{
 		return shine;
 	}
+
 	/// <summary>
 	/// プレイヤーの前方向のベクトルの取得
 	/// </summary>
@@ -57,6 +59,7 @@ public:
 	{
 		return m_forward;
 	}
+
 	/// <summary>
 	/// プレイヤーのHPの取得
 	/// </summary>
@@ -65,6 +68,7 @@ public:
 	{
 		return m_hp;
 	}
+
 	/// <summary>
 	/// キャラクターコントローラーを取得。
 	/// </summary>
@@ -80,6 +84,11 @@ public:
 	void AddSoySauceCount()
 	{
 		m_soysaucecount++;
+	}
+
+	void SetPlayer3PlayerState11()
+	{
+		m_playerState = 11;
 	}
 
 
@@ -133,6 +142,11 @@ private:
 	void MakeGuardCollision();
 
 	/// <summary>
+	/// 被ダメ後の防御用のコリジョンを作成する。
+	/// </summary>
+	void autoGuard();
+
+	/// <summary>
 	/// プレイヤー1からの被ダメージモーション管理
 	/// </summary>
 	void Hit1();
@@ -141,6 +155,11 @@ private:
 	/// プレイヤー2からの被ダメージモーション管理
 	/// </summary>
 	void Hit2();
+
+	/// <summary>
+	/// プレイヤー4からの被ダメージモーション管理
+	/// </summary>
+	void Hit4();
 
 	/// <summary>
 	/// 掴まれ後の管理
@@ -157,6 +176,11 @@ private:
 	/// </summary>
 	void CatchAttackCollision();
 
+	/// <summary>
+	/// リングアウトした場合の処理。
+	/// </summary>
+	void RingOut();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
@@ -170,7 +194,9 @@ private:
 		enAnimClip_Punch2,	// 7 : 攻撃２アニメーション。
 		enAnimClip_Kick3,	// 8 : 攻撃３アニメーション。
 		enAnimClip_CPunch,	// 9 : 掴み攻撃アニメーション。
-		enAnimClip_Num,		// 10 : アニメーションクリップの数。
+		enAnimClip_FlyAway,	// 10 : 吹っ飛びアニメーション。
+		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
+		enAnimClip_Num,		// 12 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player3;								//プレイヤー
@@ -180,51 +206,58 @@ private:
 	Vector3				m_position = Vector3::Zero;				// 座標
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
-	
+	Vector3				m_efpos1;								//エフェクト用のポジション
+
 	//醤油弾の関数
 	SoySauceBullet* m_soysaucebullet;   //醤油弾
 	Vector3			m_forward;			//キャラクターの前方向のベクトル
 	FontRender		m_fontRender;		//文字
-	int m_soysaucecount = 0;			//醤油カウント
+	int m_soysaucecount = 99;			//醤油カウント
 
-	//HPの仮表示
+	//HPの表示
 	int m_hp = 100;
+	int m_max = 100;
+	int m_min = 0;
 	FontRender      m_fontHPRender;					//フォントレンダー
 
 	Vector3		moveSpeed;				//プレイヤーの速さ。
 
 	int			m_playerState;			//プレイヤーステート。
-	float		m_timer = 0.0f;			//アニメーション用タイマー。
 
-	int			m_jumpState = 0;		//ジャンプ実装用ステート。
-	float		m_jumpTimer = 0.0f;		//ジャンプ実装用タイマー。
+	float		m_jumpState = false;		//ジャンプ実装用ステート。
 
 	int			m_charaRotState = 0;	//キャラの向きを変えるステート。
 
 
-	float		m_isUnderAttack;		//1番目の攻撃。
+	float		m_isUnderAttack;
 	int			m_handBoneId = -1;		//「Hand」ボーンのID。  
 
-	float		m_catch;					//掴み。
+	float		m_catch;
 	int			m_handBoneIdCatch = -1;		//「Hand」ボーンのID。 
 
-	float		m_2;					//2番目の攻撃。
+	float		m_2;
 	int			m_handBoneId2 = -1;		//「Hand」ボーンのID。  
 
-	float		m_3;					//3番目の攻撃。
+	float		m_3;
 	int			m_handBoneId3 = -1;		//「Hand」ボーンのID。  
 
-	float		m_cpunch;					//掴み攻撃。
+	float		m_cpunch;
 	int			m_handBoneIdCPunch = -1;	//「Hand」ボーンのID。  
 
-	int atkState = 0;					//連続攻撃のためのステート。
-
-	float guard = false;				//ガードをしているかどうか。
-
+	int atkState = 0;		//連続攻撃のためのステート。
+	float guard = false;	//ガードをしているかどうか。
+	
 	float p1_Catch;		//P1のshineステート。
 	float p2_Catch;		//P2のshineステート。
+	float p4_Catch;		//P4のshineステート。
+
+	Vector3 a; //P1からP2に向かうベクトル。
+
+	SoundSource* P1se;	//P1の効果音。
 
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
+
+	int m_owaowari; //そこまで！ステートを受け取る。
 };

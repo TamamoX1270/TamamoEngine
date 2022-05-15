@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Player2.h"
 #include "Game.h"
+#include "GameUI.h"
 
 #include "Player1.h"
 #include "Player3.h"
+#include "Player4.h"
 #include "SoySauceBullet.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
@@ -87,13 +89,21 @@ bool Player2::Start()
 
 void Player2::Update()
 {
+	if (m_owaowari == true) {
+		m_player2.PlayAnimation(enAnimClip_Idle, 0.2f);
+		m_player2.Update();
+		return;
+	}
+	m_owaowari = FindGO<GameUI>("gameui")->GetSokomade();
+
 	if (shine == true) {
 		AfterCatch();
 		return;
 	}
 
 	p1_Catch = FindGO<Player1>("player1")->GetPlayer1State();
-	//p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
 
 	int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
@@ -118,6 +128,7 @@ void Player2::Update()
 
 	Hit1();
 	Hit3();
+	Hit4();
 	MakeGuardCollision();
 	autoGuard();
 	MakeCatchCollision();
@@ -127,6 +138,8 @@ void Player2::Update()
 	MakeCollision2();
 	MakeCollision3();
 	CatchAttackCollision();
+
+	RingOut();
 
 	m_player2.Update();
 }
@@ -270,7 +283,7 @@ void Player2::AnimationState()
 	}
 
 	//掴み攻撃
-	if (p1_Catch == true || p3_Catch == true) {
+	if (p1_Catch == true || p3_Catch == true || p4_Catch == true) {
 		if (g_pad[1]->IsTrigger(enButtonB)) {
 			m_playerState = 9;
 		}
@@ -349,7 +362,6 @@ void Player2::ManageState()
 	case 4:
 		m_player2.PlayAnimation(enAnimClip_Jump, 0.2f);
 		m_catch = false;
-		moveSpeed.y -= 80.0f;
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -658,7 +670,7 @@ void Player2::Hit1()
 	//表示するテキストを設定。
 	m_fontHPRender.SetText(wcsbuf1);
 	//フォントの位置を設定。
-	m_fontHPRender.SetPosition(Vector3(-240.0f, -400.0f, 0.0f));
+	m_fontHPRender.SetPosition(Vector3(-260.0f, -400.0f, 0.0f));
 	//フォントの大きさを設定。
 	m_fontHPRender.SetScale(1.5f);
 	//黒色に設定
@@ -713,7 +725,6 @@ void Player2::Hit1()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -762,7 +773,6 @@ void Player2::Hit1()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -811,7 +821,6 @@ void Player2::Hit1()
 				m_playerState = 10;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -835,7 +844,6 @@ void Player2::Hit1()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				//m_hp -= 1;
@@ -845,7 +853,6 @@ void Player2::Hit1()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//醤油攻撃用のコリジョンの配列を取得する。
@@ -862,7 +869,6 @@ void Player2::Hit1()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//HPの上限下限の設定。
@@ -876,7 +882,6 @@ void Player2::Hit1()
 
 void Player2::Hit3()
 {
-
 	//敵の攻撃用のコリジョンの配列を取得する。
 	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player3_attack");
 	//配列をfor文で回す。
@@ -891,7 +896,6 @@ void Player2::Hit3()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -908,7 +912,6 @@ void Player2::Hit3()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -925,7 +928,6 @@ void Player2::Hit3()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -949,7 +951,6 @@ void Player2::Hit3()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				//m_hp -= 1;
@@ -959,9 +960,90 @@ void Player2::Hit3()
 				m_playerState = 5;
 			}
 		}
+	}
+}
 
+void Player2::Hit4()
+{
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player4_attack");
+	//配列をfor文で回す。
+	for (auto collision : collisions1)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
 	}
 
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions2 = g_collisionObjectManager->FindCollisionObjects("player4_attack2");
+	//配列をfor文で回す。
+	for (auto collision : collisions2)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions3 = g_collisionObjectManager->FindCollisionObjects("player4_attack3");
+	//配列をfor文で回す。
+	for (auto collision : collisions3)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player4_catch");
+	//配列をfor文で回す。
+	for (auto collision : collisions4)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			m_Catchtimer = 0.0f;
+			shine = true;
+		}
+	}
+
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions5 = g_collisionObjectManager->FindCollisionObjects("player4_cpunch");
+	//配列をfor文で回す。
+	for (auto collision : collisions5)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				//m_hp -= 1;
+				////////////////////////////////////////////////////
+				///ここが改善すべき点！！！
+				//////////////////////////////////////////////////// 
+				m_playerState = 5;
+			}
+		}
+	}
 }
 
 void Player2::AfterCatch()
@@ -974,7 +1056,6 @@ void Player2::AfterCatch()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
@@ -1015,7 +1096,6 @@ void Player2::AfterCatch()
 				m_playerState = 5;
 			}
 		}
-
 	}
 
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -1026,7 +1106,6 @@ void Player2::AfterCatch()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
@@ -1034,10 +1113,27 @@ void Player2::AfterCatch()
 				m_playerState = 5;
 			}
 		}
+	}
 
+	//敵の攻撃用のコリジョンの配列を取得する。
+	const auto& collisions4 = g_collisionObjectManager->FindCollisionObjects("player4_cpunch");
+	//配列をfor文で回す。
+	for (auto collision : collisions4)
+	{
+		//コリジョンとキャラコンが衝突したら。
+		if (collision->IsHit(m_characterController))
+		{
+			//HPを減らす。
+			if (guard != true) {
+				shine = false;
+				m_hp -= 1;
+				m_playerState = 5;
+			}
+		}
 	}
 
 	m_Catchtimer += g_gameTime->GetFrameDeltaTime();
+
 	if (m_Catchtimer >= 3.0f) {
 		shine = false;
 	}
@@ -1084,6 +1180,18 @@ void Player2::CatchAttackCollision()
 		Matrix matrix = m_player2.GetBone(m_handBoneIdCatch)->GetWorldMatrix();
 		//「Sword」ボーンのワールド行列をコリジョンに適用する。
 		collisionObject->SetWorldMatrix(matrix);
+	}
+}
+
+void Player2::RingOut()
+{
+	//左端。
+	if (m_position.x < -1070.0f && m_position.y < -160.0f) {
+		m_hp -= 5;
+	}
+	//右端。
+	if (m_position.x > 1070.0f && m_position.y < -160.0f) {
+		m_hp -= 5;
 	}
 }
 
