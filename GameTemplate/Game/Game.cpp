@@ -228,17 +228,24 @@ void Game::GameDelete()
 		}
 		const auto& gamecamera = FindGOs<GameCamera>("gamecamera");
 		//”z—ñ‚ÌŒÂ”‚ğæ“¾‚·‚é
-		int number4 = gamecamera.size();
-		for (int c = 0; c < number4; c++)
+		int number3 = gamecamera.size();
+		for (int c = 0; c < number3; c++)
 		{
 			DeleteGO(gamecamera[c]);
 		}
 		const auto& gamecamera2 = FindGOs<GameCamera2P>("gamecamera2");
 		//”z—ñ‚ÌŒÂ”‚ğæ“¾‚·‚é
-		int number3 = gamecamera2.size();
-		for (int c = 0; c < number3; c++)
+		int number4 = gamecamera2.size();
+		for (int c = 0; c < number4; c++)
 		{
 			DeleteGO(gamecamera2[c]);
+		}
+		const auto& gameSPcamera = FindGOs<SpecialCamera>("specialcamera");
+		//”z—ñ‚ÌŒÂ”‚ğæ“¾‚·‚é
+		int number5 = gameSPcamera.size();
+		for (int c = 0; c < number5; c++)
+		{
+			DeleteGO(gameSPcamera[c]);
 		}
 		DeleteGO(m_player);
 		DeleteGO(m_player2);

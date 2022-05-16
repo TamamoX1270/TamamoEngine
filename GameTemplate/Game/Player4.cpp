@@ -50,7 +50,7 @@ bool Player4::Start()
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
 
 	//モデルの読み込み
-	m_player4.Init("Assets/purototype/sushi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+	m_player4.Init("Assets/purototype/model4/ebi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);

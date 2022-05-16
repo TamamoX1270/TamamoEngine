@@ -302,9 +302,9 @@ void Player1::AnimationState()
 		m_playerState = 7;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB)) {
-		SoundSource* P1se = NewGO<SoundSource>(11);
+		/*SoundSource* P1se = NewGO<SoundSource>(11);
 		P1se->Init(11);
-		P1se->Play(false);
+		P1se->Play(false);*/
 		m_playerState = 3;
 	}
 
@@ -460,6 +460,11 @@ void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 	//キーの名前が「attack_start」の時。
 	if (wcscmp(eventName, L"Punch_Start") == 0)
 	{
+		//効果音をつける。
+		SoundSource* P1se = NewGO<SoundSource>(11);
+		P1se->Init(11);
+		P1se->Play(false);
+
 		//攻撃中にする。
 		m_isUnderAttack = true;
 	}
@@ -538,7 +543,6 @@ void Player1::MakeCollision()
 {
 
 	if (m_isUnderAttack == true) {
-
 		//コリジョンオブジェクトを作成する。
 		auto collisionObject = NewGO<CollisionObject>(0);
 
