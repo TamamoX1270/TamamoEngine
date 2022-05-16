@@ -80,9 +80,10 @@ bool Player3::Start()
 	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/punch_1.wav");
 	g_soundEngine->ResistWaveFileBank(5, "Assets/sound/punch_2.wav");
 	g_soundEngine->ResistWaveFileBank(6, "Assets/sound/punch_3.wav");
-	g_soundEngine->ResistWaveFileBank(11, "Assets/sound/punch_suburi1.wav");
-	g_soundEngine->ResistWaveFileBank(12, "Assets/sound/punch_suburi2.wav");
-	g_soundEngine->ResistWaveFileBank(13, "Assets/sound/kick_suburi.wav");
+	g_soundEngine->ResistWaveFileBank(7, "Assets/sound/punch_suburi1.wav");
+	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_suburi2.wav");
+	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/kick_suburi.wav");
+	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/syouyu_beam.wav");
 
 	return true;
 }
@@ -317,9 +318,9 @@ void Player3::AnimationState()
 
 		else if (g_pad[2]->IsTrigger(enButtonX)) {
 			//効果音を再生する。
-			SoundSource* P1se = NewGO<SoundSource>(3);
-			P1se->Init(3);
-			P1se->Play(false);
+			SoundSource* P3se = NewGO<SoundSource>(3);
+			P3se->Init(3);
+			P3se->Play(false);
 			m_playerState = 4;
 		}
 
@@ -711,9 +712,9 @@ void Player3::Hit1()
 				}
 
 				//効果音を再生する。
-				SoundSource* P2se = NewGO<SoundSource>(8);
-				P2se->Init(8);
-				P2se->Play(false);
+				SoundSource* P3se = NewGO<SoundSource>(4);
+				P3se->Init(4);
+				P3se->Play(false);
 
 				//HPの減少。
 				m_hp -= 2;
@@ -762,9 +763,9 @@ void Player3::Hit1()
 				}
 
 				//効果音を再生する。
-				SoundSource* P2se = NewGO<SoundSource>(9);
-				P2se->Init(9);
-				P2se->Play(false);
+				SoundSource* P3se = NewGO<SoundSource>(5);
+				P3se->Init(5);
+				P3se->Play(false);
 
 				m_hp -= 5;
 				m_playerState = 5;
@@ -810,9 +811,9 @@ void Player3::Hit1()
 				}
 
 				//効果音を再生する。
-				SoundSource* P2se = NewGO<SoundSource>(10);
-				P2se->Init(10);
-				P2se->Play(false);
+				SoundSource* P3se = NewGO<SoundSource>(6);
+				P3se->Init(6);
+				P3se->Play(false);
 
 				m_hp -= 8;
 				m_playerState = 10;
@@ -929,9 +930,9 @@ void Player3::Hit2()
 				}
 
 				//効果音を再生する。
-				SoundSource* P1se = NewGO<SoundSource>(4);
-				P1se->Init(4);
-				P1se->Play(false);
+				SoundSource* P3se = NewGO<SoundSource>(4);
+				P3se->Init(4);
+				P3se->Play(false);
 
 				//HPの減少。
 				m_hp -= 2;
@@ -980,9 +981,9 @@ void Player3::Hit2()
 				}
 
 				//効果音を再生する。
-				SoundSource* P1se = NewGO<SoundSource>(5);
-				P1se->Init(5);
-				P1se->Play(false);
+				SoundSource* P3se = NewGO<SoundSource>(5);
+				P3se->Init(5);
+				P3se->Play(false);
 
 				m_hp -= 5;
 				m_playerState = 5;
@@ -1028,9 +1029,9 @@ void Player3::Hit2()
 				}
 
 				//効果音を再生する。
-				SoundSource* P1se = NewGO<SoundSource>(6);
-				P1se->Init(6);
-				P1se->Play(false);
+				SoundSource* P3se = NewGO<SoundSource>(6);
+				P3se->Init(6);
+				P3se->Play(false);
 
 				m_hp -= 8;
 				m_playerState = 10;

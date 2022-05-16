@@ -76,13 +76,14 @@ bool Player2::Start()
 	m_handBoneIdCPunch = m_player2.FindBoneID(L"mixamorig:RightHandIndex1");
 
 	//効果音を読み込む。
-	g_soundEngine->ResistWaveFileBank(7, "Assets/sound/jump_2.wav");
-	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_1.wav");
-	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/punch_2.wav");
-	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/punch_3.wav");
-	g_soundEngine->ResistWaveFileBank(14, "Assets/sound/punch_suburi1.wav");
-	g_soundEngine->ResistWaveFileBank(15, "Assets/sound/punch_suburi2.wav");
-	g_soundEngine->ResistWaveFileBank(16, "Assets/sound/kick_suburi.wav");
+	g_soundEngine->ResistWaveFileBank(3, "Assets/sound/jump_2.wav");
+	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/punch_1.wav");
+	g_soundEngine->ResistWaveFileBank(5, "Assets/sound/punch_2.wav");
+	g_soundEngine->ResistWaveFileBank(6, "Assets/sound/punch_3.wav");
+	g_soundEngine->ResistWaveFileBank(7, "Assets/sound/punch_suburi1.wav");
+	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_suburi2.wav");
+	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/kick_suburi.wav");
+	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/syouyu_beam.wav");
 
 	return true;
 }
@@ -308,8 +309,8 @@ void Player2::AnimationState()
 
 		else if (g_pad[1]->IsTrigger(enButtonX)) {
 			//効果音を再生する。
-			SoundSource* P2se = NewGO<SoundSource>(7);
-			P2se->Init(7);
+			SoundSource* P2se = NewGO<SoundSource>(3);
+			P2se->Init(3);
 			P2se->Play(false);
 			m_playerState = 4;
 		}
@@ -714,8 +715,8 @@ void Player2::Hit1()
 				}
 
 				//効果音を再生する。
-				SoundSource* P2se = NewGO<SoundSource>(8);
-				P2se->Init(8);
+				SoundSource* P2se = NewGO<SoundSource>(4);
+				P2se->Init(4);
 				P2se->Play(false);
 
 				//HPの減少。
@@ -765,8 +766,8 @@ void Player2::Hit1()
 				}
 
 				//効果音を再生する。
-				SoundSource* P2se = NewGO<SoundSource>(9);
-				P2se->Init(9);
+				SoundSource* P2se = NewGO<SoundSource>(5);
+				P2se->Init(5);
 				P2se->Play(false);
 
 				m_hp -= 5;
@@ -813,8 +814,8 @@ void Player2::Hit1()
 				}
 
 				//効果音を再生する。
-				SoundSource* P2se = NewGO<SoundSource>(10);
-				P2se->Init(10);
+				SoundSource* P2se = NewGO<SoundSource>(6);
+				P2se->Init(6);
 				P2se->Play(false);
 
 				m_hp -= 8;

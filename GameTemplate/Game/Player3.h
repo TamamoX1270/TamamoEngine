@@ -253,7 +253,7 @@ private:
 
 	Vector3 a; //P1からP2に向かうベクトル。
 
-	SoundSource* P1se;	//P1の効果音。
+	SoundSource* P3se;	//P1の効果音。
 
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。

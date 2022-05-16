@@ -80,9 +80,10 @@ bool Player1::Start()
 	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/punch_1.wav");
 	g_soundEngine->ResistWaveFileBank(5, "Assets/sound/punch_2.wav");
 	g_soundEngine->ResistWaveFileBank(6, "Assets/sound/punch_3.wav");
-	g_soundEngine->ResistWaveFileBank(11, "Assets/sound/punch_suburi1.wav");
-	g_soundEngine->ResistWaveFileBank(12, "Assets/sound/punch_suburi2.wav");
-	g_soundEngine->ResistWaveFileBank(13, "Assets/sound/kick_suburi.wav");
+	g_soundEngine->ResistWaveFileBank(7, "Assets/sound/punch_suburi1.wav");
+	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_suburi2.wav");
+	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/kick_suburi.wav");
+	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/syouyu_beam.wav");
 
 	return true;
 }
@@ -184,6 +185,10 @@ void Player1::Move()
 		m_soysaucebullet = NewGO<SoySauceBullet>(0, "soysaucebullet");
 		//bulletのムーブスピードにプレイヤーの前方向のベクトルを入れてやる。
 		m_soysaucebullet->m_moveSpeed = m_forward;
+		//効果音を再生する。
+		SoundSource* P1se = NewGO<SoundSource>(10);
+		P1se->Init(10);
+		P1se->Play(false);
 	}
 
 	if (m_playerState == 0 || m_playerState == 1 || m_playerState == 4 || m_playerState == 9) {
@@ -290,20 +295,20 @@ void Player1::AnimationState()
 	}
 	//通常攻撃
 	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 2) {
-		/*SoundSource* P1se = NewGO<SoundSource>(13);
-		P1se->Init(13);
+		/*SoundSource* P1se = NewGO<SoundSource>(9);
+		P1se->Init(9);
 		P1se->Play(false);*/
 		m_playerState = 8;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 1) {
-		/*SoundSource* P1se = NewGO<SoundSource>(12);
-		P1se->Init(12);
+		/*SoundSource* P1se = NewGO<SoundSource>(8);
+		P1se->Init(8);
 		P1se->Play(false);*/
 		m_playerState = 7;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB)) {
-		/*SoundSource* P1se = NewGO<SoundSource>(11);
-		P1se->Init(11);
+		/*SoundSource* P1se = NewGO<SoundSource>(7);
+		P1se->Init(7);
 		P1se->Play(false);*/
 		m_playerState = 3;
 	}
