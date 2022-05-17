@@ -295,21 +295,12 @@ void Player1::AnimationState()
 	}
 	//通常攻撃
 	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 2) {
-		/*SoundSource* P1se = NewGO<SoundSource>(9);
-		P1se->Init(9);
-		P1se->Play(false);*/
 		m_playerState = 8;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB) && atkState == 1) {
-		/*SoundSource* P1se = NewGO<SoundSource>(8);
-		P1se->Init(8);
-		P1se->Play(false);*/
 		m_playerState = 7;
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB)) {
-		/*SoundSource* P1se = NewGO<SoundSource>(7);
-		P1se->Init(7);
-		P1se->Play(false);*/
 		m_playerState = 3;
 	}
 
@@ -466,8 +457,8 @@ void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 	if (wcscmp(eventName, L"Punch_Start") == 0)
 	{
 		//効果音をつける。
-		SoundSource* P1se = NewGO<SoundSource>(11);
-		P1se->Init(11);
+		SoundSource* P1se = NewGO<SoundSource>(7);
+		P1se->Init(7);
 		P1se->Play(false);
 
 		//攻撃中にする。
@@ -496,6 +487,10 @@ void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 
 	if (wcscmp(eventName, L"Punch2_Start") == 0)
 	{
+		SoundSource* P1se = NewGO<SoundSource>(8);
+		P1se->Init(8);
+		P1se->Play(false);
+
 		//攻撃中にする。
 		m_2 = true;
 	}
@@ -509,6 +504,9 @@ void Player1::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 
 	if (wcscmp(eventName, L"Kick3_Start") == 0)
 	{
+		SoundSource* P1se = NewGO<SoundSource>(9);
+		P1se->Init(9);
+		P1se->Play(false);
 		//攻撃中にする。
 		m_3 = true;
 	}

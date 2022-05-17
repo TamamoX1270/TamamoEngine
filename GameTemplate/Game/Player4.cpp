@@ -461,6 +461,11 @@ void Player4::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 	//キーの名前が「attack_start」の時。
 	if (wcscmp(eventName, L"Punch_Start") == 0)
 	{
+		//効果音をつける。
+		SoundSource* P1se = NewGO<SoundSource>(7);
+		P1se->Init(7);
+		P1se->Play(false);
+
 		//攻撃中にする。
 		m_isUnderAttack = true;
 	}
@@ -487,6 +492,10 @@ void Player4::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 
 	if (wcscmp(eventName, L"Punch2_Start") == 0)
 	{
+		SoundSource* P1se = NewGO<SoundSource>(8);
+		P1se->Init(8);
+		P1se->Play(false);
+
 		//攻撃中にする。
 		m_2 = true;
 	}
@@ -500,6 +509,10 @@ void Player4::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 
 	if (wcscmp(eventName, L"Kick3_Start") == 0)
 	{
+		SoundSource* P1se = NewGO<SoundSource>(9);
+		P1se->Init(9);
+		P1se->Play(false);
+
 		//攻撃中にする。
 		m_3 = true;
 	}
