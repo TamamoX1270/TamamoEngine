@@ -581,7 +581,6 @@ void Player4::MakeCollision2()
 	}
 }
 
-
 void Player4::MakeCollision3()
 {
 
@@ -604,7 +603,6 @@ void Player4::MakeCollision3()
 		collisionObject->SetWorldMatrix(matrix);
 	}
 }
-
 
 void Player4::MakeGuardCollision()
 {
@@ -1108,7 +1106,7 @@ void Player4::Hit3()
 		{
 			//HPÇå∏ÇÁÇ∑ÅB
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 2;
 				m_playerState = 5;
 			}
 		}
@@ -1124,7 +1122,7 @@ void Player4::Hit3()
 		{
 			//HPÇå∏ÇÁÇ∑ÅB
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -1140,7 +1138,7 @@ void Player4::Hit3()
 		{
 			//HPÇå∏ÇÁÇ∑ÅB
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 8;
 				m_playerState = 5;
 			}
 		}

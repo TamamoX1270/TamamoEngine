@@ -572,7 +572,6 @@ void Player2::MakeCollision2()
 	}
 }
 
-
 void Player2::MakeCollision3()
 {
 
@@ -595,7 +594,6 @@ void Player2::MakeCollision3()
 		collisionObject->SetWorldMatrix(matrix);
 	}
 }
-
 
 void Player2::MakeGuardCollision()
 {
@@ -893,7 +891,7 @@ void Player2::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 2;
 				m_playerState = 5;
 			}
 		}
@@ -909,7 +907,7 @@ void Player2::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -925,7 +923,7 @@ void Player2::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 8;
 				m_playerState = 5;
 			}
 		}
@@ -976,7 +974,7 @@ void Player2::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 2;
 				m_playerState = 5;
 			}
 		}
@@ -992,7 +990,7 @@ void Player2::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -1008,7 +1006,7 @@ void Player2::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				m_hp -= 1;
+				m_hp -= 8;
 				m_playerState = 5;
 			}
 		}
@@ -1110,7 +1108,7 @@ void Player2::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-				m_hp -= 1;
+				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -1127,7 +1125,7 @@ void Player2::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-				m_hp -= 1;
+				m_hp -= 5;
 				m_playerState = 5;
 			}
 		}
