@@ -52,12 +52,14 @@ bool Player3::Start()
 	//モデルの読み込み
 	m_player3.Init("Assets/purototype/model/eggR.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 
+	m_position = Vector3(150.0f, 0.0f, 0.0f);
+
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
 
 	//初期に右を向かせる。
 	m_rotation.SetRotationDegX(-90.0f);
-	m_rotation.AddRotationDegZ(180.0f);
+	m_rotation.AddRotationDegZ(-180.0f);
 
 	m_player3.SetPosition(m_position);
 	m_player3.SetRotation(m_rotation);
@@ -106,7 +108,7 @@ void Player3::Update()
 	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
 	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
 
-	int soysoysoysoy = m_soysaucecount;
+	/*int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", soysoysoysoy);
 
@@ -117,7 +119,7 @@ void Player3::Update()
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);
+	m_fontRender.SetColor(g_vec4White);*/
 
 	if (p1_Catch != true && p2_Catch != true && p4_Catch != true) {
 		Move();
@@ -891,7 +893,7 @@ void Player3::Hit1()
 
 void Player3::Hit2()
 {
-	wchar_t wcsbuf1[256];
+	/*wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", m_hp);
 
 	//表示するテキストを設定。
@@ -901,7 +903,7 @@ void Player3::Hit2()
 	//フォントの大きさを設定。
 	m_fontHPRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontHPRender.SetColor(g_vec4White);
+	m_fontHPRender.SetColor(g_vec4White);*/
 
 	//敵の攻撃用のコリジョンの配列を取得する。
 	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player2_attack");

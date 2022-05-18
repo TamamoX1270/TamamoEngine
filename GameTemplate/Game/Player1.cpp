@@ -49,6 +49,8 @@ bool Player1::Start()
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
 
+	m_position = Vector3(-500.0f, 0.0f, 0.0f);
+
 	//モデルの読み込み
 	m_player.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
 
@@ -106,7 +108,7 @@ void Player1::Update()
 	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 	p4_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 
-	int soysoysoysoy = m_soysaucecount;
+	/*int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", soysoysoysoy);
 
@@ -117,7 +119,7 @@ void Player1::Update()
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);
+	m_fontRender.SetColor(g_vec4White);*/
 
 	if (p2_Catch != true && p3_Catch != true && p4_Catch != true) {
 		Move();
@@ -678,7 +680,7 @@ void Player1::autoGuard()
 
 void Player1::Hit2()
 {
-	wchar_t wcsbuf1[256];
+	/*wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", m_hp);
 
 	//表示するテキストを設定。
@@ -688,7 +690,7 @@ void Player1::Hit2()
 	//フォントの大きさを設定。
 	m_fontHPRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontHPRender.SetColor(g_vec4White);
+	m_fontHPRender.SetColor(g_vec4White);*/
 
 	//敵の攻撃用のコリジョンの配列を取得する。
 	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player2_attack");

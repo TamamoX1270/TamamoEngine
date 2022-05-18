@@ -52,6 +52,8 @@ bool Player2::Start()
 	//モデルの読み込み
 	m_player2.Init("Assets/purototype/model3/tuna.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 
+	m_position = Vector3(-150.0f, 0.0f, 0.0f);
+
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
 
@@ -106,7 +108,7 @@ void Player2::Update()
 	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
 
-	int soysoysoysoy = m_soysaucecount;
+	/*int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", soysoysoysoy);
 
@@ -117,7 +119,7 @@ void Player2::Update()
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);
+	m_fontRender.SetColor(g_vec4White);*/
 
 	if (p1_Catch != true && p3_Catch != true) {
 		Move();
@@ -676,7 +678,7 @@ void Player2::autoGuard()
 
 void Player2::Hit1()
 {
-	wchar_t wcsbuf1[256];
+	/*wchar_t wcsbuf1[256];
 	swprintf_s(wcsbuf1, 256, L"%d", m_hp);
 
 	//表示するテキストを設定。
@@ -686,7 +688,7 @@ void Player2::Hit1()
 	//フォントの大きさを設定。
 	m_fontHPRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontHPRender.SetColor(g_vec4White);
+	m_fontHPRender.SetColor(g_vec4White);*/
 
 	//敵の攻撃用のコリジョンの配列を取得する。
 	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player1_attack");
