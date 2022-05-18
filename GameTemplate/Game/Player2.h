@@ -193,7 +193,9 @@ private:
 		enAnimClip_CPunch,	// 9 : 掴み攻撃アニメーション。
 		enAnimClip_FlyAway,	// 10 : 吹っ飛びアニメーション。
 		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
-		enAnimClip_Num,		// 12 : アニメーションクリップの数。
+		enAnimClip_Death,	// 12 : 死ぬアニメーション。
+		enAnimClip_RingOut,	// 13 : リングアウトアニメーション。
+		enAnimClip_Num,		// 14 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player2;								//プレイヤー
@@ -257,4 +259,5 @@ private:
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
 
 	int m_owaowari; //そこまで！ステートを受け取る。
+	float m_out = false;			//リングアウトしたかどうか。
 };

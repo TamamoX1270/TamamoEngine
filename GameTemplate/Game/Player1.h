@@ -193,7 +193,9 @@ private:
 		enAnimClip_CPunch,	// 9 : 掴み攻撃アニメーション。
 		enAnimClip_FlyAway,	// 10 : 吹っ飛びアニメーション。
 		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
-		enAnimClip_Num,		// 12 : アニメーションクリップの数。
+		enAnimClip_Death,	// 12 : 死ぬアニメーション。
+		enAnimClip_RingOut,	// 13 : リングアウトアニメーション。
+		enAnimClip_Num,		// 14 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー
@@ -212,7 +214,7 @@ private:
 	int m_soysaucecount = 99;			//醤油カウント
 	
 	//HPの表示
-	int m_hp = 100;
+	int m_hp = 1;
 	int m_max = 100;
 	int m_min = 0;
 	FontRender      m_fontHPRender;					//フォントレンダー
@@ -253,8 +255,10 @@ private:
 	SoundSource* P1se;	//P1の効果音。
 
 	//掴み処理の関数
-	float shine = false;		//掴まれているか。
+	float shine = false;			//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
 
-	int m_owaowari; //そこまで！ステートを受け取る。
+	//ゲーム終了や負け処理の関数
+	int m_owaowari;					//そこまで！ステートを受け取る。
+	float m_out = false;			//リングアウトしたかどうか。
 };

@@ -44,6 +44,10 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_FlyAway].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RiseUp].Load("Assets/purototype/riseup.tka");
 	m_animationClipArray[enAnimClip_RiseUp].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Death].Load("Assets/purototype/death.tka");
+	m_animationClipArray[enAnimClip_Death].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_RingOut].Load("Assets/purototype/ringout.tka");
+	m_animationClipArray[enAnimClip_RingOut].SetLoopFlag(false);
 
 	//エフェクトを読み込む。
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
@@ -92,7 +96,24 @@ bool Player1::Start()
 
 void Player1::Update()
 {
-	if (m_owaowari == true) {
+	//リングアウトしたら。
+	if (m_out == true) {
+		m_player.PlayAnimation(enAnimClip_RingOut, 0.2f);
+		m_characterController.RemoveRigidBoby();
+		m_player.Update();
+		return;
+	}
+
+	//HPがなくなったら。
+	else if (m_hp <= 0) {
+		m_player.PlayAnimation(enAnimClip_Death, 0.2f);
+		m_characterController.RemoveRigidBoby();
+		m_player.Update();
+		return;
+	}
+
+	//時間切れになったら。
+	else if (m_owaowari == true) {
 		m_player.PlayAnimation(enAnimClip_Idle,0.2f);
 		m_player.Update();
 		return;
@@ -1203,11 +1224,13 @@ void Player1::RingOut()
 {
 	//左端。
 	if (m_position.x < -1070.0f && m_position.y < -160.0f) {
-		m_hp -= 5;
+		m_out = true;
+		m_hp = 0;
 	}
 	//右端。
 	if (m_position.x > 1070.0f && m_position.y < -160.0f) {
-		m_hp -= 5;
+		m_out = true;
+		m_hp = 0;
 	}
 }
 
