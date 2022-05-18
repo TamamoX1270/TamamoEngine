@@ -71,6 +71,9 @@ private:
 	//HPバーの実装のための関数
 	int m_hp = 0;
 
+	//タイマー
+	float soysauce_timer = 0.0f;
+
 	//カメラのポインタ関数
 	GameCamera* m_gameCamera;
 
@@ -80,5 +83,7 @@ private:
 	SpecialCamera* sscamera;
 	int m_cameraState = 0;
 	int m_gamedelete = false;							//ゲーム削除ステート
+	int m_soysoucenewgotimer = false;
+	int m_soysaucenewgo = false;
 };
 

@@ -32,8 +32,6 @@ bool Game::Start()
 
 	//GameUIの生成
 	m_gamingshigureui = NewGO<GameUI>(0, "gameui");
-	//醤油オブジェクトを生成する。
-	m_soysauce = NewGO<SoySauce>(0, "soysauce");
 	//左右の壁オブジェクトを生成する。
 	m_sidewall = NewGO<SideWall>(0, "sidewall");
 	//背景オブジェクトを作成する。
@@ -66,7 +64,27 @@ void Game::Update()
 {
 	GameDelete();
 	Camera();
-
+	
+	if (m_soysoucenewgotimer == false)
+	{
+		soysauce_timer += g_gameTime->GetFrameDeltaTime();
+	}
+	if (soysauce_timer >= 5.0f)
+	{
+		m_soysoucenewgotimer = true;
+	}
+	if (m_soysoucenewgotimer == true)
+	{
+		m_soysaucenewgo = true;
+	}
+	if (m_soysaucenewgo == true)
+	{
+		//醤油オブジェクトを生成する。
+		m_soysauce = NewGO<SoySauce>(0, "soysauce");
+		m_soysoucenewgotimer = false;
+		m_soysaucenewgo = false;
+		soysauce_timer = 0.0f;
+	}
 	//(*･ω･)/ﾊｰｲ
 	/*
 	// 左スティック(キーボード：WASD)で平行移動。

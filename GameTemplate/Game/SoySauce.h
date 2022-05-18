@@ -1,6 +1,9 @@
 #pragma once
 
 class Player1;
+class Player2;
+class Player3;
+class Player4;
 
 class SoySauce : public IGameObject
 {
@@ -50,6 +53,9 @@ public:
 private:
 
 	Player1* m_player1 = nullptr;;								//プレイヤー１
+	Player2* m_player2 = nullptr;;								//プレイヤー１
+	Player3* m_player3 = nullptr;;								//プレイヤー１
+	Player4* m_player4 = nullptr;;								//プレイヤー１
 	ModelRender			m_soysauce;								//醤油
 	Vector3				m_position = Vector3::Zero;				// 座標
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
