@@ -216,7 +216,7 @@ private:
 	SoySauceBullet* m_soysaucebullet;   //醤油弾
 	Vector3			m_forward;			//キャラクターの前方向のベクトル
 	FontRender		m_fontRender;		//文字
-	int m_soysaucecount = 99;			//醤油カウント
+	int m_soysaucecount = 5;			//醤油カウント
 
 	//HPの表示
 	int m_hp = 100;
