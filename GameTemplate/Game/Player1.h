@@ -2,6 +2,7 @@
 #include "sound/SoundSource.h"
 
 class SoySauceBullet;
+class PlayerPoint;
 
 class Player1 : public IGameObject
 {
@@ -206,6 +207,7 @@ private:
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
 	Vector3				m_efpos1;								//エフェクト用のポジション
+	PlayerPoint*		m_playerpoint;							//プレイヤーのポイントを記録する
 
 	//醤油弾の関数
 	SoySauceBullet* m_soysaucebullet;   //醤油弾

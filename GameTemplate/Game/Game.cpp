@@ -14,7 +14,8 @@
 #include "SideWall.h"
 #include "Title.h"
 #include "Result.h"
-#include"SpecialCamera.h"
+#include "SpecialCamera.h"
+#include "PlayerPoint.h"
 
 bool Game::Start()
 {
@@ -36,7 +37,8 @@ bool Game::Start()
 	m_sidewall = NewGO<SideWall>(0, "sidewall");
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
-
+	//プレイヤーの取得ポイントを保存するクラスを生成する。
+	m_playerpoint = NewGO<PlayerPoint>(0, "playerpoint");
 	sscamera = NewGO<SpecialCamera>(0, "specialcamera");
 
 	m_gameCamera = NewGO<GameCamera>(0, "gamecamera");

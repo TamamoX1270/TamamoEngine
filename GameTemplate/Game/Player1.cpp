@@ -9,6 +9,7 @@
 #include "SoySauceBullet.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
+#include "PlayerPoint.h"
 
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
@@ -54,6 +55,7 @@ bool Player1::Start()
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
 
 	m_position = Vector3(-500.0f, 0.0f, 0.0f);
+	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
 
 	//モデルの読み込み
 	m_player.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
@@ -667,6 +669,8 @@ void Player1::MakeGuardCollision()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(collisionObject))
 		{
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set2PPoint();
 			FindGO<Player2>("player2")->SetPlayer2PlayerState11();
 		}
 
@@ -723,6 +727,8 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -774,6 +780,8 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -822,6 +830,8 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -870,6 +880,8 @@ void Player1::Hit2()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set2PPoint();
 		}
 	}
 
@@ -888,6 +900,8 @@ void Player1::Hit2()
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 			}
 		}
 	}
@@ -931,6 +945,8 @@ void Player1::Hit3()
 			if (guard != true) {
 				m_hp -= 2;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 			}
 		}
 	}
@@ -947,6 +963,8 @@ void Player1::Hit3()
 			if (guard != true) {
 				m_hp -= 5;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 			}
 		}
 	}
@@ -963,6 +981,8 @@ void Player1::Hit3()
 			if (guard != true) {
 				m_hp -= 8;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 			}
 		}
 	}
@@ -977,6 +997,8 @@ void Player1::Hit3()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set3PPoint();
 		}
 	}
 
@@ -995,6 +1017,8 @@ void Player1::Hit3()
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 			}
 		}
 	}
@@ -1014,6 +1038,8 @@ void Player1::Hit4()
 			if (guard != true) {
 				m_hp -= 2;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set4PPoint();
 			}
 		}
 	}
@@ -1030,6 +1056,8 @@ void Player1::Hit4()
 			if (guard != true) {
 				m_hp -= 5;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set4PPoint();
 			}
 		}
 	}
@@ -1046,6 +1074,8 @@ void Player1::Hit4()
 			if (guard != true) {
 				m_hp -= 8;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set4PPoint();
 			}
 		}
 	}
@@ -1060,6 +1090,8 @@ void Player1::Hit4()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set4PPoint();
 		}
 	}
 
@@ -1077,6 +1109,8 @@ void Player1::Hit4()
 				////////////////////////////////////////////////////
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set4PPoint();
 				m_playerState = 5;
 			}
 		}
@@ -1096,6 +1130,9 @@ void Player1::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
+
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 
 				//エフェクト。
 				m_efpos1 = m_position;
@@ -1148,6 +1185,8 @@ void Player1::AfterCatch()
 				shine = false;
 				m_hp -= 5;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 			}
 		}
 	}
@@ -1165,6 +1204,8 @@ void Player1::AfterCatch()
 				shine = false;
 				m_hp -= 5;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set4PPoint();
 			}
 		}
 	}

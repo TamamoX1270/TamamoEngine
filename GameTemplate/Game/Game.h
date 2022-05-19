@@ -15,6 +15,7 @@ class SpecialCamera;
 class SoySauce;
 class SideWall;
 class Title;
+class PlayerPoint;
 
 class Game : public IGameObject
 {
@@ -67,6 +68,7 @@ private:
 	Vector3         m_directionligColor;		    //セットする色
 	Vector3			m_spPosition;					//スポットライトのポジション
 	Vector3			m_spDirection;                  //スポットライトの方向
+	PlayerPoint*	m_playerpoint;					//プレイヤーのポイントを記録する
 	
 	//HPバーの実装のための関数
 	int m_hp = 0;

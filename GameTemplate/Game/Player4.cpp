@@ -9,6 +9,7 @@
 #include "SoySauceBullet.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
+#include "PlayerPoint.h"
 
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
@@ -57,6 +58,7 @@ bool Player4::Start()
 	m_player4.Init("Assets/purototype/model4/ebi.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 
 	m_position = Vector3(500.0f, 0.0f, 0.0f);
+	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
 
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
@@ -672,6 +674,8 @@ void Player4::MakeGuardCollision()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(collisionObject))
 		{
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set2PPoint();
 			FindGO<Player2>("player2")->SetPlayer2PlayerState11();
 		}
 
@@ -716,6 +720,8 @@ void Player4::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set1PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -767,6 +773,8 @@ void Player4::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set1PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -815,6 +823,8 @@ void Player4::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set1PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -861,6 +871,8 @@ void Player4::Hit1()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set1PPoint();
 			m_Catchtimer = 0.0f;
 			shine = true;
 		}
@@ -881,6 +893,8 @@ void Player4::Hit1()
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set1PPoint();
 			}
 		}
 	}
@@ -934,6 +948,8 @@ void Player4::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -985,6 +1001,8 @@ void Player4::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -1033,6 +1051,8 @@ void Player4::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -1079,6 +1099,8 @@ void Player4::Hit2()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set2PPoint();
 			m_Catchtimer = 0.0f;
 			shine = true;
 		}
@@ -1098,6 +1120,8 @@ void Player4::Hit2()
 				////////////////////////////////////////////////////
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				m_playerState = 5;
 			}
 		}
@@ -1140,6 +1164,8 @@ void Player4::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 				m_hp -= 2;
 				m_playerState = 5;
 			}
@@ -1156,6 +1182,8 @@ void Player4::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 				m_hp -= 5;
 				m_playerState = 5;
 			}
@@ -1172,6 +1200,8 @@ void Player4::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 				m_hp -= 8;
 				m_playerState = 5;
 			}
@@ -1186,6 +1216,8 @@ void Player4::Hit3()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//プレイヤーの内部スコア加点
+			m_playerpoint->Set3PPoint();
 			m_Catchtimer = 0.0f;
 			shine = true;
 		}
@@ -1206,6 +1238,8 @@ void Player4::Hit3()
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 			}
 		}
 	}
@@ -1226,6 +1260,8 @@ void Player4::AfterCatch()
 				shine = false;
 				m_hp -= 1;
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set1PPoint();
 			}
 		}
 	}
@@ -1241,7 +1277,8 @@ void Player4::AfterCatch()
 			//HPを減らす。
 			if (guard != true) {
 				shine = false;
-
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set2PPoint();
 				//エフェクト。
 				m_efpos1 = m_position;
 				m_efpos1.y = 50.0f;
@@ -1290,6 +1327,8 @@ void Player4::AfterCatch()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
 				shine = false;
 				m_hp -= 1;
 				m_playerState = 5;

@@ -27,6 +27,7 @@
     <ClCompile Include="SpecialCamera.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Result.cpp" />
+    <ClCompile Include="PlayerPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -49,5 +50,6 @@
     <ClInclude Include="SpecialCamera.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="PlayerPoint.h" />
   </ItemGroup>
 </Project>
