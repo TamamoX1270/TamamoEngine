@@ -26,29 +26,33 @@ bool GameUI::Start()
 	m_player3 = FindGO<Player3>("player3");
 	m_player4 = FindGO<Player4>("player4");
 	//m_ui.Init("Assets/sprite/ComprehensiveUI.dds", 1600.0f, 900.0f);
-	m_spriteRenderwakka.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
-	m_spriteRenderwakka2.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
-	m_spriteRenderwakka3.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
-	m_spriteRenderwakka4.Init("Assets/sprite/wakka.dds", 210.0f, 210.0f);
+	m_spriteRendersamonhuda.Init("Assets/sprite/samonhuda.dds", 100.0f, 200.0f);
+	m_spriteRendersamonhuda.SetPosition(Vector3(-730.0f, -340.0f, 0.0f));
+
+	m_spriteRendermagurohuda.Init("Assets/sprite/magurohuda.dds", 100.0f, 200.0f);
+	m_spriteRendermagurohuda.SetPosition(Vector3(-335.0f, -340.0f, 0.0f));
+
+	m_spriteRendertamagohuda.Init("Assets/sprite/tamagohuda.dds", 100.0f, 200.0f);
+	m_spriteRendertamagohuda.SetPosition(Vector3(65.0f, -340.0f, 0.0f));
+
+	m_spriteRenderebihuda.Init("Assets/sprite/ebihuda.dds", 100.0f, 200.0f);
+	m_spriteRenderebihuda.SetPosition(Vector3(460.0f, -340.0f, 0.0f));
+
 	m_spriteRendertime.Init("Assets/sprite/timer_UI2.dds", 520.0f, 300.0f);
+	m_spriteRendertime.SetPosition(Vector3(0.0f, 375.0f, 0.0f));
+
 	m_spriteRendersokomade.Init("Assets/sprite/sokomade.dds", 1600.0f, 900.0f);
 	SoyCT();
 	SushiHPBar();
-
-	m_spriteRenderwakka.SetPosition(Vector3(-730.0f, -340.0f, 0.0f));
-	m_spriteRenderwakka2.SetPosition(Vector3(-335.0f, -340.0f, 0.0f));
-	m_spriteRenderwakka3.SetPosition(Vector3(65.0f, -340.0f, 0.0f));
-	m_spriteRenderwakka4.SetPosition(Vector3(460.0f, -340.0f, 0.0f));
-	m_spriteRendertime.SetPosition(Vector3(0.0f, 375.0f, 0.0f));
 
 	m_spriteRender.Update();
 	m_spriteRender2.Update();
 	m_spriteRender3.Update();
 	m_spriteRender4.Update();
-	m_spriteRenderwakka.Update();
-	m_spriteRenderwakka2.Update();
-	m_spriteRenderwakka3.Update();
-	m_spriteRenderwakka4.Update();
+	m_spriteRendersamonhuda.Update();
+	m_spriteRendermagurohuda.Update();
+	m_spriteRendertamagohuda.Update();
+	m_spriteRenderebihuda.Update();
 	m_spriteRendertime.Update();
 
 	//êÌì¨èIóπSEÇì«Ç›çûÇﬁÅB
@@ -250,10 +254,10 @@ void GameUI::Render(RenderContext& rc)
 	//m_ui.Draw(rc);
 
 	//m_spriteRender99.Draw(rc);
-	m_spriteRenderwakka.Draw(rc);
-	m_spriteRenderwakka2.Draw(rc);
-	m_spriteRenderwakka3.Draw(rc);
-	m_spriteRenderwakka4.Draw(rc);
+	m_spriteRendersamonhuda.Draw(rc);
+	m_spriteRendermagurohuda.Draw(rc);
+	m_spriteRendertamagohuda.Draw(rc);
+	m_spriteRenderebihuda.Draw(rc);
 	m_spriteRender.Draw(rc);                 //ï`âÊ
 	m_spriteRender2.Draw(rc);
 	m_spriteRender3.Draw(rc);

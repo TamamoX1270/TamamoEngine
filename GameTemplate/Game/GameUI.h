@@ -79,10 +79,10 @@ private:
 	SpriteRender	m_sushihpbar4;
 	SpriteRender	m_sushihpbarwaku4;
 
-	SpriteRender	m_spriteRenderwakka;
-	SpriteRender	m_spriteRenderwakka2;
-	SpriteRender	m_spriteRenderwakka3;
-	SpriteRender	m_spriteRenderwakka4;
+	SpriteRender	m_spriteRendersamonhuda;
+	SpriteRender	m_spriteRendermagurohuda;
+	SpriteRender	m_spriteRendertamagohuda;
+	SpriteRender	m_spriteRenderebihuda;
 	SpriteRender	m_spriteRendertime;
 
 	SpriteRender	m_spriteRendersokomade;
