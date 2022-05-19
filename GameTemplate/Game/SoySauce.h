@@ -50,6 +50,7 @@ public:
 		m_position = position;
 	}
 
+
 private:
 
 	Player1* m_player1 = nullptr;;								//プレイヤー１
@@ -64,7 +65,5 @@ private:
 	Vector3				m_scale = Vector3::One;					// 拡大率  
 	EffectEmitter*		m_effectEmitter;						//エフェクト
 	CollisionObject*	m_collisionObject;						//コリジョン
-
-	int m_getsoyplayernumber = 0;								//取得したプレイヤーの番号
 };
 

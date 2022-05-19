@@ -89,6 +89,15 @@ public:
 		m_playerState = 11;
 	}
 
+	void AddSauce()
+	{
+		m_getsoyplayernumber++;
+	}
+
+	const int  GetSauce()
+	{
+		return m_getsoyplayernumber;
+	}
 
 private:
 	/// <summary>
@@ -263,4 +272,8 @@ private:
 	//ゲーム終了や負け処理の関数
 	int m_owaowari;					//そこまで！ステートを受け取る。
 	float m_out = false;			//リングアウトしたかどうか。
+
+	EffectEmitter* m_effectEmitter;						//エフェクト
+	int m_getsoyplayernumber = 0;								//取得したプレイヤーの番号
+	int getsauce = 0;
 };
