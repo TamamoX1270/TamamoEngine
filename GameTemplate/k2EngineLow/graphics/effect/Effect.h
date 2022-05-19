@@ -88,6 +88,14 @@ namespace nsK2EngineLow {
 		{
 			return EffectEngine::GetInstance()->IsPlay(m_handle);
 		}
+		/// <summary>
+		/// エフェクトを自動で消すか(デフォルトではtrue)
+		/// </summary>
+		/// <param name="isAutoDelete"></param>
+		void SetIsAutoDelete(bool isAutoDelete)
+		{
+			m_isAutoDelete = isAutoDelete;
+		}
 		/*!
 		 *@brief	更新。
 		 */
@@ -98,5 +106,6 @@ namespace nsK2EngineLow {
 		Vector3 m_position;				//座標。
 		Quaternion m_rotation;;			//回転。
 		Vector3 m_scale = g_vec3One;	//拡大率。
+		bool m_isAutoDelete = true;
 	};
 }

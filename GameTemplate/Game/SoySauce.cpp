@@ -9,6 +9,8 @@
 #include "CollisionObject.h"
 //乱数を使えるようにする
 #include <random>
+//EffectEmitterを使用する時はファイルをインクルードする必要がある。
+#include "graphics/effect/EffectEmitter.h"
 
 namespace
 {
@@ -37,6 +39,7 @@ bool SoySauce::Start()
 	m_player4 = FindGO<Player4>("player4");
 	//モデルの読み込み
 	m_soysauce.Init("Assets/modelData/SoySauce.tkm");
+	EffectEngine::GetInstance()->ResistEffect(999, u"Assets/effect/Getsoysauce.efk");
 	//m_position.x = -150.0f;
 	m_rotation.AddRotationDegY(180.0f);
 	m_soysauce.SetScale(1.0, 1.0, 1.0);
@@ -62,12 +65,21 @@ bool SoySauce::Start()
 
 SoySauce::~SoySauce()
 {
+	//コリジョンオブジェクトの削除
 	DeleteGO(m_collisionObject);
 }
 
 void SoySauce::Update()
 {
 	Move();
+	//プレイヤーが取得済みかつ再生が終わったら削除する。
+	if (m_getsoyplayernumber == 1 && m_effectEmitter->IsPlay() == false ||
+		m_getsoyplayernumber == 2 && m_effectEmitter->IsPlay() == false ||
+		m_getsoyplayernumber == 3 && m_effectEmitter->IsPlay() == false ||
+		m_getsoyplayernumber == 4 && m_effectEmitter->IsPlay() == false)
+	{
+		DeleteGO(this);
+	}
 }
 
 void SoySauce::Move()
@@ -78,33 +90,97 @@ void SoySauce::Move()
 	{
 		m_position.y = 0.0f;
 	}
-	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
+	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player1->GetCharacterController()) == true)
 	{
+		m_efpos = m_position;
+		m_efpos.y = 0.0f;
+		m_effectEmitter = NewGO<EffectEmitter>(0);
+		m_effectEmitter->Init(999);
+		m_effectEmitter->SetScale({ 50.0f,50.0f,50.0f });
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Play();
 		//醤油カウントを１増やす。
 		m_player1->AddSoySauceCount();
-		DeleteGO(this);
+		m_getsoyplayernumber = 1;
+		//コリジョンオブジェクトを削除
+		DeleteGO(m_collisionObject);
 	}
-	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
+	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player2->GetCharacterController()) == true)
 	{
+		m_efpos = m_position;
+		m_efpos.y = 0.0f;
+		m_effectEmitter = NewGO<EffectEmitter>(0);
+		m_effectEmitter->Init(999);
+		m_effectEmitter->SetScale({ 50.0f,50.0f,50.0f });
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Play();
 		//醤油カウントを１増やす。
 		m_player2->AddSoySauceCount();
-		DeleteGO(this);
+		m_getsoyplayernumber = 2;
+		//コリジョンオブジェクトを削除
+		DeleteGO(m_collisionObject);
 	}
-	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
+	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player3->GetCharacterController()) == true)
 	{
+		m_efpos = m_position;
+		m_efpos.y = 0.0f;
+		m_effectEmitter = NewGO<EffectEmitter>(0);
+		m_effectEmitter->Init(999);
+		m_effectEmitter->SetScale({ 50.0f,50.0f,50.0f });
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Play();
 		//醤油カウントを１増やす。
 		m_player3->AddSoySauceCount();
-		DeleteGO(this);
+		m_getsoyplayernumber = 3;
+		//コリジョンオブジェクトを削除
+		DeleteGO(m_collisionObject);
 	}
-	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
+	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player4->GetCharacterController()) == true)
 	{
+		m_efpos = m_position;
+		m_efpos.y = 0.0f;
+		m_effectEmitter = NewGO<EffectEmitter>(0);
+		m_effectEmitter->Init(999);
+		m_effectEmitter->SetScale({ 50.0f,50.0f,50.0f });
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Play();
 		//醤油カウントを１増やす。
 		m_player4->AddSoySauceCount();
-		DeleteGO(this);
+		m_getsoyplayernumber = 4;
+		//コリジョンオブジェクトを削除
+		DeleteGO(m_collisionObject);
+	}
+	//取得済みかつ再生中ならエフェクトがプレイヤーを追従する。
+	if (m_getsoyplayernumber == 1&&m_effectEmitter->IsPlay() == true)
+	{
+		m_efpos = m_player1->GetPlayer1Position();
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Update();
+	}
+	//取得済みかつ再生中ならエフェクトがプレイヤーを追従する。
+	if (m_getsoyplayernumber == 2 && m_effectEmitter->IsPlay() == true)
+	{
+		m_efpos = m_player2->GetPlayer2Position();
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Update();
+	}
+	//取得済みかつ再生中ならエフェクトがプレイヤーを追従する。
+	if (m_getsoyplayernumber == 3 && m_effectEmitter->IsPlay() == true)
+	{
+		m_efpos = m_player3->GetPlayer3Position();
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Update();
+	}
+	//取得済みかつ再生中ならエフェクトがプレイヤーを追従する。
+	if (m_getsoyplayernumber == 4 && m_effectEmitter->IsPlay() == true)
+	{
+		m_efpos = m_player4->GetPlayer4Position();
+		m_effectEmitter->SetPosition(m_efpos);
+		m_effectEmitter->Update();
 	}
 	m_soysauce.SetPosition(m_position);
 	m_collisionObject->SetPosition(m_position);
@@ -112,5 +188,9 @@ void SoySauce::Move()
 }
 void SoySauce::Render(RenderContext& rc)
 {
-	m_soysauce.Draw(rc);
+	//取得していない時のみ醤油オブジェクトを描画する。
+	if (m_getsoyplayernumber == 0)
+	{
+		m_soysauce.Draw(rc);
+	}
 }
