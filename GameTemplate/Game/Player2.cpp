@@ -845,13 +845,13 @@ void Player2::Hit1()
 					m_charaRotState = 1;
 
 					//少しノックバックする。
-					moveSpeed.x += a.x * 800.0f;
+					moveSpeed.x += a.x * 6000.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 				else if (a.x < 0) {
 					m_charaRotState = 0;
 					//少しノックバックする。
-					moveSpeed.x += a.x * 800.0f;
+					moveSpeed.x += a.x * 6000.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 
