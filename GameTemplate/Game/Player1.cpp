@@ -54,7 +54,7 @@ bool Player1::Start()
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
 
-	m_position = Vector3(-500.0f, 0.0f, 0.0f);
+	m_position = Vector3(-300.0f, 0.0f, 0.0f);
 	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
 
 	//モデルの読み込み
@@ -131,18 +131,18 @@ void Player1::Update()
 	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 	p4_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 
-	/*int soysoysoysoy = m_soysaucecount;
+	int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
-	swprintf_s(wcsbuf1, 256, L"%d", soysoysoysoy);
+	swprintf_s(wcsbuf1, 256, L"%3d", soysoysoysoy);
 
 	//表示するテキストを設定。
 	m_fontRender.SetText(wcsbuf1);
 	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(-580.0f, -400.0f, 0.0f));
+	m_fontRender.SetPosition(Vector3(-615.0f, -400.0f, 0.0f));
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);*/
+	m_fontRender.SetColor(g_vec4White);
 
 	if (p2_Catch != true && p3_Catch != true && p4_Catch != true) {
 		Move();
@@ -1265,13 +1265,13 @@ void Player1::CatchAttackCollision()
 
 void Player1::RingOut()
 {
-	//左端。
-	if (m_position.x < -1070.0f && m_position.y < -160.0f) {
+	//左端。1070,160
+	if (m_position.x < -705.0f && m_position.y < -105.0f) {
 		m_out = true;
 		m_hp = 0;
 	}
 	//右端。
-	if (m_position.x > 1070.0f && m_position.y < -160.0f) {
+	if (m_position.x > 705.0f && m_position.y < -105.0f) {
 		m_out = true;
 		m_hp = 0;
 	}

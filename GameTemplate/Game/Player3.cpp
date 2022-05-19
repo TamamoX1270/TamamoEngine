@@ -57,7 +57,7 @@ bool Player3::Start()
 	//モデルの読み込み
 	m_player3.Init("Assets/purototype/model/eggR.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 
-	m_position = Vector3(150.0f, 0.0f, 0.0f);
+	m_position = Vector3(100.0f, 0.0f, 0.0f);
 	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
 
 	//キャラコンを初期化する。
@@ -129,18 +129,18 @@ void Player3::Update()
 	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
 	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
 
-	/*int soysoysoysoy = m_soysaucecount;
+	int soysoysoysoy = m_soysaucecount;
 	wchar_t wcsbuf1[256];
-	swprintf_s(wcsbuf1, 256, L"%d", soysoysoysoy);
+	swprintf_s(wcsbuf1, 256, L"%3d", soysoysoysoy);
 
 	//表示するテキストを設定。
 	m_fontRender.SetText(wcsbuf1);
 	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(380.0f, -400.0f, 0.0f));
+	m_fontRender.SetPosition(Vector3(340.0f, -400.0f, 0.0f));
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(1.5f);
 	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);*/
+	m_fontRender.SetColor(g_vec4White);
 
 	if (p1_Catch != true && p2_Catch != true && p4_Catch != true) {
 		Move();
@@ -1376,12 +1376,12 @@ void Player3::CatchAttackCollision()
 void Player3::RingOut()
 {
 	//左端。
-	if (m_position.x < -1070.0f && m_position.y < -160.0f) {
+	if (m_position.x < -705.0f && m_position.y < -105.0f) {
 		m_out = true;
 		m_hp = 0;
 	}
 	//右端。
-	if (m_position.x > 1070.0f && m_position.y < -160.0f) {
+	if (m_position.x > 705.0f && m_position.y < -105.0f) {
 		m_out = true;
 		m_hp = 0;
 	}

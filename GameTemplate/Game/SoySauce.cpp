@@ -13,8 +13,8 @@
 namespace
 {
 	//乱数を生成
-	constexpr int MIN = -900;//乱数の範囲最低値
-	constexpr int MAX = 900;//乱数の範囲最大値
+	constexpr int MIN = -600;//乱数の範囲最低値
+	constexpr int MAX = 600;//乱数の範囲最大値
 	constexpr int RAND_NUMS_TO_GENERATE = 1;//乱数を生成する回数
 }
 

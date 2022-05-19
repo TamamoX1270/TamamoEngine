@@ -15,8 +15,11 @@ BackGround::~BackGround()
 
 bool BackGround::Start()
 {
-	m_backGround.SetScale(Vector3(1.0f, 1.0f, 1.0f));
-	m_backGround.SetPosition(0.0f, 0.0f, 150.0f);
+	m_backGround.SetScale(Vector3(0.65f, 0.65f, 0.65f));
+	m_backGround.SetPosition(0.0f, 0.0f, 90.0f);
+	
+	//m_backGround.SetScale(Vector3(1.0f, 1.0f, 1.0f));
+	//m_backGround.SetPosition(0.0f, 0.0f, 150.0f);
 
 	m_backGround.Init("Assets/stageff/stage.tkm");
 
