@@ -25,7 +25,7 @@ bool GameCamera::Start()
 
 GameCamera::GameCamera()
 {
-
+	
 }
 
 GameCamera::~GameCamera()
@@ -39,17 +39,37 @@ void GameCamera::Update()
 	//注視点を計算する。
 	Vector3 target;
 
-	//4人のプレイヤーの位置を配列に入れる。	
+	//4人のプレイヤーの位置を配列に入れる。
+	//生きているプレイヤーを数える。
 	float m_getPosition[4];
-	m_getPosition[0] = m_player1->GetPlayer1Position().x;
+	int numActivePlayer = 0;
+	if (m_player1->GetPlayerHP() > 0) {
+		m_getPosition[numActivePlayer] = m_player1->GetPlayer1Position().x;
+		numActivePlayer++;
+	}
+	if (m_player2->GetPlayer2HP() > 0) {
+		m_getPosition[numActivePlayer] = m_player2->GetPlayer2Position().x;
+		numActivePlayer++;
+	}
+	if (m_player3->GetPlayer3HP() > 0) {
+		m_getPosition[numActivePlayer] = m_player3->GetPlayer3Position().x;
+		numActivePlayer++;
+	}
+	if (m_player4->GetPlayer4HP() > 0) {
+		m_getPosition[numActivePlayer] = m_player4->GetPlayer4Position().x;
+		numActivePlayer++;
+	}
+	
+	/*m_getPosition[0] = m_player1->GetPlayer1Position().x;
 	m_getPosition[1] = m_player2->GetPlayer2Position().x;
 	m_getPosition[2] = m_player3->GetPlayer3Position().x;
 	m_getPosition[3] = m_player4->GetPlayer4Position().x;
+	*/
 
 	//一番右のやつを探す。
 	m_max = m_getPosition[0];
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < numActivePlayer; i++) {
 		if (m_max <= m_getPosition[i]) {
 			m_max = m_getPosition[i];
 		}
@@ -58,7 +78,7 @@ void GameCamera::Update()
 	//一番左のやつを探す。
 	m_min = m_getPosition[0];
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < numActivePlayer; i++) {
 		if (m_min >= m_getPosition[i]) {
 			m_min = m_getPosition[i];
 		}
