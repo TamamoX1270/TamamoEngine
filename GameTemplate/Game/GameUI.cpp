@@ -157,7 +157,7 @@ void GameUI::Timer()
 		endSE->Play(false);
 	}
 	wchar_t wcsbuf[256];
-	swprintf_s(wcsbuf, 256, L"%d", int(game_timer));
+	swprintf_s(wcsbuf, 256, L"%3d", int(game_timer));
 
 	//表示するテキストを設定。
 	m_fontRender.SetText(wcsbuf);
