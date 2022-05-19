@@ -58,6 +58,7 @@ private:
 	Player4* m_player4 = nullptr;;								//プレイヤー１
 	ModelRender			m_soysauce;								//醤油
 	Vector3				m_position = Vector3::Zero;				// 座標
+	Vector3				m_moveSpeed;							//移動速度。
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率  
 	CollisionObject* m_collisionObject;							//コリジョン

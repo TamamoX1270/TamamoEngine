@@ -21,6 +21,7 @@ namespace
 
 bool SoySauce::Start()
 {
+	m_position.y = 500.0f;
 	//敵の乱数。
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -71,8 +72,13 @@ void SoySauce::Update()
 
 void SoySauce::Move()
 {
+	m_position.y -= 5.0f;
+	
+	if (m_position.y <= 0.0f)
+	{
+		m_position.y = 0.0f;
+	}
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
-	//衝突していたら。(ここ仮で醤油側に実装してるけど後でプレイヤー側で判定取るようにした方がいいよ)
 	if (m_collisionObject->IsHit(m_player1->GetCharacterController()) == true)
 	{
 		//醤油カウントを１増やす。
@@ -80,7 +86,6 @@ void SoySauce::Move()
 		DeleteGO(this);
 	}
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
-	//衝突していたら。(ここ仮で醤油側に実装してるけど後でプレイヤー側で判定取るようにした方がいいよ)
 	if (m_collisionObject->IsHit(m_player2->GetCharacterController()) == true)
 	{
 		//醤油カウントを１増やす。
@@ -88,7 +93,6 @@ void SoySauce::Move()
 		DeleteGO(this);
 	}
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
-	//衝突していたら。(ここ仮で醤油側に実装してるけど後でプレイヤー側で判定取るようにした方がいいよ)
 	if (m_collisionObject->IsHit(m_player3->GetCharacterController()) == true)
 	{
 		//醤油カウントを１増やす。
@@ -96,14 +100,15 @@ void SoySauce::Move()
 		DeleteGO(this);
 	}
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが。
-	//衝突していたら。(ここ仮で醤油側に実装してるけど後でプレイヤー側で判定取るようにした方がいいよ)
 	if (m_collisionObject->IsHit(m_player4->GetCharacterController()) == true)
 	{
 		//醤油カウントを１増やす。
 		m_player4->AddSoySauceCount();
 		DeleteGO(this);
 	}
-
+	m_soysauce.SetPosition(m_position);
+	m_collisionObject->SetPosition(m_position);
+	m_soysauce.Update();
 }
 void SoySauce::Render(RenderContext& rc)
 {
