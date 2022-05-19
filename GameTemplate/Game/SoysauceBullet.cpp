@@ -2,25 +2,80 @@
 #include "SoySauceBullet.h"
 #include "stdafx.h"
 #include "Player1.h"
+#include "Player2.h"
+#include "Player3.h"
+#include "Player4.h"
 
 //CollisionObjectを使用するために、ファイルをインクルードする。
 #include "CollisionObject.h"
 
 bool SoySauceBullet::Start()
 {
-	//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
-	m_position = FindGO<Player1>("player1")->GetPlayer1Position();
-	m_position.y += 100.0f;
-	//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
-	if (FindGO<Player1>("player1")->GetPlayerforward().x < 0.0f)
+	switch (m_soynewgoplayer)
 	{
-		m_position.x -= 60.0f;
+	case 0:
+		break;
+	case 1:
+		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
+		m_position = FindGO<Player1>("player1")->GetPlayer1Position();
+		m_position.y += 100.0f;
+		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
+		if (FindGO<Player1>("player1")->GetPlayerforward().x < 0.0f)
+		{
+			m_position.x -= 60.0f;
+		}
+		else
+		{
+			m_position.x += 60.0f;
+		}
+		m_playerposition = FindGO<Player1>("player1")->GetPlayer1Position();
+		break;
+	case 2:
+		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
+		m_position = FindGO<Player2>("player2")->GetPlayer2Position();
+		m_position.y += 100.0f;
+		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
+		if (FindGO<Player2>("player2")->GetPlayerforward().x < 0.0f)
+		{
+			m_position.x -= 60.0f;
+		}
+		else
+		{
+			m_position.x += 60.0f;
+		}
+		m_playerposition = FindGO<Player2>("player2")->GetPlayer2Position();
+		break;
+	case 3:
+		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
+		m_position = FindGO<Player3>("player3")->GetPlayer3Position();
+		m_position.y += 100.0f;
+		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
+		if (FindGO<Player3>("player3")->GetPlayerforward().x < 0.0f)
+		{
+			m_position.x -= 60.0f;
+		}
+		else
+		{
+			m_position.x += 60.0f;
+		}
+		m_playerposition = FindGO<Player3>("player3")->GetPlayer3Position();
+		break;
+	case 4:
+		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
+		m_position = FindGO<Player4>("player4")->GetPlayer4Position();
+		m_position.y += 100.0f;
+		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
+		if (FindGO<Player4>("player4")->GetPlayerforward().x < 0.0f)
+		{
+			m_position.x -= 60.0f;
+		}
+		else
+		{
+			m_position.x += 60.0f;
+		}
+		m_playerposition = FindGO<Player4>("player4")->GetPlayer4Position();
+		break;
 	}
-	else
-	{
-		m_position.x += 60.0f;
-	}
-	m_playerposition = FindGO<Player1>("player1")->GetPlayer1Position();
 	//弾のモデルを読み込む。
 	m_modelRender.Init("Assets/modelData/SoySauceBullet.tkm");
 	m_modelRender.SetScale({ 0.5f,0.5f,0.5f });

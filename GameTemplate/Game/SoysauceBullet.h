@@ -15,6 +15,19 @@ public:
 	void Render(RenderContext& rc);
 	//ˆÚ“®ˆ—
 	void Move();
+	/// <summary>
+	/// İ–û’e‚ğŒ‚‚ÂƒvƒŒƒCƒ„[‚Ì”’l‚ğ“ü‚ê‚Ä‚â‚éB
+	/// </summary>
+	/// <param name="ngp"></param>
+	void SetSoySauceNewGOPlayer(const int ngp)
+	{
+		m_soynewgoplayer = ngp;
+	}
+	void SetMoveSpeed(const Vector3& sms)
+	{
+		m_moveSpeed = sms;
+	}
+private:
 	FontRender m_fontRender;                       //•¶š‚Ì•`‰æ
 	FontRender m_fontRender1;                     //•¶š‚Ì•`‰æ‚Q
 	FontRender m_fontRender2;                    //•¶š‚Ì•`‰æ‚R
@@ -30,5 +43,7 @@ public:
 	CollisionObject* m_collisionObject;
 	float m_deletetimer = 0.0f;
 	int bulletdelete = 0;
+
+	int m_soynewgoplayer = 0;			//’e‚ğNewGO‚µ‚½ƒvƒŒƒCƒ„[‚Ì”Ô†
 };
 

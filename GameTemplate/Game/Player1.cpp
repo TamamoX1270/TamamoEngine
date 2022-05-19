@@ -209,7 +209,9 @@ void Player1::Move()
 		m_soysaucecount--;
 		m_soysaucebullet = NewGO<SoySauceBullet>(0, "soysaucebullet");
 		//bulletのムーブスピードにプレイヤーの前方向のベクトルを入れてやる。
-		m_soysaucebullet->m_moveSpeed = m_forward;
+		m_soysaucebullet->SetMoveSpeed(m_forward);
+		//1Pが醤油弾を撃った。
+		m_soysaucebullet->SetSoySauceNewGOPlayer(1);
 		//効果音を再生する。
 		SoundSource* P1se = NewGO<SoundSource>(10);
 		P1se->Init(10);

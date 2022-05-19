@@ -207,7 +207,9 @@ void Player3::Move()
 		m_soysaucecount--;
 		m_soysaucebullet = NewGO<SoySauceBullet>(0, "soysaucebullet");
 		//bulletのムーブスピードにプレイヤーの前方向のベクトルを入れてやる。
-		m_soysaucebullet->m_moveSpeed = m_forward;
+		m_soysaucebullet->SetMoveSpeed(m_forward);
+		//3Pが醤油弾を撃った。
+		m_soysaucebullet->SetSoySauceNewGOPlayer(3);
 	}
 
 	if (m_playerState == 0 || m_playerState == 1 || m_playerState == 4 || m_playerState == 9) {
