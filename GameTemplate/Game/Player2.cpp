@@ -119,6 +119,9 @@ void Player2::Update()
 	//リングアウトしたら。
 	if (m_out == true) {
 		m_player2.PlayAnimation(enAnimClip_RingOut, 0.2f);
+		if (m_player2.IsPlayingAnimation() == false) {
+			m_hp = -1;
+		}
 		m_characterController.RemoveRigidBoby();
 		m_player2.Update();
 		return;
@@ -126,6 +129,9 @@ void Player2::Update()
 
 	else if (m_hp <= 0) {
 		m_player2.PlayAnimation(enAnimClip_Death, 0.2f);
+		if (m_player2.IsPlayingAnimation() == false) {
+			m_hp = -1;
+		}
 		m_characterController.RemoveRigidBoby();
 		m_player2.Update();
 		return;
@@ -1284,7 +1290,7 @@ void Player2::RingOut()
 		m_hp = 0;
 	}
 	//右端。
-	if (m_position.x > 705.0f && m_position.y < -105.0f) {
+	if (m_position.x > 700.0f && m_position.y < -105.0f) {
 		m_out = true;
 		m_hp = 0;
 	}

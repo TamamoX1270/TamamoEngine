@@ -43,19 +43,19 @@ void GameCamera::Update()
 	//生きているプレイヤーを数える。
 	float m_getPosition[4];
 	int numActivePlayer = 0;
-	if (m_player1->GetPlayerHP() > 0) {
+	if (m_player1->GetPlayerHP() >= 0) {
 		m_getPosition[numActivePlayer] = m_player1->GetPlayer1Position().x;
 		numActivePlayer++;
 	}
-	if (m_player2->GetPlayer2HP() > 0) {
+	if (m_player2->GetPlayer2HP() >= 0) {
 		m_getPosition[numActivePlayer] = m_player2->GetPlayer2Position().x;
 		numActivePlayer++;
 	}
-	if (m_player3->GetPlayer3HP() > 0) {
+	if (m_player3->GetPlayer3HP() >= 0) {
 		m_getPosition[numActivePlayer] = m_player3->GetPlayer3Position().x;
 		numActivePlayer++;
 	}
-	if (m_player4->GetPlayer4HP() > 0) {
+	if (m_player4->GetPlayer4HP() >= 0) {
 		m_getPosition[numActivePlayer] = m_player4->GetPlayer4Position().x;
 		numActivePlayer++;
 	}

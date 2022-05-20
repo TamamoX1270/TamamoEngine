@@ -120,6 +120,9 @@ void Player1::Update()
 	//リングアウトしたら。
 	if (m_out == true) {
 		m_player.PlayAnimation(enAnimClip_RingOut, 0.2f);
+		if (m_player.IsPlayingAnimation() == false) {
+			m_hp = -1;
+		}
 		m_characterController.RemoveRigidBoby();
 		m_player.Update();
 		return;
@@ -128,6 +131,9 @@ void Player1::Update()
 	//HPがなくなったら。
 	else if (m_hp <= 0) {
 		m_player.PlayAnimation(enAnimClip_Death, 0.2f);
+		if (m_player.IsPlayingAnimation() == false) {
+			m_hp = -1;
+		}
 		m_characterController.RemoveRigidBoby();
 		m_player.Update();
 		return;
@@ -185,6 +191,11 @@ void Player1::Update()
 	CatchAttackCollision();
 
 	RingOut();
+
+	if (g_pad[0]->IsTrigger(enButtonLeft)) {
+		int a;
+		a = 0;
+	}
 
 	m_player.Update();
 }
@@ -1290,7 +1301,7 @@ void Player1::RingOut()
 		m_hp = 0;
 	}
 	//右端。
-	if (m_position.x > 705.0f && m_position.y < -105.0f) {
+	if (m_position.x > 700.0f && m_position.y < -105.0f) {
 		m_out = true;
 		m_hp = 0;
 	}
