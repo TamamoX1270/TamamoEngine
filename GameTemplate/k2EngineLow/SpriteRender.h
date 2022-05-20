@@ -141,6 +141,10 @@ namespace nsK2EngineLow {
 		{
 			m_sprite.SetIsDisplayRestrictionDownSide(isDown);
 		}
+		void SetSetUPSpriteRender(const bool setup)
+		{
+			m_setUPRender = setup;
+		}
 
 		/// <summary>
 		/// 2D描画パスから呼ばれる処理。
@@ -157,7 +161,7 @@ namespace nsK2EngineLow {
 		Quaternion		m_rotation = Quaternion::Identity;		//回転。
 		Vector3			m_scale = Vector3::One;					//大きさ。
 		Vector2			m_pivot = Sprite::DEFAULT_PIVOT;		//ピボット。
-
+		int				m_setUPRender = false;					//スプライトレンダーを後面表示にする(モデルを手前に)
 	};
 }
 

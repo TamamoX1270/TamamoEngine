@@ -8,11 +8,20 @@
 
 Result::Result()
 {
+	m_spriteset.SetSetUPSpriteRender(true);
+	//アニメーションクリップをロードする。
+	m_animationClipArray[enAnimClip_Idle].Load("Assets/purototype/idle.tka");
+	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(true);
+
 	m_samonwin.Init("Assets/sprite/samonwin.dds", 1600.0f, 900.0f);
 	m_magurowin.Init("Assets/sprite/magurowin.dds", 1600.0f, 900.0f);
 	m_tamagowin.Init("Assets/sprite/tamagowin.dds", 1600.0f, 900.0f);
 	m_ebiwin.Init("Assets/sprite/ebiwin.dds", 1600.0f, 900.0f);
 	m_select.Init("Assets/sprite/select.dds", 1600.0f, 900.0f);
+
+	//モデルの読み込み
+	m_salmon.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+
 	//タイトルのBGMを読み込む
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/title_bgm.wav");
 	//決定音を読み込む
@@ -35,6 +44,7 @@ void Result::Update()
 	if (g_pad[0]->IsTrigger(enButtonA) || g_pad[1]->IsTrigger(enButtonA) || g_pad[2]->IsTrigger(enButtonA))
 	{
 		NewGO<Game>(0, "game");
+		m_spriteset.SetSetUPSpriteRender(false);
 		DeleteGO(this);
 		//決定音を再生
 		SoundSource* se = NewGO<SoundSource>(2);
@@ -54,7 +64,8 @@ void Result::Update()
 	{
 		//PHPにポイントを格納する。
 		int MaxP = 0;
-		int P  = m_playerpoint->GetPoint1();
+		//int P  = m_playerpoint->GetPoint1();
+		int P = 999;
 		int P2 = m_playerpoint->GetPoint2();
 		int P3 = m_playerpoint->GetPoint3();
 		int P4 = m_playerpoint->GetPoint4();
@@ -104,5 +115,6 @@ void Result::Render(RenderContext& rc)
 	{
 		m_ebiwin.Draw(rc);
 	}
-	m_select.Draw(rc);
+	m_salmon.Draw(rc);
+	//m_select.Draw(rc);
 }

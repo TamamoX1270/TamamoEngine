@@ -23,12 +23,23 @@ public:
 	}
 
 private:
+	// アニメーションクリップの番号を表す列挙型。
+	enum EnAnimationClip {
+		enAnimClip_Idle,	// 0 : 待機アニメーション、
+		enAnimClip_Num,		// 14 : アニメーションクリップの数。
+	};
+
 	ModelRender* m_player;								//プレイヤー
+	Model				m_model;
+	ModelRender			m_salmon;								//プレイヤー
+	Animation		m_animation;							// アニメーション
+	AnimationClip	m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
 	SpriteRender m_magurowin;
 	SpriteRender m_samonwin;
 	SpriteRender m_tamagowin;
 	SpriteRender m_ebiwin;
 	SpriteRender m_select;
+	SpriteRender m_spriteset;
 	PlayerPoint* m_playerpoint;
 	FontRender	 m_fontRender;
 	SoundSource* titleBGM;

@@ -13,6 +13,11 @@ namespace nsK2EngineLow {
 		{
 			m_Spriterenders.push_back(renderObject);
 		}
+
+		void AddUPRenderObject(SpriteRender* renderObject)
+		{
+			m_UPSpriterenders.push_back(renderObject);
+		}
 		
 		void AddRenderObject(FontRender* renderObject)
 		{
@@ -20,6 +25,7 @@ namespace nsK2EngineLow {
 		}
 		
 		void SpriteRenderDraw(RenderContext& rc);
+		void UPSpriteRenderDraw(RenderContext& rc);
 		
 		void FontRenderDraw(RenderContext& rc);
 		
@@ -27,6 +33,7 @@ namespace nsK2EngineLow {
 	private:
 		std::vector<FontRender*> m_Fontrenders;
 		std::vector<SpriteRender*> m_Spriterenders;
+		std::vector<SpriteRender*> m_UPSpriterenders;
 	};
 
 	extern RenderingEngine g_renderingEngine;

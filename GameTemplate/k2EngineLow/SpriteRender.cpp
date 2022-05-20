@@ -21,6 +21,13 @@ namespace nsK2EngineLow {
 
 	void SpriteRender::Draw(RenderContext& rc)
 	{
-		g_renderingEngine.AddRenderObject(this);
+		if (m_setUPRender == false)
+		{
+			g_renderingEngine.AddRenderObject(this);
+		}
+		else if (m_setUPRender == true)
+		{
+			g_renderingEngine.AddUPRenderObject(this);
+		}
 	}
 }
