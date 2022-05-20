@@ -37,6 +37,7 @@ private:
 	Vector3 m_position;			              //座標。
 	Vector3 m_moveSpeed;					 //移動速度。
 	Vector3   m_bulletposition;             //弾の位置
+	Vector3	m_efpos1;						//エフェクト用のポジション
 	Quaternion m_rotation;                  //クウォータニオン
 	ModelRender m_modelRender;             //モデルレンダー
 	Player1* m_player1;

@@ -1,6 +1,8 @@
 #pragma once
 #include "sound/SoundSource.h"
 
+class PlayerPoint;
+
 class Result :public IGameObject
 {
 public:
@@ -27,11 +29,13 @@ private:
 	SpriteRender m_tamagowin;
 	SpriteRender m_ebiwin;
 	SpriteRender m_select;
+	PlayerPoint* m_playerpoint;
 	FontRender	 m_fontRender;
 	SoundSource* titleBGM;
 	SoundSource* se;
 
 	int m_draw = false;
 	int m_winplayer = 0;
+	int m_pointwinplayer = 0;
 };
 

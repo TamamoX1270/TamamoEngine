@@ -8,9 +8,13 @@
 
 //CollisionObjectを使用するために、ファイルをインクルードする。
 #include "CollisionObject.h"
+//EffectEmitterを使用する時はファイルをインクルードする必要がある。
+#include "graphics/effect/EffectEmitter.h"
 
 bool SoySauceBullet::Start()
 {
+	//エフェクトを読み込む。
+	EffectEngine::GetInstance()->ResistEffect(777, u"Assets/effect/syouyu.efk");
 	switch (m_soynewgoplayer)
 	{
 	case 0:
@@ -18,7 +22,7 @@ bool SoySauceBullet::Start()
 	case 1:
 		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
 		m_position = FindGO<Player1>("player1")->GetPlayer1Position();
-		m_position.y += 100.0f;
+		m_position.y += 70.0f;
 		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
 		if (FindGO<Player1>("player1")->GetPlayerforward().x < 0.0f)
 		{
@@ -33,7 +37,7 @@ bool SoySauceBullet::Start()
 	case 2:
 		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
 		m_position = FindGO<Player2>("player2")->GetPlayer2Position();
-		m_position.y += 100.0f;
+		m_position.y += 70.0f;
 		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
 		if (FindGO<Player2>("player2")->GetPlayerforward().x < 0.0f)
 		{
@@ -48,7 +52,7 @@ bool SoySauceBullet::Start()
 	case 3:
 		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
 		m_position = FindGO<Player3>("player3")->GetPlayer3Position();
-		m_position.y += 100.0f;
+		m_position.y += 70.0f;
 		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
 		if (FindGO<Player3>("player3")->GetPlayerforward().x < 0.0f)
 		{
@@ -63,7 +67,7 @@ bool SoySauceBullet::Start()
 	case 4:
 		//FindGOでPlayerクラスからm_position(プレイヤーの位置)を読み込む。
 		m_position = FindGO<Player4>("player4")->GetPlayer4Position();
-		m_position.y += 100.0f;
+		m_position.y += 70.0f;
 		//プレイヤーが左を向いているなら左に、右を向いているなら右に弾を飛ばす
 		if (FindGO<Player4>("player4")->GetPlayerforward().x < 0.0f)
 		{
@@ -131,6 +135,50 @@ void SoySauceBullet::Move()
 	//生成されてから5秒経過したら
 	if (m_deletetimer >= 5.0f)
 	{
+		DeleteGO(this);
+	}
+	if (m_collisionObject->IsHit(FindGO<Player1>("player1")->GetCharacterController()) == true)
+	{
+		m_efpos1 = m_position;
+		m_efpos1.y = 60.0f;
+		EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+		effectEmitter->Init(777);
+		effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+		effectEmitter->SetPosition(m_efpos1);
+		effectEmitter->Play();
+		DeleteGO(this);
+	}
+	if (m_collisionObject->IsHit(FindGO<Player2>("player2")->GetCharacterController()) == true)
+	{
+		m_efpos1 = m_position;
+		m_efpos1.y = 60.0f;
+		EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+		effectEmitter->Init(777);
+		effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+		effectEmitter->SetPosition(m_efpos1);
+		effectEmitter->Play();
+		DeleteGO(this);
+	}
+	if (m_collisionObject->IsHit(FindGO<Player3>("player3")->GetCharacterController()) == true)
+	{
+		m_efpos1 = m_position;
+		m_efpos1.y = 60.0f;
+		EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+		effectEmitter->Init(777);
+		effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+		effectEmitter->SetPosition(m_efpos1);
+		effectEmitter->Play();
+		DeleteGO(this);
+	}
+	if (m_collisionObject->IsHit(FindGO<Player4>("player4")->GetCharacterController()) == true)
+	{
+		m_efpos1 = m_position;
+		m_efpos1.y = 60.0f;
+		EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+		effectEmitter->Init(777);
+		effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+		effectEmitter->SetPosition(m_efpos1);
+		effectEmitter->Play();
 		DeleteGO(this);
 	}
 

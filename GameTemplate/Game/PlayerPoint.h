@@ -20,6 +20,22 @@ public:
 	{
 		m_4playerpoint += 1;
 	}
+	const int GetPoint1()
+	{
+		return m_1playerpoint;
+	}
+	const int GetPoint2()
+	{
+		return m_2playerpoint;
+	}
+	const int GetPoint3()
+	{
+		return m_3playerpoint;
+	}
+	const int GetPoint4()
+	{
+		return m_4playerpoint;
+	}
 
 private:
 	FontRender		m_fontRender;
