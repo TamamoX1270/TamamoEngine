@@ -98,24 +98,6 @@ bool Player2::Start()
 
 void Player2::Update()
 {
-	if (m_getsoyplayernumber == 1&&getsauce == 0) {
-		m_effectEmitter = NewGO<EffectEmitter>(0);
-		m_effectEmitter->Init(999);
-		m_effectEmitter->SetScale({ 50.0f,50.0f,50.0f });
-		m_effectEmitter->SetPosition(m_position);
-		m_effectEmitter->Play();
-		getsauce = 1;
-	}
-	if (getsauce == 1 && m_effectEmitter->IsPlay() == true) {
-		m_effectEmitter->SetPosition(m_position);
-		m_effectEmitter->Update();
-		m_getsoyplayernumber = 0;
-	}
-	else {
-		m_getsoyplayernumber = 0;
-		getsauce = 0;
-	}
-
 	//リングアウトしたら。
 	if (m_out == true) {
 		m_player2.PlayAnimation(enAnimClip_RingOut, 0.2f);
@@ -143,6 +125,24 @@ void Player2::Update()
 		return;
 	}
 	m_owaowari = FindGO<GameUI>("gameui")->GetSokomade();
+
+	if (m_getsoyplayernumber == 1 && getsauce == 0) {
+		m_effectEmitter = NewGO<EffectEmitter>(0);
+		m_effectEmitter->Init(999);
+		m_effectEmitter->SetScale({ 50.0f,50.0f,50.0f });
+		m_effectEmitter->SetPosition(m_position);
+		m_effectEmitter->Play();
+		getsauce = 1;
+	}
+	if (getsauce == 1 && m_effectEmitter->IsPlay() == true) {
+		m_effectEmitter->SetPosition(m_position);
+		m_effectEmitter->Update();
+		m_getsoyplayernumber = 0;
+	}
+	else {
+		m_getsoyplayernumber = 0;
+		getsauce = 0;
+	}
 
 	if (shine == true) {
 		AfterCatch();
@@ -473,6 +473,10 @@ void Player2::ManageState()
 
 	case 11:
 		m_player2.PlayAnimation(enAnimClip_RiseUp, 0.2f);
+		m_isUnderAttack = false;
+		m_catch = false;
+		m_2 = false;
+		m_3 = false;
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}

@@ -485,6 +485,10 @@ void Player1::ManageState()
 
 	case 11:
 		m_player.PlayAnimation(enAnimClip_RiseUp, 0.2f);
+		m_isUnderAttack = false;
+		m_catch = false;
+		m_2 = false;
+		m_3 = false;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
@@ -691,7 +695,9 @@ void Player1::MakeGuardCollision()
 
 	collisionObject->SetName("P1_Guard");
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
+	/*////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////ガード状態の時に攻撃されたら。////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////
 
 	//敵の攻撃用のコリジョンの配列を取得する。
 	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player2_attack");
@@ -708,7 +714,7 @@ void Player1::MakeGuardCollision()
 
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////
+	*////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Player1::autoGuard()
@@ -798,6 +804,27 @@ void Player1::Hit2()
 
 				//被ダメモーションの再生。
 				m_playerState = 5;
+			}
+			else {
+				//player1からplayer2を向くベクトルを求める。
+				a = m_position - FindGO<Player2>("player2")->GetPlayer2Position();
+				a.Normalize();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					FindGO<Player2>("player2")->SetPlayer2PlayerState11();
+				}
 			}
 		}
 	}
