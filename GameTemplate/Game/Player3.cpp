@@ -702,7 +702,7 @@ void Player3::MakeGuardCollision()
 		{
 			//プレイヤーの内部スコア加点
 			m_playerpoint->Set2PPoint();
-			FindGO<Player2>("player2")->SetPlayer2PlayerState11();
+			//FindGO<Player2>("player2")->SetPlayer2PlayerState14();
 		}
 
 	}

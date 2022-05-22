@@ -49,6 +49,8 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_Death].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RingOut].Load("Assets/purototype/ringout.tka");
 	m_animationClipArray[enAnimClip_RingOut].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Repel].Load("Assets/purototype/aftercatch.tka");
+	m_animationClipArray[enAnimClip_Repel].SetLoopFlag(false);
 
 	//エフェクトを読み込む。
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
@@ -145,6 +147,8 @@ void Player2::Update()
 	}
 
 	if (shine == true) {
+		m_player2.PlayAnimation(enAnimClip_Repel, 0.2f);
+		m_player2.Update();
 		AfterCatch();
 		return;
 	}

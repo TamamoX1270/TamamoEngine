@@ -37,6 +37,23 @@ public:
 		return m_4playerpoint;
 	}
 
+	void SetPlayer1Point(const int& hp)
+	{
+		m_1playerpoint = hp;
+	}
+	void SetPlayer2Point(const int& hp)
+	{
+		m_2playerpoint = hp;
+	}
+	void SetPlayer3Point(const int& hp)
+	{
+		m_3playerpoint = hp;
+	}
+	void SetPlayer4Point(const int& hp)
+	{
+		m_4playerpoint = hp;
+	}
+
 private:
 	FontRender		m_fontRender;
 	FontRender		m_fontRender2;

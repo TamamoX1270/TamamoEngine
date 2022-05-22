@@ -781,14 +781,16 @@ void Player1::Hit2()
 				a.Normalize();
 				if (a.x > 0) {
 					//体の向きを変える。
-					m_charaRotState = 1;
+					//m_charaRotState = 1;
 
 					//少しノックバックする。
 					moveSpeed.x += a.x * 200.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 				else if (a.x < 0) {
-					m_charaRotState = 0;
+					//体の向きを変える。
+					//m_charaRotState = 0;
+					
 					//少しノックバックする。
 					moveSpeed.x += a.x * 200.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -823,7 +825,7 @@ void Player1::Hit2()
 					moveSpeed.x = a.x * 50.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 
-					FindGO<Player2>("player2")->SetPlayer2PlayerState11();
+					//FindGO<Player2>("player2")->SetPlayer2PlayerState14();
 				}
 			}
 		}

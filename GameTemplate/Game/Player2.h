@@ -84,9 +84,9 @@ public:
 		m_soysaucecount++;
 	}
 
-	void SetPlayer2PlayerState11()
+	void SetPlayer2PlayerState14()
 	{
-		m_playerState = 11;
+		m_playerState = 14;
 	}
 
 	void AddSauce()
@@ -205,7 +205,8 @@ private:
 		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
 		enAnimClip_Death,	// 12 : 死ぬアニメーション。
 		enAnimClip_RingOut,	// 13 : リングアウトアニメーション。
-		enAnimClip_Num,		// 14 : アニメーションクリップの数。
+		enAnimClip_Repel,	// 14 : 弾かれるアニメーション。
+		enAnimClip_Num,		// 15 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player2;								//プレイヤー

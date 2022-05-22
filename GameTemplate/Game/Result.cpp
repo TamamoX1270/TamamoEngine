@@ -60,37 +60,29 @@ void Result::Update()
 		se->Init(2);
 		se->Play(false);
 	}
-	if (m_draw == true)
-	{
+
+
+	/*if (m_draw == true)
+	{*/
 		//PHP‚Éƒ|ƒCƒ“ƒg‚ğŠi”[‚·‚éB
 		int MaxP = 0;
-		//int P  = m_playerpoint->GetPoint1();
-		int P = 999;
-		int P2 = m_playerpoint->GetPoint2();
-		int P3 = m_playerpoint->GetPoint3();
-		int P4 = m_playerpoint->GetPoint4();
-		//ˆê”Ô‘å‚«‚¢HP‚Ì“z‚ğŠi”[‚·‚éB
-		if (MaxP < P)
-		{
-			MaxP = P;
-			m_winplayer = 0;
+
+		float P[4];
+		P[0] = m_playerpoint->GetPoint1();
+		P[1] = m_playerpoint->GetPoint2();
+		P[2] = m_playerpoint->GetPoint3();
+		P[3] = m_playerpoint->GetPoint4();
+
+		for (int i = 0; i < 4; i++) {
+			if (MaxP < P[i]) {
+				MaxP = P[i];
+				m_winplayer = i;
+			}
+			else if (MaxP == P[i]) {
+				m_winplayer = 4;
+			}
 		}
-		if (MaxP < P2)
-		{
-			MaxP = P2;
-			m_winplayer = 1;
-		}
-		if (MaxP < P3)
-		{
-			MaxP = P3;
-			m_winplayer = 2;
-		}
-		if (MaxP < P4)
-		{
-			MaxP = P4;
-			m_winplayer = 3;
-		}
-	}
+	//}
 }
 
 void Result::Render(RenderContext& rc)
@@ -114,6 +106,11 @@ void Result::Render(RenderContext& rc)
 	if (m_winplayer == 3)
 	{
 		m_ebiwin.Draw(rc);
+	}
+	//ˆø‚«•ª‚¯
+	if (m_winplayer == 4)
+	{
+		m_select.Draw(rc);
 	}
 	m_salmon.Draw(rc);
 	//m_select.Draw(rc);

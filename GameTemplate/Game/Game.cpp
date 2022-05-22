@@ -164,73 +164,44 @@ void Game::GameDelete()
 		NewGO<Result>(0, "result");
 
 		//PHPにプレイヤーのHPを格納する。
-		int MaxPHP = 0;
-		int PHP  = 0;
-		int PHP2 = 0;
-		int PHP3 = 0;
-		int PHP4 = 0;
-		PHP = m_player->GetPlayerHP();
-		PHP2 = m_player2->GetPlayer2HP();
-		//if (m_player3 != nullptr)
-		//{
-			PHP3 = m_player3->GetPlayer3HP();
-		//}
-		//if (m_player4 != nullptr)
-		//{
-			PHP4 = m_player4->GetPlayer4HP();
-		//}
+		float MaxPHP = 0;
+		float PHP[4];
+		PHP[0] = m_player->GetPlayerHP();
+		PHP[1] = m_player2->GetPlayer2HP();
+		PHP[2] = m_player3->GetPlayer3HP();
+		PHP[3] = m_player4->GetPlayer4HP();
 
-		//一番大きいHPの奴を格納する。
-		if (MaxPHP < PHP)
-		{
-			MaxPHP = PHP;
-			FindGO<Result>("result")->SetWinPlayer(0);
-		}
-		if (MaxPHP < PHP2)
-		{
-			MaxPHP = PHP2;
-			FindGO<Result>("result")->SetWinPlayer(1);
-		}
-		//if (m_player3 != nullptr)
-		//{
-			if (MaxPHP < PHP3)
-			{
-				MaxPHP = PHP3;
-				FindGO<Result>("result")->SetWinPlayer(2);
-			}
-		//}
-		//if (m_player4 != nullptr)
-		//{
-			if (MaxPHP < PHP4)
-			{
-				MaxPHP = PHP4;
-				FindGO<Result>("result")->SetWinPlayer(3);
-			}
-		//}
+		int a;
+		a = m_playerpoint->GetPoint1();
+		a += PHP[0] * 1000;
+		m_playerpoint->SetPlayer1Point(a);
 
-		//引き分け
-		if (PHP == PHP2)
-		{
+		int b;
+		b = m_playerpoint->GetPoint2();
+		b += PHP[1] * 1000;
+		m_playerpoint->SetPlayer2Point(b);
+
+		int c;
+		c = m_playerpoint->GetPoint3();
+		c += PHP[2] * 1000;
+		m_playerpoint->SetPlayer3Point(c);
+
+		int d;
+		d = m_playerpoint->GetPoint4();
+		d += PHP[3] * 1000;
+		m_playerpoint->SetPlayer4Point(d);
+
+		//点数計算はできない順位判定。
+		/*for (int i = 0; i < 4; i++) {
+			if (MaxPHP < PHP[i]) {
+				MaxPHP = PHP[i];
+				FindGO<Result>("result")->SetWinPlayer(i);
+			}
+			//引き分け処理。
+			else if (MaxPHP == PHP[i]) {
 			FindGO<Result>("result")->SetDrawFlag();
-		}
-		if (m_player3 != nullptr)
-		{
-			if (PHP==PHP3||
-				PHP2==PHP3)
-			{
-				FindGO<Result>("result")->SetDrawFlag();
 			}
-		}
-		if (m_player4 != nullptr)
-		{
-			if (PHP==PHP4||
-				PHP2==PHP4||
-				PHP3==PHP4
-				)
-			{
-				FindGO<Result>("result")->SetDrawFlag();
-			}
-		}
+		}*/
 
 		const auto& soysauces = FindGOs<SoySauce>("soysauce");
 		//配列の個数を取得する
@@ -267,6 +238,7 @@ void Game::GameDelete()
 		{
 			DeleteGO(gameSPcamera[c]);
 		}
+
 		DeleteGO(m_player);
 		DeleteGO(m_player2);
 		DeleteGO(m_player3);
