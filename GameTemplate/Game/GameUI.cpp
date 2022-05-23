@@ -108,30 +108,49 @@ void GameUI::SoyCT()
 void GameUI::SushiHPBar()
 {
 	m_sushihpbar.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
-	m_sushihpbarwaku.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
 	m_sushihpbar2.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
-	m_sushihpbarwaku2.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
 	m_sushihpbar3.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
-	m_sushihpbarwaku3.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
 	m_sushihpbar4.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
+
+	m_sushihpbar_kuro.Init("Assets/sprite/Hpbar_1.DDS", 150.0f, 90.0f);
+	m_sushihpbar_kuro2.Init("Assets/sprite/Hpbar_1.DDS", 150.0f, 90.0f);
+	m_sushihpbar_kuro3.Init("Assets/sprite/Hpbar_1.DDS", 150.0f, 90.0f);
+	m_sushihpbar_kuro4.Init("Assets/sprite/Hpbar_1.DDS", 150.0f, 90.0f);
+
+	m_sushihpbarwaku.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
+	m_sushihpbarwaku2.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
+	m_sushihpbarwaku3.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
 	m_sushihpbarwaku4.Init("Assets/sprite/HPbar(1).DDS", 180.0f, 120.0f);
 	//HPバーのピボットを設定。
 	//m_sushihpbar.SetPivot(Vector2(0.5f, 0.5f));
 	m_sushihpbar.SetPosition(Vector3(-660.0f, -363.0f, 0.0f));
-	m_sushihpbarwaku.SetPosition(Vector3(-585.0f, -355.0f, 0.0f));
 	m_sushihpbar2.SetPosition(Vector3(-260.0f, -363.0f, 0.0f));
-	m_sushihpbarwaku2.SetPosition(Vector3(-185.0f, -355.0f, 0.0f));
 	m_sushihpbar3.SetPosition(Vector3(140.0f, -363.0f, 0.0f));
-	m_sushihpbarwaku3.SetPosition(Vector3(215.0f, -355.0f, 0.0f));
 	m_sushihpbar4.SetPosition(Vector3(530.0f, -363.0f, 0.0f));
+
+	m_sushihpbar_kuro.SetPosition(Vector3(-585.0f, -363.0f, 0.0f));
+	m_sushihpbar_kuro2.SetPosition(Vector3(-185.0f, -363.0f, 0.0f));
+	m_sushihpbar_kuro3.SetPosition(Vector3(215.0f, -363.0f, 0.0f));
+	m_sushihpbar_kuro4.SetPosition(Vector3(605.0f, -363.0f, 0.0f));
+
+	m_sushihpbarwaku.SetPosition(Vector3(-585.0f, -355.0f, 0.0f));
+	m_sushihpbarwaku2.SetPosition(Vector3(-185.0f, -355.0f, 0.0f));
+	m_sushihpbarwaku3.SetPosition(Vector3(215.0f, -355.0f, 0.0f));
 	m_sushihpbarwaku4.SetPosition(Vector3(605.0f, -355.0f, 0.0f));
+	
 	m_sushihpbar.Update();
-	m_sushihpbarwaku.Update();
 	m_sushihpbar2.Update();
-	m_sushihpbarwaku2.Update();
 	m_sushihpbar3.Update();
-	m_sushihpbarwaku3.Update();
 	m_sushihpbar4.Update();
+
+	m_sushihpbar_kuro.Update();
+	m_sushihpbar_kuro2.Update();
+	m_sushihpbar_kuro3.Update();
+	m_sushihpbar_kuro4.Update();
+
+	m_sushihpbarwaku.Update();
+	m_sushihpbarwaku2.Update();
+	m_sushihpbarwaku3.Update();
 	m_sushihpbarwaku4.Update();
 }
 
@@ -298,14 +317,21 @@ void GameUI::Render(RenderContext& rc)
 	m_soyct3.Draw(rc);
 	m_soyct4.Draw(rc);
 
+	m_sushihpbar_kuro.Draw(rc);
+	m_sushihpbar_kuro2.Draw(rc);
+	m_sushihpbar_kuro3.Draw(rc);
+	m_sushihpbar_kuro4.Draw(rc);
+
 	m_sushihpbar.Draw(rc);
-	m_sushihpbarwaku.Draw(rc);
 	m_sushihpbar2.Draw(rc);
-	m_sushihpbarwaku2.Draw(rc);
 	m_sushihpbar3.Draw(rc);
-	m_sushihpbarwaku3.Draw(rc);
 	m_sushihpbar4.Draw(rc);
+
+	m_sushihpbarwaku.Draw(rc);
+	m_sushihpbarwaku2.Draw(rc);
+	m_sushihpbarwaku3.Draw(rc);
 	m_sushihpbarwaku4.Draw(rc);
+
 	m_fontRender.Draw(rc);
 	if (m_sokomade == true)
 	{
