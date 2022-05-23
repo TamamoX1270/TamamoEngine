@@ -205,7 +205,7 @@ private:
 		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
 		enAnimClip_Death,	// 12 : 死ぬアニメーション。
 		enAnimClip_RingOut,	// 13 : リングアウトアニメーション。
-		enAnimClip_Repel,	// 14 : 弾かれるアニメーション。
+		enAnimClip_GrabHit,	// 14 : 掴まれるアニメーション。
 		enAnimClip_Num,		// 15 : アニメーションクリップの数。
 	};
 	Model				m_model;

@@ -49,8 +49,8 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_Death].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RingOut].Load("Assets/purototype/ringout.tka");
 	m_animationClipArray[enAnimClip_RingOut].SetLoopFlag(false);
-	m_animationClipArray[enAnimClip_Repel].Load("Assets/purototype/aftercatch.tka");
-	m_animationClipArray[enAnimClip_Repel].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_GrabHit].Load("Assets/purototype/aftercatch2.tka");
+	m_animationClipArray[enAnimClip_GrabHit].SetLoopFlag(false);
 
 	//エフェクトを読み込む。
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
@@ -147,7 +147,7 @@ void Player2::Update()
 	}
 
 	if (shine == true) {
-		m_player2.PlayAnimation(enAnimClip_Repel, 0.2f);
+		m_player2.PlayAnimation(enAnimClip_GrabHit, 0.2f);
 		m_player2.Update();
 		AfterCatch();
 		return;
@@ -908,8 +908,17 @@ void Player2::Hit1()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-			//プレイヤーの内部スコア加点
-			m_playerpoint->Set1PPoint();
+			//player1からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
+			a.Normalize();
+			if (a.x > 0) {
+				//体の向きを変える。
+				m_charaRotState = 1;
+			}
+			else if (a.x < 0) {
+				m_charaRotState = 0;
+			}
+
 			m_Catchtimer = 0.0f;
 			shine = true;
 		}
