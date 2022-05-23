@@ -95,6 +95,8 @@ bool Player2::Start()
 	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_suburi2.wav");
 	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/kick_suburi.wav");
 	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/syouyu_beam.wav");
+	g_soundEngine->ResistWaveFileBank(13, "Assets/sound/soysauce_damage.wav");
+	g_soundEngine->ResistWaveFileBank(14, "Assets/sound/syouyu_charge.wav");
 
 	return true;
 }
@@ -242,6 +244,10 @@ void Player2::Move()
 		m_soysaucebullet->SetMoveSpeed(m_forward);
 		//2Pが醤油弾を撃った。
 		m_soysaucebullet->SetSoySauceNewGOPlayer(2);
+		//効果音を再生する。
+		SoundSource* P2se = NewGO<SoundSource>(10);
+		P2se->Init(10);
+		P2se->Play(false);
 	}
 
 	if (m_playerState == 0 || m_playerState == 1 || m_playerState == 4 || m_playerState == 9) {
@@ -959,6 +965,11 @@ void Player2::Hit1()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				SoundSource* P2se = NewGO<SoundSource>(13);
+				P2se->Init(13);
+				P2se->Play(false);
+
 				m_hp -= 2;
 				m_playerState = 5;
 			}
@@ -988,6 +999,12 @@ void Player2::Hit3()
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set3PPoint();
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(4);
+				P2se->Init(4);
+				P2se->Play(false);
+
 				m_hp -= 2;
 				m_playerState = 5;
 			}
@@ -1006,6 +1023,12 @@ void Player2::Hit3()
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set3PPoint();
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(5);
+				P2se->Init(5);
+				P2se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 			}
@@ -1022,6 +1045,12 @@ void Player2::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(6);
+				P2se->Init(6);
+				P2se->Play(false);
+
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set3PPoint();
 				m_hp -= 8;
@@ -1081,6 +1110,12 @@ void Player2::Hit4()
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set4PPoint();
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(4);
+				P2se->Init(4);
+				P2se->Play(false);
+
 				m_hp -= 2;
 				m_playerState = 5;
 			}
@@ -1099,6 +1134,12 @@ void Player2::Hit4()
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set4PPoint();
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(5);
+				P2se->Init(5);
+				P2se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 			}
@@ -1115,6 +1156,12 @@ void Player2::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(6);
+				P2se->Init(6);
+				P2se->Play(false);
+
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set4PPoint();
 				m_hp -= 8;

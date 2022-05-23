@@ -93,6 +93,8 @@ bool Player1::Start()
 	g_soundEngine->ResistWaveFileBank(8, "Assets/sound/punch_suburi2.wav");
 	g_soundEngine->ResistWaveFileBank(9, "Assets/sound/kick_suburi.wav");
 	g_soundEngine->ResistWaveFileBank(10, "Assets/sound/syouyu_beam.wav");
+	g_soundEngine->ResistWaveFileBank(13, "Assets/sound/soysauce_damage.wav");
+	g_soundEngine->ResistWaveFileBank(14, "Assets/sound/syouyu_charge.wav");
 
 	return true;
 }
@@ -981,6 +983,11 @@ void Player1::Hit2()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				SoundSource* P1se = NewGO<SoundSource>(13);
+				P1se->Init(13);
+				P1se->Play(false);
+
 				m_hp -= 2;
 				m_playerState = 5;
 			}
@@ -1008,6 +1015,12 @@ void Player1::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P1se = NewGO<SoundSource>(4);
+				P1se->Init(4);
+				P1se->Play(false);
+
 				m_hp -= 2;
 				m_playerState = 5;
 				//プレイヤーの内部スコア加点
@@ -1026,6 +1039,12 @@ void Player1::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P1se = NewGO<SoundSource>(5);
+				P1se->Init(5);
+				P1se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 				//プレイヤーの内部スコア加点
@@ -1044,6 +1063,12 @@ void Player1::Hit3()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P1se = NewGO<SoundSource>(6);
+				P1se->Init(6);
+				P1se->Play(false);
+
 				m_hp -= 8;
 				m_playerState = 5;
 				//プレイヤーの内部スコア加点
@@ -1101,6 +1126,12 @@ void Player1::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P1se = NewGO<SoundSource>(4);
+				P1se->Init(4);
+				P1se->Play(false);
+
 				m_hp -= 2;
 				m_playerState = 5;
 				//プレイヤーの内部スコア加点
@@ -1119,6 +1150,12 @@ void Player1::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P1se = NewGO<SoundSource>(5);
+				P1se->Init(5);
+				P1se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 				//プレイヤーの内部スコア加点
@@ -1137,6 +1174,12 @@ void Player1::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
+
+				//効果音を再生する。
+				SoundSource* P1se = NewGO<SoundSource>(6);
+				P1se->Init(6);
+				P1se->Play(false);
+
 				m_hp -= 8;
 				m_playerState = 5;
 				//プレイヤーの内部スコア加点

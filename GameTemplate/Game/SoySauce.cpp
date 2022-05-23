@@ -5,6 +5,8 @@
 #include "Player2.h"
 #include "Player3.h"
 #include "Player4.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 //CollisionObjectを使用したいため、ファイルをインクルードする。
 #include "CollisionObject.h"
 //乱数を使えるようにする
@@ -40,6 +42,7 @@ bool SoySauce::Start()
 	//モデルの読み込み
 	m_soysauce.Init("Assets/modelData/SoySauce.tkm");
 	EffectEngine::GetInstance()->ResistEffect(999, u"Assets/effect/Getsoysauce.efk");
+	g_soundEngine->ResistWaveFileBank(14, "Assets/sound/syouyu_charge.wav");
 	//m_position.x = -150.0f;
 	m_rotation.AddRotationDegY(180.0f);
 	m_soysauce.SetScale(1.0, 1.0, 1.0);
@@ -93,6 +96,12 @@ void SoySauce::Move()
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player1->GetCharacterController()) == true)
 	{
+
+		//効果音をつける。
+		SoundSource* Pse = NewGO<SoundSource>(14);
+		Pse->Init(14);
+		Pse->Play(false);
+
 		//醤油カウントを１増やす。
 		m_player1->AddSoySauceCount();
 		m_player1->AddSauce();
@@ -102,6 +111,12 @@ void SoySauce::Move()
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player2->GetCharacterController()) == true)
 	{
+
+		//効果音をつける。
+		SoundSource* Pse = NewGO<SoundSource>(14);
+		Pse->Init(14);
+		Pse->Play(false);
+
 		//醤油カウントを１増やす。
 		m_player2->AddSoySauceCount();
 		m_player2->AddSauce();
@@ -111,6 +126,12 @@ void SoySauce::Move()
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player3->GetCharacterController()) == true)
 	{
+
+		//効果音をつける。
+		SoundSource* Pse = NewGO<SoundSource>(14);
+		Pse->Init(14);
+		Pse->Play(false);
+
 		//醤油カウントを１増やす。
 		m_player3->AddSoySauceCount();
 		m_player3->AddSauce();
@@ -120,6 +141,12 @@ void SoySauce::Move()
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player4->GetCharacterController()) == true)
 	{
+
+		//効果音をつける。
+		SoundSource* Pse = NewGO<SoundSource>(14);
+		Pse->Init(14);
+		Pse->Play(false);
+
 		//醤油カウントを１増やす。
 		m_player4->AddSoySauceCount();
 		m_player4->AddSauce();

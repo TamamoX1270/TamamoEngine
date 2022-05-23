@@ -25,7 +25,10 @@ Result::Result()
 	//タイトルのBGMを読み込む
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/title_bgm.wav");
 	//決定音を読み込む
-	g_soundEngine->ResistWaveFileBank(2, "Assets/sound/kettei_se.wav");
+	g_soundEngine->ResistWaveFileBank(11, "Assets/sound/game_mouitido.wav");
+	g_soundEngine->ResistWaveFileBank(12, "Assets/sound/game_titlemodoru.wav");
+
+
 	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
 	//タイトルのBGMを再生する
 	titleBGM = NewGO<SoundSource>(1);
@@ -47,18 +50,18 @@ void Result::Update()
 		m_spriteset.SetSetUPSpriteRender(false);
 		DeleteGO(this);
 		//決定音を再生
-		SoundSource* se = NewGO<SoundSource>(2);
-		se->Init(2);
-		se->Play(false);
+		SoundSource* se2 = NewGO<SoundSource>(11);
+		se2->Init(11);
+		se2->Play(false);
 	}
 	else if (g_pad[0]->IsTrigger(enButtonB) || g_pad[1]->IsTrigger(enButtonA) || g_pad[2]->IsTrigger(enButtonA))
 	{
 		NewGO<Title>(0, "title");
 		DeleteGO(this);
 		//決定音を再生
-		SoundSource* se = NewGO<SoundSource>(2);
-		se->Init(2);
-		se->Play(false);
+		SoundSource* se3 = NewGO<SoundSource>(12);
+		se3->Init(12);
+		se3->Play(false);
 	}
 
 

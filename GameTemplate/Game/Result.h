@@ -43,7 +43,8 @@ private:
 	PlayerPoint* m_playerpoint;
 	FontRender	 m_fontRender;
 	SoundSource* titleBGM;
-	SoundSource* se;
+	SoundSource* se2;
+	SoundSource* se3;
 
 	int m_draw = false;
 	int m_winplayer = 0;

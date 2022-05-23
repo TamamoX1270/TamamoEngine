@@ -1,4 +1,5 @@
 #pragma once
+#include "sound/SoundSource.h"
 
 class Player1;
 class Player2;
@@ -57,6 +58,9 @@ private:
 	Player2* m_player2 = nullptr;;								//プレイヤー１
 	Player3* m_player3 = nullptr;;								//プレイヤー１
 	Player4* m_player4 = nullptr;;								//プレイヤー１
+
+	SoundSource* Pse;											// プレイヤーの効果音
+
 	ModelRender			m_soysauce;								//醤油
 	Vector3				m_efpos;								//エフェクト用のポジション
 	Vector3				m_position = Vector3::Zero;				// 座標
