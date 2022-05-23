@@ -25,6 +25,12 @@ bool GameUI::Start()
 	m_player2 = FindGO<Player2>("player2");
 	m_player3 = FindGO<Player3>("player3");
 	m_player4 = FindGO<Player4>("player4");
+
+	m_hajime.Init("Assets/sprite/hajime.dds", 1600.0f, 900.0f);
+	m_count1.Init("Assets/sprite/1.dds", 1600.0f, 900.0f);
+	m_count2.Init("Assets/sprite/2.dds", 1600.0f, 900.0f);
+	m_count3.Init("Assets/sprite/3.dds", 1600.0f, 900.0f);
+
 	//m_ui.Init("Assets/sprite/ComprehensiveUI.dds", 1600.0f, 900.0f);
 	m_spriteRendersamonhuda.Init("Assets/sprite/samonhuda.dds", 100.0f, 200.0f);
 	m_spriteRendersamonhuda.SetPosition(Vector3(-730.0f, -340.0f, 0.0f));
@@ -141,6 +147,50 @@ void GameUI::GameBGM()
 
 void GameUI::Timer()
 {
+	wchar_t wcsbuf[256];
+	swprintf_s(wcsbuf, 256, L"%3d", int(game_timer));
+
+	//表示するテキストを設定。
+	m_fontRender.SetText(wcsbuf);
+	//フォントの位置を設定。
+	m_fontRender.SetPosition(Vector3(-95.0f, 500.0f, 0.0f));
+	//フォントの大きさを設定。
+	m_fontRender.SetScale(3.0f);
+	if (m_gamestart == false)
+	{
+		gamestart_timer -= g_gameTime->GetFrameDeltaTime();
+	}
+	if (gamestart_timer > 2.0f&& gamestart_timer <= 3.0f)
+	{
+		m_countstate = 3;
+	}
+	if (gamestart_timer > 1.0f && gamestart_timer <= 2.0f)
+	{
+		m_countstate = 2;
+	}
+	if (gamestart_timer > 0.0f && gamestart_timer <= 1.0f)
+	{
+		m_countstate = 1;
+	}
+	if (m_hajimestate == false && gamestart_timer <= 0.0f)
+	{
+		gamestart_timer = 0.0f;
+		m_countstate = 0;
+		m_hajimestate = true;
+	}
+	if (m_hajimestate == true && hajime_timer < 1.0f)
+	{
+		hajime_timer += g_gameTime->GetFrameDeltaTime();
+	}
+	if (hajime_timer >= 1.0f&& m_countstate == 0)
+	{
+		m_countstate = 4;
+		m_gamestart = true;
+	}
+	if (m_gamestart == false)
+	{
+		return;
+	}
 	if (m_sokomade == false)
 	{
 		game_timer -= g_gameTime->GetFrameDeltaTime();
@@ -156,15 +206,6 @@ void GameUI::Timer()
 		endSE->Init(999);
 		endSE->Play(false);
 	}
-	wchar_t wcsbuf[256];
-	swprintf_s(wcsbuf, 256, L"%3d", int(game_timer));
-
-	//表示するテキストを設定。
-	m_fontRender.SetText(wcsbuf);
-	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(-95.0f, 500.0f, 0.0f));
-	//フォントの大きさを設定。
-	m_fontRender.SetScale(3.0f);
 
 	//タイマーが0になったらゲームを削除
 	if (game_timer <= 0.0f)
@@ -224,21 +265,9 @@ void GameUI::GameHP()
 
 void GameUI::Update()
 {
-	int b = m_p1hp;
-	wchar_t wcsbuf1[256];
-	swprintf_s(wcsbuf1, 256, L"%d", b);
 
-	//表示するテキストを設定。
-	m_fontRender.SetText(wcsbuf1);
-	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-	//フォントの大きさを設定。
-	m_fontRender.SetScale(1.5f);
-	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);
 	GameHP();
 	Timer();
-
 	if (m_sokomade == true)
 	{
 		sokomade_timer += g_gameTime->GetFrameDeltaTime();
@@ -281,5 +310,21 @@ void GameUI::Render(RenderContext& rc)
 	if (m_sokomade == true)
 	{
 		m_spriteRendersokomade.Draw(rc);
+	}
+	if (m_countstate == 0)
+	{
+		m_hajime.Draw(rc);
+	}
+	if (m_countstate == 1)
+	{
+		m_count1.Draw(rc);
+	}
+	if (m_countstate == 2)
+	{
+		m_count2.Draw(rc);
+	}
+	if (m_countstate == 3)
+	{
+		m_count3.Draw(rc);
 	}
 }

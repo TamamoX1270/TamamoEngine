@@ -71,6 +71,7 @@ bool Player2::Start()
 
 	m_player2.SetPosition(m_position);
 	m_player2.SetRotation(m_rotation);
+	m_player2.Update();
 
 	//アニメーションイベント用の関数を設定する。
 	m_player2.AddAnimationEvent([&](const wchar_t* clipName, const wchar_t* eventName) {
@@ -100,6 +101,24 @@ bool Player2::Start()
 
 void Player2::Update()
 {
+	int soysoysoysoy = m_soysaucecount;
+	wchar_t wcsbuf1[256];
+	swprintf_s(wcsbuf1, 256, L"%3d", soysoysoysoy);
+
+	//表示するテキストを設定。
+	m_fontRender.SetText(wcsbuf1);
+	//フォントの位置を設定。
+	m_fontRender.SetPosition(Vector3(-140.0f, -400.0f, 0.0f));
+	//フォントの大きさを設定。
+	m_fontRender.SetScale(1.5f);
+	//白色に設定
+	m_fontRender.SetColor(g_vec4White);
+	m_player2.Update();
+	//ゲーム開始カウントの時動けないようにする。
+	if (FindGO<GameUI>("gameui")->GetGameStart() == false)
+	{
+		return;
+	}
 	//リングアウトしたら。
 	if (m_out == true) {
 		m_player2.PlayAnimation(enAnimClip_RingOut, 0.2f);
@@ -157,19 +176,6 @@ void Player2::Update()
 	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
 
-	int soysoysoysoy = m_soysaucecount;
-	wchar_t wcsbuf1[256];
-	swprintf_s(wcsbuf1, 256, L"%3d", soysoysoysoy);
-
-	//表示するテキストを設定。
-	m_fontRender.SetText(wcsbuf1);
-	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(-140.0f, -400.0f, 0.0f));
-	//フォントの大きさを設定。
-	m_fontRender.SetScale(1.5f);
-	//黒色に設定
-	m_fontRender.SetColor(g_vec4White);
-
 	if (p1_Catch != true && p3_Catch != true) {
 		Move();
 		Rotation();
@@ -192,8 +198,6 @@ void Player2::Update()
 	CatchAttackCollision();
 
 	RingOut();
-
-	m_player2.Update();
 }
 
 void Player2::Move()

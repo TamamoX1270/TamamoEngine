@@ -43,6 +43,10 @@ public:
 	{
 		return m_sokomade;
 	}
+	const int& GetGameStart()const
+	{
+		return m_gamestart;
+	}
 	/// <summary>
 	/// XVˆ—
 	/// </summary>
@@ -85,12 +89,19 @@ private:
 	SpriteRender	m_spriteRenderebihuda;
 	SpriteRender	m_spriteRendertime;
 
+	SpriteRender	m_count1;
+	SpriteRender	m_count2;
+	SpriteRender	m_count3;
+	SpriteRender	m_hajime;
+
 	SpriteRender	m_spriteRendersokomade;
 
 	FontRender		m_fontRender;
 	//float game_timer = 120.0f;
 	float game_timer = 20.0f;
+	float gamestart_timer = 3.0f;
 	float sokomade_timer = 0.0f;
+	float hajime_timer = 0.0f;
 
 	SoundSource* gameBGM;
 	SoundSource* endSE;
@@ -102,6 +113,9 @@ private:
 
 	int m_sokomade = false;
 	int m_gameendse = false;
+	int m_gamestart = false;
+	int m_countstate = false;
+	int m_hajimestate = false;
 
 };
 
