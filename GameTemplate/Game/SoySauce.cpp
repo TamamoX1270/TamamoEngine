@@ -100,6 +100,7 @@ void SoySauce::Move()
 		//効果音をつける。
 		SoundSource* Pse = NewGO<SoundSource>(14);
 		Pse->Init(14);
+		Pse->SetVolume(10.0f);
 		Pse->Play(false);
 
 		//醤油カウントを１増やす。
