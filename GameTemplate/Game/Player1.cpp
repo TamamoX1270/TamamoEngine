@@ -57,6 +57,7 @@ bool Player1::Start()
 	//エフェクトを読み込む。
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
+	EffectEngine::GetInstance()->ResistEffect(30, u"Assets/effect/guard.efk"); 
 
 	m_position = Vector3(-300.0f, 0.0f, 0.0f);
 	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
@@ -703,6 +704,13 @@ void Player1::MakeGuardCollision()
 
 	//コリジョンオブジェクトを作成する。
 	auto collisionObject = NewGO<CollisionObject>(0);
+	//エフェクト。
+	m_efpos1 = m_position;
+	EffectEmitter* effectEmitter2 = NewGO<EffectEmitter>(0);
+	effectEmitter2->Init(30);
+	effectEmitter2->SetScale({ 15.0f,15.0f,15.0f });
+	effectEmitter2->SetPosition(m_efpos1);
+	effectEmitter2->Play();
 
 	Vector3 collisionPosition = m_position;
 	//座標をプレイヤーの少し前に設定する。

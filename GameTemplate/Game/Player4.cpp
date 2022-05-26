@@ -363,9 +363,6 @@ void Player4::AnimationState()
 		m_playerState = 7;
 	}
 	else if (g_pad[3]->IsTrigger(enButtonB)) {
-		SoundSource* P1se = NewGO<SoundSource>(11);
-		P1se->Init(11);
-		P1se->Play(false);
 		m_playerState = 3;
 	}
 

@@ -27,9 +27,9 @@ bool GameUI::Start()
 	m_player4 = FindGO<Player4>("player4");
 
 	m_hajime.Init("Assets/sprite/hajime.dds", 1600.0f, 900.0f);
-	m_count1.Init("Assets/sprite/1.dds", 1600.0f, 900.0f);
-	m_count2.Init("Assets/sprite/2.dds", 1600.0f, 900.0f);
-	m_count3.Init("Assets/sprite/3.dds", 1600.0f, 900.0f);
+	m_count1.Init("Assets/sprite/one.dds", 500.0f, 500.0f);
+	m_count2.Init("Assets/sprite/two.dds", 500.0f, 500.0f);
+	m_count3.Init("Assets/sprite/three.dds", 500.0f, 500.0f);
 
 	//m_ui.Init("Assets/sprite/ComprehensiveUI.dds", 1600.0f, 900.0f);
 	m_spriteRendersamonhuda.Init("Assets/sprite/samonhuda.dds", 100.0f, 200.0f);
