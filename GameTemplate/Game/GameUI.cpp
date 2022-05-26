@@ -107,10 +107,10 @@ void GameUI::SoyCT()
 
 void GameUI::SushiHPBar()
 {
-	m_sushihpbar.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
-	m_sushihpbar2.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
-	m_sushihpbar3.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
-	m_sushihpbar4.Init("Assets/sprite/hpbar.DDS", 150.0f, 90.0f);
+	m_sushihpbar.Init("Assets/sprite/hpbar().DDS", 150.0f, 90.0f);
+	m_sushihpbar2.Init("Assets/sprite/hpbar().DDS", 150.0f, 90.0f);
+	m_sushihpbar3.Init("Assets/sprite/hpbar().DDS", 150.0f, 90.0f);
+	m_sushihpbar4.Init("Assets/sprite/hpbar().DDS", 150.0f, 90.0f);
 
 	m_sushihpbar_kuro.Init("Assets/sprite/Hpbar_1.DDS", 150.0f, 90.0f);
 	m_sushihpbar_kuro2.Init("Assets/sprite/Hpbar_1.DDS", 150.0f, 90.0f);
