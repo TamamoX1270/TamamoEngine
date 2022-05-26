@@ -103,8 +103,8 @@ private:
 	SpriteRender	m_spriteRendersokomade;
 
 	FontRender		m_fontRender;
-	//float game_timer = 120.0f;
-	float game_timer = 20.0f;
+	float game_timer = 120.0f;
+	//float game_timer = 20.0f;
 	float gamestart_timer = 3.0f;
 	float sokomade_timer = 0.0f;
 	float hajime_timer = 0.0f;

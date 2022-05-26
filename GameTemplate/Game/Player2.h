@@ -84,9 +84,9 @@ public:
 		m_soysaucecount++;
 	}
 
-	void SetPlayer2PlayerState14()
+	void SetPlayer2PlayerState15()
 	{
-		m_playerState = 14;
+		m_playerState = 15;
 	}
 
 	void AddSauce()
@@ -206,7 +206,8 @@ private:
 		enAnimClip_Death,	// 12 : 死ぬアニメーション。
 		enAnimClip_RingOut,	// 13 : リングアウトアニメーション。
 		enAnimClip_GrabHit,	// 14 : 掴まれるアニメーション。
-		enAnimClip_Num,		// 15 : アニメーションクリップの数。
+		enAnimClip_Repel,	// 15 : 弾くアニメーション。
+		enAnimClip_Num,		// 16 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player2;								//プレイヤー
@@ -270,6 +271,7 @@ private:
 	float shine = false;		//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
 
+	//ゲーム終了や負け処理の関数
 	int m_owaowari; //そこまで！ステートを受け取る。
 	float m_out = false;			//リングアウトしたかどうか。
 

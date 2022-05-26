@@ -49,8 +49,10 @@ bool Player2::Start()
 	m_animationClipArray[enAnimClip_Death].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_RingOut].Load("Assets/purototype/ringout.tka");
 	m_animationClipArray[enAnimClip_RingOut].SetLoopFlag(false);
-	m_animationClipArray[enAnimClip_GrabHit].Load("Assets/purototype/aftercatch2.tka");
+	m_animationClipArray[enAnimClip_GrabHit].Load("Assets/purototype/aftercatch.tka");
 	m_animationClipArray[enAnimClip_GrabHit].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Repel].Load("Assets/purototype/repel.tka");
+	m_animationClipArray[enAnimClip_Repel].SetLoopFlag(false);
 
 	//エフェクトを読み込む。
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
@@ -67,7 +69,7 @@ bool Player2::Start()
 
 	//初期に右を向かせる。
 	m_rotation.SetRotationDegX(-90.0f);
-	m_rotation.AddRotationDegZ(180.0f);
+	m_rotation.AddRotationDegZ(360.0f);
 
 	m_player2.SetPosition(m_position);
 	m_player2.SetRotation(m_rotation);
@@ -132,6 +134,7 @@ void Player2::Update()
 		return;
 	}
 
+	//HPがなくなったら。
 	else if (m_hp <= 0) {
 		m_player2.PlayAnimation(enAnimClip_Death, 0.2f);
 		if (m_player2.IsPlayingAnimation() == false) {
@@ -142,6 +145,7 @@ void Player2::Update()
 		return;
 	}
 
+	//時間切れになったら。
 	else if (m_owaowari == true) {
 		m_player2.PlayAnimation(enAnimClip_Idle, 0.2f);
 		m_player2.Update();
@@ -168,6 +172,7 @@ void Player2::Update()
 	}
 
 	if (shine == true) {
+		guard=false;
 		m_player2.PlayAnimation(enAnimClip_GrabHit, 0.2f);
 		m_player2.Update();
 		AfterCatch();
@@ -301,7 +306,6 @@ void Player2::Rotation()
 		return;
 	}
 
-
 	//スティックを左に倒すと。
 	if (g_pad[1]->GetLStickXF() < 0) {
 		m_charaRotState = 1;
@@ -382,7 +386,7 @@ void Player2::AnimationState()
 			m_playerState = 1;
 		}
 
-		else if (!g_pad[1]->IsPressAnyKey()) {
+		else {
 			m_playerState = 0;
 		}
 	}
@@ -495,6 +499,18 @@ void Player2::ManageState()
 			m_playerState = 0;
 		}
 		break;
+
+	case 15:
+		m_player2.PlayAnimation(enAnimClip_Repel, 0.2f);
+		m_isUnderAttack = false;
+		m_catch = false;
+		m_2 = false;
+		m_3 = false;
+		if (m_player2.IsPlayingAnimation() == false) {
+			m_playerState = 0;
+		}
+		break;
+
 	}
 
 }
@@ -570,7 +586,6 @@ void Player2::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName
 		SoundSource* P1se = NewGO<SoundSource>(9);
 		P1se->Init(9);
 		P1se->Play(false);
-
 		//攻撃中にする。
 		m_3 = true;
 	}
@@ -610,7 +625,6 @@ void Player2::MakeCollision()
 {
 
 	if (m_isUnderAttack == true) {
-
 		//コリジョンオブジェクトを作成する。
 		auto collisionObject = NewGO<CollisionObject>(0);
 
@@ -698,25 +712,6 @@ void Player2::MakeGuardCollision()
 	);
 
 	collisionObject->SetName("P2_Guard");
-
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
-	//敵の攻撃用のコリジョンの配列を取得する。
-	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player1_attack");
-	//配列をfor文で回す。
-	for (auto collision : collisions1)
-	{
-		//コリジョンとキャラコンが衝突したら。
-		if (collision->IsHit(collisionObject))
-		{
-			//プレイヤーの内部スコア加点
-			m_playerpoint->Set1PPoint();
-			FindGO<Player1>("player1")->SetPlayer1PlayerState11();
-		}
-
-	}
-
-	/////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Player2::autoGuard()
@@ -745,18 +740,6 @@ void Player2::autoGuard()
 
 void Player2::Hit1()
 {
-	/*wchar_t wcsbuf1[256];
-	swprintf_s(wcsbuf1, 256, L"%d", m_hp);
-
-	//表示するテキストを設定。
-	m_fontHPRender.SetText(wcsbuf1);
-	//フォントの位置を設定。
-	m_fontHPRender.SetPosition(Vector3(-260.0f, -400.0f, 0.0f));
-	//フォントの大きさを設定。
-	m_fontHPRender.SetScale(1.5f);
-	//黒色に設定
-	m_fontHPRender.SetColor(g_vec4White);*/
-
 	//敵の攻撃用のコリジョンの配列を取得する。
 	const auto& collisions1 = g_collisionObjectManager->FindCollisionObjects("player1_attack");
 	//配列をfor文で回す。
@@ -765,6 +748,10 @@ void Player2::Hit1()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player1からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
@@ -778,9 +765,6 @@ void Player2::Hit1()
 				effectEmitter->SetPosition(m_efpos1);
 				effectEmitter->Play();
 
-				//player1からplayer2を向くベクトルを求める。
-				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
-				a.Normalize();
 				if (a.x > 0) {
 					//体の向きを変える。
 					m_charaRotState = 1;
@@ -790,7 +774,9 @@ void Player2::Hit1()
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 				else if (a.x < 0) {
+					//体の向きを変える。
 					m_charaRotState = 0;
+
 					//少しノックバックする。
 					moveSpeed.x += a.x * 200.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -807,6 +793,24 @@ void Player2::Hit1()
 				//被ダメモーションの再生。
 				m_playerState = 5;
 			}
+			/*else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player1>("player1")->SetPlayer1PlayerState15();
+				}
+			}*/
 		}
 	}
 
@@ -818,6 +822,10 @@ void Player2::Hit1()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player1からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
@@ -831,9 +839,6 @@ void Player2::Hit1()
 				effectEmitter->SetPosition(m_efpos1);
 				effectEmitter->Play();
 
-				//player1からplayer2を向くベクトルを求める。
-				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
-				a.Normalize();
 				if (a.x > 0) {
 					//体の向きを変える。
 					m_charaRotState = 1;
@@ -843,7 +848,9 @@ void Player2::Hit1()
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 				}
 				else if (a.x < 0) {
+					//体の向きを変える。
 					m_charaRotState = 0;
+
 					//少しノックバックする。
 					moveSpeed.x += a.x * 500.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -857,6 +864,24 @@ void Player2::Hit1()
 				m_hp -= 5;
 				m_playerState = 5;
 			}
+			/*else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 120.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 120.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player1>("player1")->SetPlayer1PlayerState15();
+				}
+			}*/
 		}
 	}
 
@@ -868,6 +893,10 @@ void Player2::Hit1()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player1からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
@@ -881,9 +910,6 @@ void Player2::Hit1()
 				effectEmitter->SetPosition(m_efpos1);
 				effectEmitter->Play();
 
-				//player1からplayer2を向くベクトルを求める。
-				Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
-				a.Normalize();
 				if (a.x > 0) {
 					//体の向きを変える。
 					m_charaRotState = 1;
@@ -907,6 +933,24 @@ void Player2::Hit1()
 				m_hp -= 8;
 				m_playerState = 10;
 			}
+			/*else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 1500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 1500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player1>("player1")->SetPlayer1PlayerState15();
+				}
+			}*/
 		}
 	}
 
@@ -918,17 +962,6 @@ void Player2::Hit1()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-			//player1からplayer2を向くベクトルを求める。
-			Vector3 a = m_position - FindGO<Player1>("player1")->GetPlayer1Position();
-			a.Normalize();
-			if (a.x > 0) {
-				//体の向きを変える。
-				m_charaRotState = 1;
-			}
-			else if (a.x < 0) {
-				m_charaRotState = 0;
-			}
-
 			m_Catchtimer = 0.0f;
 			shine = true;
 		}
@@ -995,18 +1028,68 @@ void Player2::Hit3()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player3からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player3>("player3")->GetPlayer3Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set3PPoint();
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 200.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					//体の向きを変える。
+					m_charaRotState = 0;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 200.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P2se = NewGO<SoundSource>(4);
 				P2se->Init(4);
 				P2se->Play(false);
 
+				//HPの減少。
 				m_hp -= 2;
+
+				//被ダメモーションの再生。
 				m_playerState = 5;
+			}
+			else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player3>("player3")->SetPlayer3PlayerState15();
+				}
 			}
 		}
 	}
@@ -1019,10 +1102,39 @@ void Player2::Hit3()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player3からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player3>("player3")->GetPlayer3Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set3PPoint();
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					//体の向きを変える。
+					m_charaRotState = 0;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P2se = NewGO<SoundSource>(5);
@@ -1031,6 +1143,24 @@ void Player2::Hit3()
 
 				m_hp -= 5;
 				m_playerState = 5;
+			}
+			else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 120.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 120.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player3>("player3")->SetPlayer3PlayerState15();
+				}
 			}
 		}
 	}
@@ -1043,18 +1173,63 @@ void Player2::Hit3()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player1からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player3>("player3")->GetPlayer3Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set3PPoint();
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 6000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 6000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P2se = NewGO<SoundSource>(6);
 				P2se->Init(6);
 				P2se->Play(false);
 
-				//プレイヤーの内部スコア加点
-				m_playerpoint->Set3PPoint();
 				m_hp -= 8;
-				m_playerState = 5;
+				m_playerState = 10;
+			}
+			else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 1500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 1500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player3>("player3")->SetPlayer3PlayerState15();
+				}
 			}
 		}
 	}
@@ -1067,8 +1242,6 @@ void Player2::Hit3()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-			//プレイヤーの内部スコア加点
-			m_playerpoint->Set3PPoint();
 			m_Catchtimer = 0.0f;
 			shine = true;
 		}
@@ -1088,9 +1261,9 @@ void Player2::Hit3()
 				////////////////////////////////////////////////////
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
+				m_playerState = 5;
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set3PPoint();
-				m_playerState = 5;
 			}
 		}
 	}
@@ -1106,18 +1279,68 @@ void Player2::Hit4()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player4からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player4>("player4")->GetPlayer4Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set4PPoint();
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 200.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					//体の向きを変える。
+					m_charaRotState = 0;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 200.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P2se = NewGO<SoundSource>(4);
 				P2se->Init(4);
 				P2se->Play(false);
 
+				//HPの減少。
 				m_hp -= 2;
+
+				//被ダメモーションの再生。
 				m_playerState = 5;
+			}
+			else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 50.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player4>("player4")->SetPlayer4PlayerState15();
+				}
 			}
 		}
 	}
@@ -1130,10 +1353,39 @@ void Player2::Hit4()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player4からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player4>("player4")->GetPlayer4Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set4PPoint();
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(1);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					//体の向きを変える。
+					m_charaRotState = 0;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P2se = NewGO<SoundSource>(5);
@@ -1142,6 +1394,24 @@ void Player2::Hit4()
 
 				m_hp -= 5;
 				m_playerState = 5;
+			}
+			else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 120.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 120.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player4>("player4")->SetPlayer4PlayerState15();
+				}
 			}
 		}
 	}
@@ -1154,18 +1424,63 @@ void Player2::Hit4()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
+			//player4からplayer2を向くベクトルを求める。
+			Vector3 a = m_position - FindGO<Player4>("player4")->GetPlayer4Position();
+			a.Normalize();
+
 			//HPを減らす。
 			if (guard != true) {
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set4PPoint();
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 6000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 6000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
 
 				//効果音を再生する。
 				SoundSource* P2se = NewGO<SoundSource>(6);
 				P2se->Init(6);
 				P2se->Play(false);
 
-				//プレイヤーの内部スコア加点
-				m_playerpoint->Set4PPoint();
 				m_hp -= 8;
-				m_playerState = 5;
+				m_playerState = 10;
+			}
+			else {
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x = a.x * 1500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x = a.x * 1500.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+					//FindGO<Player4>("player4")->SetPlayer4PlayerState15();
+				}
 			}
 		}
 	}
@@ -1178,8 +1493,6 @@ void Player2::Hit4()
 		//コリジョンとキャラコンが衝突したら。
 		if (collision->IsHit(m_characterController))
 		{
-			//プレイヤーの内部スコア加点
-			m_playerpoint->Set4PPoint();
 			m_Catchtimer = 0.0f;
 			shine = true;
 		}
@@ -1195,13 +1508,13 @@ void Player2::Hit4()
 		{
 			//HPを減らす。
 			if (guard != true) {
-				//プレイヤーの内部スコア加点
-				m_playerpoint->Set4PPoint();
 				//m_hp -= 1;
 				////////////////////////////////////////////////////
 				///ここが改善すべき点！！！
 				//////////////////////////////////////////////////// 
 				m_playerState = 5;
+				//プレイヤーの内部スコア加点
+				m_playerpoint->Set4PPoint();
 			}
 		}
 	}
@@ -1271,9 +1584,42 @@ void Player2::AfterCatch()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				shine = false;
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set3PPoint();
-				shine = false;
+
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				//player3からplayer2を向くベクトルを求める。
+				Vector3 a = m_position - FindGO<Player3>("player3")->GetPlayer3Position();
+				a.Normalize();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 2000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 2000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(10);
+				P2se->Init(10);
+				P2se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 			}
@@ -1290,9 +1636,42 @@ void Player2::AfterCatch()
 		{
 			//HPを減らす。
 			if (guard != true) {
+				shine = false;
 				//プレイヤーの内部スコア加点
 				m_playerpoint->Set4PPoint();
-				shine = false;
+
+				//エフェクト。
+				m_efpos1 = m_position;
+				m_efpos1.y = 50.0f;
+				EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+				effectEmitter->Init(0);
+				effectEmitter->SetScale({ 15.0f,15.0f,15.0f });
+				effectEmitter->SetPosition(m_efpos1);
+				effectEmitter->Play();
+
+				//player4からplayer2を向くベクトルを求める。
+				Vector3 a = m_position - FindGO<Player4>("player4")->GetPlayer4Position();
+				a.Normalize();
+				if (a.x > 0) {
+					//体の向きを変える。
+					m_charaRotState = 1;
+
+					//少しノックバックする。
+					moveSpeed.x += a.x * 2000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+				else if (a.x < 0) {
+					m_charaRotState = 0;
+					//少しノックバックする。
+					moveSpeed.x += a.x * 2000.0f;
+					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+				}
+
+				//効果音を再生する。
+				SoundSource* P2se = NewGO<SoundSource>(10);
+				P2se->Init(10);
+				P2se->Play(false);
+
 				m_hp -= 5;
 				m_playerState = 5;
 			}

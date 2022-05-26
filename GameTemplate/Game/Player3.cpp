@@ -65,7 +65,7 @@ bool Player3::Start()
 
 	//‰Šú‚É‰E‚ğŒü‚©‚¹‚éB
 	m_rotation.SetRotationDegX(-90.0f);
-	m_rotation.AddRotationDegZ(-180.0f);
+	m_rotation.AddRotationDegZ(360.0f);
 
 	m_player3.SetPosition(m_position);
 	m_player3.SetRotation(m_rotation);

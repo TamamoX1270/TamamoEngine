@@ -84,9 +84,9 @@ public:
 		m_soysaucecount++;
 	}
 
-	void SetPlayer1PlayerState11()
+	void SetPlayer1PlayerState15()
 	{
-		m_playerState = 11;
+		m_playerState = 15;
 	}
 
 	void AddSauce()
@@ -205,7 +205,9 @@ private:
 		enAnimClip_RiseUp,	// 11 : 起き上がりアニメーション。
 		enAnimClip_Death,	// 12 : 死ぬアニメーション。
 		enAnimClip_RingOut,	// 13 : リングアウトアニメーション。
-		enAnimClip_Num,		// 14 : アニメーションクリップの数。
+		enAnimClip_GrabHit,	// 14 : 掴まれるアニメーション。
+		enAnimClip_Repel,	// 15 : 弾くアニメーション。
+		enAnimClip_Num,		// 16 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー
@@ -254,8 +256,8 @@ private:
 	float		m_cpunch;
 	int			m_handBoneIdCPunch = -1;	//「Hand」ボーンのID。  
 
-	int atkState = 0;		//連続攻撃のためのステート。
-	float guard = false;	//ガードをしているかどうか。
+	int atkState = 0;			//連続攻撃のためのステート。
+	float guard = false;		//ガードをしているかどうか。
 
 	float p2_Catch;		//P2のshineステート。
 	float p3_Catch;		//P3のshineステート。

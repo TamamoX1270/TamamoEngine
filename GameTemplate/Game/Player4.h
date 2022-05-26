@@ -84,7 +84,7 @@ public:
 		m_soysaucecount++;
 	}
 
-	void SetPlayer4PlayerState11()
+	void SetPlayer4PlayerState15()
 	{
 		m_playerState = 11;
 	}
@@ -236,7 +236,7 @@ private:
 
 	float		m_jumpState = false;		//ジャンプ実装用ステート。
 
-	int			m_charaRotState = 0;	//キャラの向きを変えるステート。
+	int			m_charaRotState = 1;	//キャラの向きを変えるステート。
 
 
 	float		m_isUnderAttack;

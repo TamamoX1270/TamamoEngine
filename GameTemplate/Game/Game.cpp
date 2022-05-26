@@ -11,7 +11,7 @@
 #include "GameCamera3P.h"
 #include "SoySauce.h"
 #include "SoySauceBullet.h"
-#include "SideWall.h"
+//#include "SideWall.h"
 #include "Title.h"
 #include "Result.h"
 #include "SpecialCamera.h"
@@ -34,7 +34,7 @@ bool Game::Start()
 	//GameUIの生成
 	m_gamingshigureui = NewGO<GameUI>(0, "gameui");
 	//左右の壁オブジェクトを生成する。
-	m_sidewall = NewGO<SideWall>(0, "sidewall");
+	//m_sidewall = NewGO<SideWall>(0, "sidewall");
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 	//プレイヤーの取得ポイントを保存するクラスを生成する。
@@ -59,7 +59,7 @@ Game::~Game()
 	//DeleteGO(m_gameCamera2);
 	DeleteGO(sscamera);
 	DeleteGO(m_backGround);
-	DeleteGO(m_sidewall);
+	//DeleteGO(m_sidewall);
 	DeleteGO(m_gamingshigureui);
 }
 void Game::Update()
