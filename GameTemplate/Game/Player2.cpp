@@ -183,7 +183,7 @@ void Player2::Update()
 	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
 
-	if (p1_Catch != true && p3_Catch != true) {
+	if (p1_Catch != true && p3_Catch != true && p4_Catch != true) {
 		Move();
 		Rotation();
 	}
@@ -483,6 +483,10 @@ void Player2::ManageState()
 	case 10:
 		m_player2.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
+		m_jumpState = false;
+		if (m_position.y > 20.0f) {
+			m_position.y = 19.0f;
+		}
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 11;
 			atkState = 0;
@@ -737,7 +741,6 @@ void Player2::autoGuard()
 
 	collisionObject->SetName("P2_autoGuard");
 }
-
 void Player2::Hit1()
 {
 	//敵の攻撃用のコリジョンの配列を取得する。
@@ -964,6 +967,7 @@ void Player2::Hit1()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+
 		}
 	}
 

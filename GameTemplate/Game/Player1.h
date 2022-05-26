@@ -52,6 +52,14 @@ public:
 		return shine;
 	}
 	/// <summary>
+	/// 自分が他のプレイヤーをつかんだことを取得する。
+	/// </summary>
+	/// <returns>プレイヤーのステート。</returns>
+	const float& SetPlayer1Catch() const
+	{
+		return shine;
+	}
+	/// <summary>
 	/// プレイヤーの前方向のベクトルの取得
 	/// </summary>
 	/// <returns></returns>

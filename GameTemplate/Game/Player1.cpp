@@ -483,6 +483,10 @@ void Player1::ManageState()
 	case 10:
 		m_player.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
+		m_jumpState = false;
+		if (m_position.y > 20.0f) {
+			m_position.y = 19.0f;
+		}
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 11;
 			atkState = 0;

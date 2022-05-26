@@ -65,7 +65,7 @@ Game::~Game()
 void Game::Update()
 {
 	GameDelete();
-	Camera();
+	//Camera();
 	
 	if (m_soysoucenewgotimer == false)
 	{
