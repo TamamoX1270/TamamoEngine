@@ -7,6 +7,10 @@
 Title::Title()
 {
 	spriteRender.Init("Assets/sprite/sushifighter.dds", 1600.0f, 900.0f);
+	spriteRender2.Init("Assets/sprite/Apress.dds", 1600.0f, 400.0f);
+	spriteRender2.SetPosition(Vector3(0.0f, -300.0f, 0.0f));
+
+	spriteRender2.Update();
 
 	//ƒ^ƒCƒgƒ‹‚ÌBGM‚ð“Ç‚Ýž‚Þ
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/title_bgm.wav");
@@ -40,4 +44,5 @@ void Title::Update()
 void Title::Render(RenderContext& rc)
 {
 	spriteRender.Draw(rc);
+	spriteRender2.Draw(rc);
 }

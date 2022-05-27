@@ -10,6 +10,7 @@ public:
 	void Render(RenderContext& rc);
 
 	SpriteRender spriteRender;
+	SpriteRender spriteRender2;
 	SoundSource* titleBGM;
 	SoundSource* se;
 };
