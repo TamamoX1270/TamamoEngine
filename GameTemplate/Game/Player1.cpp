@@ -53,10 +53,13 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_GrabHit].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_Repel].Load("Assets/purototype/repel.tka");
 	m_animationClipArray[enAnimClip_Repel].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Tukami].Load("Assets/purototype/aaa.tka");
+	m_animationClipArray[enAnimClip_Tukami].SetLoopFlag(true);
 
 	//エフェクトを読み込む。
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
+	EffectEngine::GetInstance()->ResistEffect(30, u"Assets/effect/guard.efk");
 
 	m_position = Vector3(-300.0f, 0.0f, 0.0f);
 	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
@@ -179,11 +182,12 @@ void Player1::Update()
 		return;
 	}
 
-	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
-	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
-	p4_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	//p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
+	//p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	//p4_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 
-	if (p2_Catch != true && p3_Catch != true && p4_Catch != true) {
+	if (tukami != true) {
+
 		Move();
 		Rotation();
 	}
@@ -351,7 +355,7 @@ void Player1::AnimationState()
 	}
 	
 	//掴み攻撃
-	if (p2_Catch == true|| p3_Catch == true || p4_Catch == true) {
+	if (tukami == true) {
 		if (g_pad[0]->IsTrigger(enButtonB)) {
 			m_playerState = 9;
 		}
@@ -403,6 +407,8 @@ void Player1::ManageState()
 		m_catch = false;
 		m_2 = false;
 		m_3 = false;
+		m_jumpState = false;
+		//tukami = false;
 		break;
 
 	case 1:
@@ -438,6 +444,7 @@ void Player1::ManageState()
 	case 5:
 		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
 		m_jumpState = false;
+		tukami = false;
 		atkState = 0;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
@@ -477,12 +484,14 @@ void Player1::ManageState()
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 			atkState = 0;
+			tukami = false;
 		}
 		break;
 
 	case 10:
 		m_player.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
+		tukami = false;
 		m_jumpState = false;
 		if (m_position.y > 20.0f) {
 			m_position.y = 19.0f;
@@ -703,6 +712,13 @@ void Player1::MakeGuardCollision()
 
 	//コリジョンオブジェクトを作成する。
 	auto collisionObject = NewGO<CollisionObject>(0);
+	//エフェクト。
+	m_efpos1 = m_position;
+	EffectEmitter* effectEmitter2 = NewGO<EffectEmitter>(0);
+	effectEmitter2->Init(30);
+	effectEmitter2->SetScale({ 15.0f,15.0f,15.0f });
+	effectEmitter2->SetPosition(m_efpos1);
+	effectEmitter2->Play();
 
 	Vector3 collisionPosition = m_position;
 	//座標をプレイヤーの少し前に設定する。
@@ -968,6 +984,8 @@ void Player1::Hit2()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player2>("player2")->SetPlayer2Catch(true);
+			c = 2;
 		}
 	}
 
@@ -1248,6 +1266,8 @@ void Player1::Hit3()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player3>("player3")->SetPlayer3Catch(true);
+			c = 3;
 		}
 	}
 
@@ -1499,6 +1519,8 @@ void Player1::Hit4()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player4>("player4")->SetPlayer4Catch(true);
+			c = 4;
 		}
 	}
 
@@ -1686,6 +1708,19 @@ void Player1::AfterCatch()
 
 	if (m_Catchtimer >= 3.0f) {
 		shine = false;
+		switch (c)
+		{
+		case 2:
+			FindGO<Player2>("player2")->SetPlayer2Catch(false);
+			break;
+		case 3:
+			FindGO<Player3>("player3")->SetPlayer3Catch(false);
+			break;
+		case 4:
+			FindGO<Player4>("player4")->SetPlayer4Catch(false);
+			break;
+		}
+
 	}
 }
 
