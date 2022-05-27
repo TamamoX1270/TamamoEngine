@@ -52,6 +52,13 @@ public:
 		return shine;
 	}
 	/// <summary>
+	/// 自分が他のプレイヤーをつかんだことを取得する。
+	/// </summary>
+	void SetPlayer2Catch(const float& position)
+	{
+		tukami = position;
+	}
+	/// <summary>
 	/// プレイヤーの前方向のベクトルの取得
 	/// </summary>
 	/// <returns></returns>
@@ -218,7 +225,7 @@ private:
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
 	Vector3				m_efpos1;								//エフェクト用のポジション
-	PlayerPoint*		m_playerpoint;							//プレイヤーのポイントを記録する
+	PlayerPoint* m_playerpoint;							//プレイヤーのポイントを記録する
 
 	//醤油弾の関数
 	SoySauceBullet* m_soysaucebullet;   //醤油弾
@@ -259,10 +266,6 @@ private:
 	int atkState = 0;					//連続攻撃のためのステート。
 	float guard = false;				//ガードをしているかどうか。
 
-	float p1_Catch;		//P1のshineステート。
-	float p3_Catch;		//P3のshineステート。
-	float p4_Catch;		//P4のshineステート。
-
 	Vector3 a;
 
 	SoundSource* P2se;	//P2の効果音。
@@ -270,6 +273,8 @@ private:
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
+	float tukami = false;	//掴んでいるか。
+	int c = 0;				//どのプレイヤーから殴られているか
 
 	//ゲーム終了や負け処理の関数
 	int m_owaowari; //そこまで！ステートを受け取る。

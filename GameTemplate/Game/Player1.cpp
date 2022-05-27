@@ -53,17 +53,19 @@ bool Player1::Start()
 	m_animationClipArray[enAnimClip_GrabHit].SetLoopFlag(false);
 	m_animationClipArray[enAnimClip_Repel].Load("Assets/purototype/repel.tka");
 	m_animationClipArray[enAnimClip_Repel].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Tukami].Load("Assets/purototype/aaa.tka");
+	m_animationClipArray[enAnimClip_Tukami].SetLoopFlag(true);
 
 	//エフェクトを読み込む。
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/bigkome.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/smallkome.efk");
-	EffectEngine::GetInstance()->ResistEffect(30, u"Assets/effect/guard.efk"); 
+	EffectEngine::GetInstance()->ResistEffect(30, u"Assets/effect/guard.efk");
 
 	m_position = Vector3(-300.0f, 0.0f, 0.0f);
 	m_playerpoint = FindGO<PlayerPoint>("playerpoint");
 
 	//モデルの読み込み
-	m_player.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num,enModelUpAxisY);
+	m_player.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 
 	//キャラコンを初期化する。
 	m_characterController.Init(25.0f, 75.0f, m_position);
@@ -88,7 +90,7 @@ bool Player1::Start()
 	m_handBoneId2 = m_player.FindBoneID(L"mixamorig:LeftHandIndex1");
 	m_handBoneId3 = m_player.FindBoneID(L"mixamorig:RightToeBase");
 	m_handBoneIdCPunch = m_player.FindBoneID(L"mixamorig:RightHandIndex1");
-	
+
 	//効果音を読み込む。
 	g_soundEngine->ResistWaveFileBank(3, "Assets/sound/jump_2.wav");
 	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/punch_1.wav");
@@ -148,7 +150,7 @@ void Player1::Update()
 
 	//時間切れになったら。
 	else if (m_owaowari == true) {
-		m_player.PlayAnimation(enAnimClip_Idle,0.2f);
+		m_player.PlayAnimation(enAnimClip_Idle, 0.2f);
 		m_player.Update();
 		return;
 	}
@@ -180,18 +182,19 @@ void Player1::Update()
 		return;
 	}
 
-	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
-	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
-	p4_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	//p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
+	//p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
+	//p4_Catch = FindGO<Player3>("player3")->GetPlayer3State();
 
-	if (p2_Catch != true && p3_Catch != true && p4_Catch != true) {
+	if (tukami != true) {
+
 		Move();
 		Rotation();
 	}
 
 	AnimationState();
 	ManageState();
-	
+
 	Hit2();
 	Hit3();
 	Hit4();
@@ -216,7 +219,7 @@ void Player1::Move()
 		//動けない。
 		return;
 	}
-	
+
 	//攻撃中なら。
 	if (m_playerState == 3 || m_playerState == 7 || m_playerState == 8) {
 		//動けない。
@@ -240,7 +243,7 @@ void Player1::Move()
 		//動けない。
 		return;
 	}*/
-	
+
 	//Yボタンが押された時に醤油のストックが１以上なら
 	if (g_pad[0]->IsTrigger(enButtonY) && m_soysaucecount >= 1)
 	{
@@ -270,9 +273,9 @@ void Player1::Move()
 		//キャラの当たり判定の更新。
 		m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 	}
-	
+
 	m_player.SetScale(m_scale);
-	m_player.SetPosition(m_position);			 
+	m_player.SetPosition(m_position);
 }
 
 void Player1::Rotation()
@@ -350,9 +353,9 @@ void Player1::AnimationState()
 	if (g_pad[0]->IsTrigger(enButtonRB1) || g_pad[0]->IsTrigger(enButtonRB2)) {
 		m_playerState = 6;
 	}
-	
+
 	//掴み攻撃
-	if (p2_Catch == true|| p3_Catch == true || p4_Catch == true) {
+	if (tukami == true) {
 		if (g_pad[0]->IsTrigger(enButtonB)) {
 			m_playerState = 9;
 		}
@@ -404,6 +407,8 @@ void Player1::ManageState()
 		m_catch = false;
 		m_2 = false;
 		m_3 = false;
+		m_jumpState = false;
+		//tukami = false;
 		break;
 
 	case 1:
@@ -439,6 +444,7 @@ void Player1::ManageState()
 	case 5:
 		m_player.PlayAnimation(enAnimClip_Hit, 0.2f);
 		m_jumpState = false;
+		tukami = false;
 		atkState = 0;
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
@@ -478,12 +484,14 @@ void Player1::ManageState()
 		if (m_player.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 			atkState = 0;
+			tukami = false;
 		}
 		break;
 
 	case 10:
 		m_player.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
+		tukami = false;
 		m_jumpState = false;
 		if (m_position.y > 20.0f) {
 			m_position.y = 19.0f;
@@ -527,7 +535,7 @@ void Player1::ManageJump()
 		moveSpeed.y = 450.0f;
 	}
 	//バグが起こらない重力。
-	else if (m_position.y > 20.0f|| m_position.y < -20.0f) {
+	else if (m_position.y > 20.0f || m_position.y < -20.0f) {
 		moveSpeed.y -= 80.0f;
 	}
 	else {
@@ -714,7 +722,7 @@ void Player1::MakeGuardCollision()
 
 	Vector3 collisionPosition = m_position;
 	//座標をプレイヤーの少し前に設定する。
-	collisionPosition.y +=  60.0f;
+	collisionPosition.y += 60.0f;
 
 	//カプセル状のコリジョンを作成する。
 	collisionObject->CreateCapsule(collisionPosition,
@@ -788,7 +796,7 @@ void Player1::Hit2()
 				else if (a.x < 0) {
 					//体の向きを変える。
 					m_charaRotState = 0;
-					
+
 					//少しノックバックする。
 					moveSpeed.x += a.x * 200.0f;
 					m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -976,6 +984,8 @@ void Player1::Hit2()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player2>("player2")->SetPlayer2Catch(true);
+			c = 2;
 		}
 	}
 
@@ -1256,6 +1266,8 @@ void Player1::Hit3()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player3>("player3")->SetPlayer3Catch(true);
+			c = 3;
 		}
 	}
 
@@ -1507,6 +1519,8 @@ void Player1::Hit4()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player4>("player4")->SetPlayer4Catch(true);
+			c = 4;
 		}
 	}
 
@@ -1694,6 +1708,19 @@ void Player1::AfterCatch()
 
 	if (m_Catchtimer >= 3.0f) {
 		shine = false;
+		switch (c)
+		{
+		case 2:
+			FindGO<Player2>("player2")->SetPlayer2Catch(false);
+			break;
+		case 3:
+			FindGO<Player3>("player3")->SetPlayer3Catch(false);
+			break;
+		case 4:
+			FindGO<Player4>("player4")->SetPlayer4Catch(false);
+			break;
+		}
+
 	}
 }
 

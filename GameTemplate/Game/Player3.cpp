@@ -179,19 +179,15 @@ void Player3::Update()
 		return;
 	}
 
-	p1_Catch = FindGO<Player1>("player1")->GetPlayer1State();
-	p2_Catch = FindGO<Player2>("player2")->GetPlayer2State();
-	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
-
-	//if (p1_Catch != true && p2_Catch != true && p4_Catch != true) {
+	if (tukami == false) {
 		Move();
 		Rotation();
-	//}
+	}
 
 	AnimationState();
 	ManageState();
 
-	Hit1(); 
+	Hit1();
 	Hit2();
 	Hit4();
 	MakeGuardCollision();
@@ -209,37 +205,6 @@ void Player3::Update()
 
 void Player3::Move()
 {
-	/*
-	//ガード中なら。
-	if (m_playerState == 2) {
-		//動けない。
-		return;
-	}
-
-	//攻撃中なら。
-	if (m_playerState == 3 || m_playerState == 7 || m_playerState == 8) {
-		//動けない。
-		return;
-	}
-
-	//掴み中なら。
-	if (m_playerState == 6) {
-		//動けない。
-		return;
-	}
-
-	//ダメージを食らっているなら。
-	if (m_playerState == 5 || m_playerState == 10) {
-		//動けない。
-		return;
-	}
-
-	//起き上がっているなら。
-	if (m_playerState == 11) {
-		//動けない。
-		return;
-	}*/
-
 	//Yボタンが押された時に醤油のストックが１以上なら
 	if (g_pad[2]->IsTrigger(enButtonY) && m_soysaucecount >= 1)
 	{
@@ -351,7 +316,7 @@ void Player3::AnimationState()
 	}
 
 	//掴み攻撃
-	if (p1_Catch == true || p2_Catch == true || p4_Catch == true) {
+	if (tukami == true) {
 		if (g_pad[2]->IsTrigger(enButtonB)) {
 			m_playerState = 9;
 		}
@@ -403,6 +368,7 @@ void Player3::ManageState()
 		m_catch = false;
 		m_2 = false;
 		m_3 = false;
+		m_jumpState = false;
 		break;
 
 	case 1:
@@ -438,6 +404,7 @@ void Player3::ManageState()
 	case 5:
 		m_player3.PlayAnimation(enAnimClip_Hit, 0.2f);
 		m_jumpState = false;
+		tukami = false;
 		atkState = 0;
 		if (m_player3.IsPlayingAnimation() == false) {
 			m_playerState = 0;
@@ -477,12 +444,14 @@ void Player3::ManageState()
 		if (m_player3.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 			atkState = 0;
+			tukami = false;
 		}
 		break;
 
 	case 10:
 		m_player3.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
+		tukami = false;
 		m_jumpState = false;
 		if (m_position.y > 20.0f) {
 			m_position.y = 19.0f;
@@ -516,7 +485,7 @@ void Player3::ManageState()
 		break;
 
 	}
-	
+
 }
 
 void Player3::ManageJump()
@@ -968,6 +937,8 @@ void Player3::Hit1()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player1>("player1")->SetPlayer1Catch(true);
+			c = 1;
 		}
 	}
 
@@ -1248,6 +1219,8 @@ void Player3::Hit2()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player2>("player2")->SetPlayer2Catch(true);
+			c = 2;
 		}
 	}
 
@@ -1499,6 +1472,8 @@ void Player3::Hit4()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player4>("player4")->SetPlayer4Catch(true);
+			c = 4;
 		}
 	}
 
@@ -1686,6 +1661,18 @@ void Player3::AfterCatch()
 
 	if (m_Catchtimer >= 3.0f) {
 		shine = false;
+		switch (c)
+		{
+		case 1:
+			FindGO<Player1>("player1")->SetPlayer1Catch(false);
+			break;
+		case 3:
+			FindGO<Player3>("player3")->SetPlayer3Catch(false);
+			break;
+		case 4:
+			FindGO<Player4>("player4")->SetPlayer4Catch(false);
+			break;
+		}
 	}
 }
 
