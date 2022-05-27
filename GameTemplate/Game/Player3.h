@@ -52,6 +52,13 @@ public:
 		return shine;
 	}
 	/// <summary>
+	/// 自分が他のプレイヤーをつかんだことを取得する。
+	/// </summary>
+	void SetPlayer3Catch(const float& position)
+	{
+		tukami = position;
+	}
+	/// <summary>
 	/// プレイヤーの前方向のベクトルの取得
 	/// </summary>
 	/// <returns></returns>
@@ -258,10 +265,6 @@ private:
 
 	int atkState = 0;		//連続攻撃のためのステート。
 	float guard = false;	//ガードをしているかどうか。
-	
-	float p1_Catch;		//P1のshineステート。
-	float p2_Catch;		//P2のshineステート。
-	float p4_Catch;		//P4のshineステート。
 
 	Vector3 a; //P1からP2に向かうベクトル。
 
@@ -270,6 +273,8 @@ private:
 	//掴み処理の関数
 	float shine = false;		//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
+	float tukami = false;	//掴んでいるか。
+	int c = 0;				//どのプレイヤーから殴られているか
 
 	//ゲーム終了や負け処理の関数
 	int m_owaowari; //そこまで！ステートを受け取る。

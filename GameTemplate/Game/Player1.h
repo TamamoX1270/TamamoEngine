@@ -54,10 +54,9 @@ public:
 	/// <summary>
 	/// 自分が他のプレイヤーをつかんだことを取得する。
 	/// </summary>
-	/// <returns>プレイヤーのステート。</returns>
-	const float& SetPlayer1Catch() const
+	void SetPlayer1Catch(const float& position)
 	{
-		return shine;
+		tukami = position;
 	}
 	/// <summary>
 	/// プレイヤーの前方向のベクトルの取得
@@ -215,7 +214,8 @@ private:
 		enAnimClip_RingOut,	// 13 : リングアウトアニメーション。
 		enAnimClip_GrabHit,	// 14 : 掴まれるアニメーション。
 		enAnimClip_Repel,	// 15 : 弾くアニメーション。
-		enAnimClip_Num,		// 16 : アニメーションクリップの数。
+		enAnimClip_Tukami,	// 16 : 掴んでいるアニメーション。
+		enAnimClip_Num,		// 17 : アニメーションクリップの数。
 	};
 	Model				m_model;
 	ModelRender			m_player;								//プレイヤー
@@ -267,15 +267,17 @@ private:
 	int atkState = 0;			//連続攻撃のためのステート。
 	float guard = false;		//ガードをしているかどうか。
 
-	float p2_Catch;		//P2のshineステート。
-	float p3_Catch;		//P3のshineステート。
-	float p4_Catch;		//P3のshineステート。
+	//float p2_Catch;		//P2のshineステート。
+	//float p3_Catch;		//P3のshineステート。
+	//float p4_Catch;		//P3のshineステート。
 
 	Vector3 a; //P1からP2に向かうベクトル。
 
 	SoundSource* P1se;	//P1の効果音。
 
 	//掴み処理の関数
+	float tukami = false;	//掴んでいるか。
+	int c = 0;				//どのプレイヤーから殴られているか
 	float shine = false;			//掴まれているか。
 	float m_Catchtimer = 0.0f;		//掴まれてからのタイマー。
 

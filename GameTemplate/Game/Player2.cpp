@@ -179,11 +179,7 @@ void Player2::Update()
 		return;
 	}
 
-	p1_Catch = FindGO<Player1>("player1")->GetPlayer1State();
-	p3_Catch = FindGO<Player3>("player3")->GetPlayer3State();
-	p4_Catch = FindGO<Player4>("player4")->GetPlayer4State();
-
-	if (p1_Catch != true && p3_Catch != true && p4_Catch != true) {
+	if (tukami==false) {
 		Move();
 		Rotation();
 	}
@@ -351,7 +347,7 @@ void Player2::AnimationState()
 	}
 
 	//’Í‚ÝUŒ‚
-	if (p1_Catch == true || p3_Catch == true || p4_Catch == true) {
+	if (tukami == true) {
 		if (g_pad[1]->IsTrigger(enButtonB)) {
 			m_playerState = 9;
 		}
@@ -403,6 +399,7 @@ void Player2::ManageState()
 		m_catch = false;
 		m_2 = false;
 		m_3 = false;
+		m_jumpState = false;
 		break;
 
 	case 1:
@@ -438,6 +435,7 @@ void Player2::ManageState()
 	case 5:
 		m_player2.PlayAnimation(enAnimClip_Hit, 0.2f);
 		m_jumpState = false;
+		tukami = false;
 		atkState = 0;
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
@@ -477,12 +475,14 @@ void Player2::ManageState()
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 			atkState = 0;
+			tukami = false;
 		}
 		break;
 
 	case 10:
 		m_player2.PlayAnimation(enAnimClip_FlyAway, 0.2f);
 		m_catch = false;
+		tukami = false;
 		m_jumpState = false;
 		if (m_position.y > 20.0f) {
 			m_position.y = 19.0f;
@@ -967,7 +967,8 @@ void Player2::Hit1()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
-
+			FindGO<Player1>("player1")->SetPlayer1Catch(true);
+			c = 1;
 		}
 	}
 
@@ -1248,6 +1249,8 @@ void Player2::Hit3()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player3>("player3")->SetPlayer3Catch(true);
+			c = 3;
 		}
 	}
 
@@ -1499,6 +1502,8 @@ void Player2::Hit4()
 		{
 			m_Catchtimer = 0.0f;
 			shine = true;
+			FindGO<Player4>("player4")->SetPlayer4Catch(true);
+			c = 4;
 		}
 	}
 
@@ -1686,6 +1691,20 @@ void Player2::AfterCatch()
 
 	if (m_Catchtimer >= 3.0f) {
 		shine = false;
+		switch (c)
+		{
+		case 1:
+			FindGO<Player1>("player1")->SetPlayer1Catch(false);
+			break;
+		case 3:
+			FindGO<Player3>("player3")->SetPlayer3Catch(false);
+			break;
+		case 4:
+			FindGO<Player4>("player4")->SetPlayer4Catch(false);
+			break;
+		}
+
+		m_playerState = 0;
 	}
 }
 
