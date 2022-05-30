@@ -71,10 +71,6 @@ bool GameUI::Start()
 	SoyCT();
 	SushiHPBar();
 
-	m_spriteRender.Update();
-	m_spriteRender2.Update();
-	m_spriteRender3.Update();
-	m_spriteRender4.Update();
 	m_spriteRendersamonhuda.Update();
 	m_spriteRendermagurohuda.Update();
 	m_spriteRendertamagohuda.Update();
@@ -96,33 +92,38 @@ GameUI::~GameUI()
 
 void GameUI::SoyCT()
 {
-	//è›ñ˚Ç≥Çµ
-	m_spriteRender.Init("Assets/sprite/soysaucecontainer_1P.dds", 220.0f, 220.0f);
-	m_spriteRender.SetPosition({ -450.0f,-350.0f,0.0f });
-	m_spriteRender2.Init("Assets/sprite/soysaucecontainer_2P.dds", 220.0f, 220.0f);
-	m_spriteRender2.SetPosition({ -55.0f,-350.0f,0.0f });
-	m_spriteRender3.Init("Assets/sprite/soysaucecontainer_3P.dds", 220.0f, 220.0f);
-	m_spriteRender3.SetPosition({ 345.0f,-350.0f,0.0f });
-	m_spriteRender4.Init("Assets/sprite/soysaucecontainer_4P.dds", 220.0f, 220.0f);
-	m_spriteRender4.SetPosition({ 735.0f,-350.0f,0.0f });
-	//è›ñ˚Ç≥ÇµÇ©ÇŒÅ[
-	m_soyct.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
-	m_soyct.SetPosition({ -450.0f,-350.0f,0.0f });
-	m_soyct.SetMulColor({ Transparent });
-	m_soyct2.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
-	m_soyct2.SetPosition({ -55.0f,-350.0f,0.0f });
-	m_soyct2.SetMulColor({ Transparent });
-	m_soyct3.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
-	m_soyct3.SetPosition({ 345.0f,-350.0f,0.0f });
-	m_soyct3.SetMulColor({ Transparent });
-	m_soyct4.Init("Assets/sprite/soysaucecontainercover.dds", 220.0f, 220.0f);
-	m_soyct4.SetPosition({ 735.0f,-350.0f,0.0f });
-	m_soyct4.SetMulColor({ Transparent });
+
+	m_syouyusasi.Init("Assets/sprite/syouyusasi1.dds", 280.0f, 280.0f);
+	m_syouyusasi2.Init("Assets/sprite/syouyusasi2.dds", 280.0f, 280.0f);
+	m_syouyusasi3.Init("Assets/sprite/syouyusasi3.dds", 280.0f, 280.0f);
+	m_syouyusasi4.Init("Assets/sprite/syouyusasi4.dds", 280.0f, 280.0f);
+
+	m_syouyusasi_kara.Init("Assets/sprite/syouyusasi1_kara.dds", 280.0f, 280.0f);
+	m_syouyusasi_kara2.Init("Assets/sprite/syouyusasi2_kara.dds", 280.0f, 280.0f);
+	m_syouyusasi_kara3.Init("Assets/sprite/syouyusasi3_kara.dds", 280.0f, 280.0f);
+	m_syouyusasi_kara4.Init("Assets/sprite/syouyusasi4_kara.dds", 280.0f, 280.0f);
+
+	m_syouyusasi.SetPosition({ -430.0f,-330.0f,0.0f });
+	m_syouyusasi2.SetPosition({ -35.0f,-330.0f,0.0f });
+	m_syouyusasi3.SetPosition({ 365.0f,-330.0f,0.0f });
+	m_syouyusasi4.SetPosition({ 750.0f,-330.0f,0.0f });
+
+	m_syouyusasi_kara.SetPosition({ -430.0f,-330.0f,0.0f });
+	m_syouyusasi_kara2.SetPosition({ -35.0f,-330.0f,0.0f });
+	m_syouyusasi_kara3.SetPosition({ 365.0f,-330.0f,0.0f });
+	m_syouyusasi_kara4.SetPosition({ 750.0f,-330.0f,0.0f });
+
 	//çXêVèàóù
-	m_soyct.Update();
-	m_soyct2.Update();
-	m_soyct3.Update();
-	m_soyct4.Update();
+	m_syouyusasi.Update();
+	m_syouyusasi2.Update();
+	m_syouyusasi3.Update();
+	m_syouyusasi4.Update();
+
+	m_syouyusasi_kara.Update();
+	m_syouyusasi_kara2.Update();
+	m_syouyusasi_kara3.Update();
+	m_syouyusasi_kara4.Update();
+
 }
 
 void GameUI::SushiHPBar()
@@ -315,6 +316,44 @@ void GameUI::Update()
 	{
 		FindGO<Game>("game")->SetGameDelete(true);
 	}
+
+	//è›ñ˚ç∑ÇµÇÃâÊëúêÿÇËë÷Ç¶
+	if (m_player1->GetSoySauceCount() > 0)
+	{
+		m_soysaucecountstate = true;
+	}
+	if (m_player1->GetSoySauceCount() <= 0)
+	{
+		m_soysaucecountstate = false;
+	}
+
+	if (m_player2->GetSoySauceCount() > 0)
+	{
+		m_soysaucecountstate2 = true;
+	}
+	if (m_player2->GetSoySauceCount() <= 0)
+	{
+		m_soysaucecountstate2 = false;
+	}
+
+	if (m_player3->GetSoySauceCount() > 0)
+	{
+		m_soysaucecountstate3 = true;
+	}
+	if (m_player3->GetSoySauceCount() <= 0)
+	{
+		m_soysaucecountstate3 = false;
+	}
+
+	if (m_player4->GetSoySauceCount() > 0)
+	{
+		m_soysaucecountstate4 = true;
+	}
+	if (m_player4->GetSoySauceCount() <= 0)
+	{
+		m_soysaucecountstate4 = false;
+	}
+
 }
 
 void GameUI::Render(RenderContext& rc)
@@ -326,16 +365,43 @@ void GameUI::Render(RenderContext& rc)
 	m_spriteRendermagurohuda.Draw(rc);
 	m_spriteRendertamagohuda.Draw(rc);
 	m_spriteRenderebihuda.Draw(rc);
-	m_spriteRender.Draw(rc);                 //ï`âÊ
-	m_spriteRender2.Draw(rc);
-	m_spriteRender3.Draw(rc);
-	m_spriteRender4.Draw(rc);
 	m_spriteRendertime.Draw(rc);
 
-	m_soyct.Draw(rc);
-	m_soyct2.Draw(rc);
-	m_soyct3.Draw(rc);
-	m_soyct4.Draw(rc);
+	if (m_soysaucecountstate == false)
+	{
+		m_syouyusasi_kara.Draw(rc);
+	}
+	if (m_soysaucecountstate == true)
+	{
+		m_syouyusasi.Draw(rc);
+	}
+
+	if (m_soysaucecountstate2 == false)
+	{
+		m_syouyusasi_kara2.Draw(rc);
+	}
+	if (m_soysaucecountstate2 == true)
+	{
+		m_syouyusasi2.Draw(rc);
+	}
+
+	if (m_soysaucecountstate3 == false)
+	{
+		m_syouyusasi_kara3.Draw(rc);
+	}
+	if (m_soysaucecountstate3 == true)
+	{
+		m_syouyusasi3.Draw(rc);
+	}
+
+	if (m_soysaucecountstate4 == false)
+	{
+		m_syouyusasi_kara4.Draw(rc);
+	}
+	if (m_soysaucecountstate4 == true)
+	{
+		m_syouyusasi4.Draw(rc);
+	}
 
 	m_sushihpbar_kuro.Draw(rc);
 	m_sushihpbar_kuro2.Draw(rc);

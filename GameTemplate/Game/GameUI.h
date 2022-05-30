@@ -64,15 +64,16 @@ private:
 	Player4*		m_player4;
 
 	SpriteRender	m_ui;
-	SpriteRender	m_spriteRender;
-	SpriteRender	m_spriteRender2;
-	SpriteRender	m_spriteRender3;
-	SpriteRender	m_spriteRender4;
 
-	SpriteRender	m_soyct;
-	SpriteRender	m_soyct2;
-	SpriteRender	m_soyct3;
-	SpriteRender	m_soyct4;
+	SpriteRender	m_syouyusasi;
+	SpriteRender	m_syouyusasi2;
+	SpriteRender	m_syouyusasi3;
+	SpriteRender	m_syouyusasi4;
+
+	SpriteRender	m_syouyusasi_kara;
+	SpriteRender	m_syouyusasi_kara2;
+	SpriteRender	m_syouyusasi_kara3;
+	SpriteRender	m_syouyusasi_kara4;
 
 	SpriteRender	m_sushihpbar;
 	SpriteRender	m_sushihpbar2;
@@ -117,6 +118,11 @@ private:
 	int m_p2hp = 0;
 	int m_p3hp = 0;
 	int m_p4hp = 0;
+
+	int m_soysaucecountstate = false;
+	int m_soysaucecountstate2 = false;
+	int m_soysaucecountstate3 = false;
+	int m_soysaucecountstate4 = false;
 
 	int m_sokomade = false;
 	int m_gameendse = false;
