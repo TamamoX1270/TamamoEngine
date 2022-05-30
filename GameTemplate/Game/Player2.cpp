@@ -209,7 +209,7 @@ void Player2::Guard()
 	if (guard == true)
 	{
 		if (m_guardnewgo == false)
-		{
+		{/*
 			//エフェクト。
 			m_efpos2 = m_position;
 			m_efpos2.y = 75.0f;
@@ -218,7 +218,7 @@ void Player2::Guard()
 			m_guardeffectEmitter->SetScale({ 25.0f,25.0f,25.0f });
 			m_guardeffectEmitter->SetPosition(m_efpos2);
 			m_guardeffectEmitter->Play();
-			m_guardnewgo = true;
+			m_guardnewgo = true;*/
 		}
 	}
 	else
