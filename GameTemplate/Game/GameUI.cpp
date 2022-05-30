@@ -47,6 +47,26 @@ bool GameUI::Start()
 	m_spriteRendertime.Init("Assets/sprite/timer_UI2.dds", 520.0f, 300.0f);
 	m_spriteRendertime.SetPosition(Vector3(0.0f, 375.0f, 0.0f));
 
+	for (int i = 0; i < 4; i++)
+	{
+		m_spriteRenderslash[i].Init("Assets/sprite/slash.dds", 100.0f, 200.0f);
+		switch (i)
+		{
+		case 0:
+			m_spriteRenderslash[0].SetPosition(Vector3(-730.0f, -340.0f, 0.0f));
+			m_spriteRenderslash[0].Update();
+		case 1:
+			m_spriteRenderslash[1].SetPosition(Vector3(-335.0f, -340.0f, 0.0f));
+			m_spriteRenderslash[1].Update();
+		case 2:
+			m_spriteRenderslash[2].SetPosition(Vector3(65.0f, -340.0f, 0.0f));
+			m_spriteRenderslash[2].Update();
+		case 3:
+			m_spriteRenderslash[3].SetPosition(Vector3(460.0f, -340.0f, 0.0f));
+			m_spriteRenderslash[3].Update();
+		}
+	}
+
 	m_spriteRendersokomade.Init("Assets/sprite/sokomade.dds", 1600.0f, 900.0f);
 	SoyCT();
 	SushiHPBar();
@@ -352,5 +372,22 @@ void GameUI::Render(RenderContext& rc)
 	if (m_countstate == 3)
 	{
 		m_count3.Draw(rc);
+	}
+
+	if (m_player1->GetPlayerHP() <= 0)
+	{
+		m_spriteRenderslash[0].Draw(rc);
+	}
+	if (m_player2->GetPlayer2HP() <= 0)
+	{
+		m_spriteRenderslash[1].Draw(rc);
+	}
+	if (m_player3->GetPlayer3HP() <= 0)
+	{
+		m_spriteRenderslash[2].Draw(rc);
+	}
+	if (m_player4->GetPlayer4HP() <= 0)
+	{
+		m_spriteRenderslash[3].Draw(rc);
 	}
 }

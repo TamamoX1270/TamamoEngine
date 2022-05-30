@@ -93,6 +93,7 @@ private:
 	SpriteRender	m_spriteRendermagurohuda;
 	SpriteRender	m_spriteRendertamagohuda;
 	SpriteRender	m_spriteRenderebihuda;
+	SpriteRender	m_spriteRenderslash[4];
 	SpriteRender	m_spriteRendertime;
 
 	SpriteRender	m_count1;

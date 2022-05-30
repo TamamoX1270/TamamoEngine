@@ -75,6 +75,7 @@ SoySauce::~SoySauce()
 void SoySauce::Update()
 {
 	Move();
+	/*
 	//プレイヤーが取得済みかつ再生が終わったら削除する。
 	if (m_player1->GetSauce()== 1  ||
 		m_player2->GetSauce() == 1 ||
@@ -82,7 +83,7 @@ void SoySauce::Update()
 		m_player4->GetSauce() == 1)
 	{
 		DeleteGO(this);
-	}
+	}*/
 }
 
 void SoySauce::Move()
@@ -107,7 +108,7 @@ void SoySauce::Move()
 		m_player1->AddSoySauceCount();
 		m_player1->AddSauce();
 		//コリジョンオブジェクトを削除
-		DeleteGO(m_collisionObject);
+		DeleteGO(this);
 	}
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player2->GetCharacterController()) == true)
@@ -123,7 +124,7 @@ void SoySauce::Move()
 		m_player2->AddSoySauceCount();
 		m_player2->AddSauce();
 		//コリジョンオブジェクトを削除
-		DeleteGO(m_collisionObject);
+		DeleteGO(this);
 	}
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player3->GetCharacterController()) == true)
@@ -139,7 +140,7 @@ void SoySauce::Move()
 		m_player3->AddSoySauceCount();
 		m_player3->AddSauce();
 		//コリジョンオブジェクトを削除
-		DeleteGO(m_collisionObject);
+		DeleteGO(this);
 	}
 	//コリジョンオブジェクトとプレイヤーのキャラクターコントローラーが触れた時実行。
 	if (m_collisionObject->IsHit(m_player4->GetCharacterController()) == true)
@@ -155,7 +156,7 @@ void SoySauce::Move()
 		m_player4->AddSoySauceCount();
 		m_player4->AddSauce();
 		//コリジョンオブジェクトを削除
-		DeleteGO(m_collisionObject);
+		DeleteGO(this);
 	}
 	
 	m_soysauce.SetPosition(m_position);
