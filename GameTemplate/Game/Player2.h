@@ -106,6 +106,11 @@ public:
 		return m_getsoyplayernumber;
 	}
 
+	const int& GetSoySauceCount()
+	{
+		return m_soysaucecount;
+	}
+
 private:
 	/// <summary>
 	/// ˆÚ“®ˆ—
