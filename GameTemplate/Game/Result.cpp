@@ -14,9 +14,9 @@ Result::Result()
 	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(true);
 
 	m_samonwin.Init("Assets/sprite/samonwin.dds", 1600.0f, 900.0f);
-	m_magurowin.Init("Assets/sprite/Maguro_win.dds", 1600.0f, 900.0f);
-	m_tamagowin.Init("Assets/sprite/Tamago_win.dds", 1600.0f, 900.0f);
-	m_ebiwin.Init("Assets/sprite/Ebi_win.dds", 1600.0f, 900.0f);
+	m_magurowin.Init("Assets/sprite/magurowin.dds", 1600.0f, 900.0f);
+	m_tamagowin.Init("Assets/sprite/tamagowin.dds", 1600.0f, 900.0f);
+	m_ebiwin.Init("Assets/sprite/ebiwin.dds", 1600.0f, 900.0f);
 	m_select.Init("Assets/sprite/select.dds", 1600.0f, 900.0f);
 
 	//ÉÇÉfÉãÇÃì«Ç›çûÇ›
