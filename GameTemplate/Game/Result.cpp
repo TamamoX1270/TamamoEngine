@@ -18,6 +18,7 @@ Result::Result()
 	m_tamagowin.Init("Assets/sprite/tamagowin.dds", 1600.0f, 900.0f);
 	m_ebiwin.Init("Assets/sprite/ebiwin.dds", 1600.0f, 900.0f);
 	m_select.Init("Assets/sprite/select.dds", 1600.0f, 900.0f);
+	m_drawSprite.Init("Assets/sprite/draw.dds", 1600.0f, 900.0f);
 
 	//モデルの読み込み
 	m_salmon.Init("Assets/purototype/model2/salmon.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
@@ -90,6 +91,7 @@ void Result::Update()
 
 void Result::Render(RenderContext& rc)
 {
+	m_drawSprite.Draw(rc);
 	//プレイヤー１の勝ち
 	if (m_winplayer == 0)
 	{

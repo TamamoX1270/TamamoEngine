@@ -40,6 +40,7 @@ private:
 	SpriteRender m_ebiwin;
 	SpriteRender m_select;
 	SpriteRender m_spriteset;
+	SpriteRender m_drawSprite;
 	PlayerPoint* m_playerpoint;
 	FontRender	 m_fontRender;
 	SoundSource* titleBGM;

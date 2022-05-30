@@ -370,7 +370,7 @@ void Player2::Rotation()
 
 void Player2::AnimationState()
 {
-	if (m_playerState == 4 || m_playerState == 5 || m_playerState == 10 || m_playerState == 11) {
+	if (m_playerState == 4 || m_playerState == 5 || m_playerState == 6 || m_playerState == 10 || m_playerState == 11) {
 		return;
 	}
 
@@ -479,6 +479,9 @@ void Player2::ManageState()
 	case 6:
 		m_player2.PlayAnimation(enAnimClip_Catch, 0.2f);
 		atkState = 0;
+		m_isUnderAttack = false;
+		m_2 = false;
+		m_3 = false;
 		if (m_player2.IsPlayingAnimation() == false) {
 			m_playerState = 0;
 		}
