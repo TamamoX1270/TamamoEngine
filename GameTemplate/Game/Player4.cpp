@@ -201,7 +201,40 @@ void Player4::Update()
 	CatchAttackCollision();
 
 	RingOut();
+	Guard();
 }
+
+void Player4::Guard()
+{
+	if (guard == true)
+	{
+		if (m_guardnewgo == false)
+		{
+			//エフェクト。
+			m_efpos2 = m_position;
+			m_efpos2.y = 75.0f;
+			m_guardeffectEmitter = NewGO<EffectEmitter>(0);
+			m_guardeffectEmitter->Init(30);
+			m_guardeffectEmitter->SetScale({ 25.0f,25.0f,25.0f });
+			m_guardeffectEmitter->SetPosition(m_efpos2);
+			m_guardeffectEmitter->Play();
+			m_guardnewgo = true;
+		}
+	}
+	else
+	{
+		if (m_guardeffectEmitter != nullptr)
+		{
+			m_guardeffectEmitter->Stop();
+		}
+	}
+	if (m_guardnewgo == true && m_guardeffectEmitter->IsPlay() != true)
+	{
+		m_guardnewgo = false;
+	}
+
+}
+
 
 void Player4::Move()
 {

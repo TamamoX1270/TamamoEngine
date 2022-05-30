@@ -199,6 +199,11 @@ private:
 	/// </summary>
 	void RingOut();
 
+	/// <summary>
+	/// ガードの時のエフェクトの処理
+	/// </summary>
+	void Guard();
+
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
@@ -229,6 +234,7 @@ private:
 	Quaternion			m_rotation = Quaternion::Identity;;		// 回転
 	Vector3				m_scale = Vector3::One;					// 拡大率
 	Vector3				m_efpos1;								//エフェクト用のポジション
+	Vector3				m_efpos2;								//エフェクト用のポジション
 	PlayerPoint* m_playerpoint;							//プレイヤーのポイントを記録する
 
 	//醤油弾の関数
@@ -285,6 +291,9 @@ private:
 	float m_out = false;			//リングアウトしたかどうか。
 
 	EffectEmitter* m_effectEmitter;						//エフェクト
+	EffectEmitter* m_guardeffectEmitter;						//エフェクト
+	int m_guardnewgo = false;
+
 	int m_getsoyplayernumber = 0;								//取得したプレイヤーの番号
 	int getsauce = 0;
 };
