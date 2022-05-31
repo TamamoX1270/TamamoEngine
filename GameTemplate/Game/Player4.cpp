@@ -372,7 +372,7 @@ void Player4::AnimationState()
 			m_playerState = 2;
 		}
 
-		else if (g_pad[3]->IsTrigger(enButtonX)) {
+		else if (g_pad[3]->IsTrigger(enButtonX) && moveSpeed.y == 0.0f) {
 			//効果音を再生する。
 			SoundSource* P4se = NewGO<SoundSource>(3);
 			P4se->Init(3);
@@ -526,6 +526,12 @@ void Player4::ManageState()
 
 void Player4::ManageJump()
 {
+	if (m_playerState == 2) {
+		moveSpeed.x = 0.0f;
+		moveSpeed.y -= 80.0f;
+		m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+		m_player4.SetPosition(m_position);
+	}
 	//ジャンプ。
 	if (m_jumpState == true) {
 		moveSpeed.y = 450.0f;

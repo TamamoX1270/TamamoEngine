@@ -210,7 +210,7 @@ void Player1::Update()
 
 	RingOut();
 	Guard();
-}
+	}
 
 void Player1::Guard()
 {
@@ -410,7 +410,7 @@ void Player1::AnimationState()
 			m_playerState = 2;
 		}
 
-		else if (g_pad[0]->IsTrigger(enButtonX)) {
+		else if (g_pad[0]->IsTrigger(enButtonX) && moveSpeed.y == 0.0f) {
 			//効果音を再生する。
 			SoundSource* P1se = NewGO<SoundSource>(3);
 			P1se->Init(3);
@@ -565,6 +565,13 @@ void Player1::ManageState()
 
 void Player1::ManageJump()
 {
+	if (m_playerState == 2) {
+		moveSpeed.x = 0.0f;
+		moveSpeed.y -= 80.0f;
+		m_position = m_characterController.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+		m_player.SetPosition(m_position);
+	}
+
 	//ジャンプ。
 	if (m_jumpState == true) {
 		moveSpeed.y = 450.0f;
