@@ -18,8 +18,6 @@
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Player3.cpp" />
     <ClCompile Include="Player4.cpp" />
-    <ClCompile Include="GameCamera3P.cpp" />
-    <ClCompile Include="GameCamera2P.cpp" />
     <ClCompile Include="SoySauce.cpp" />
     <ClCompile Include="SoysauceBullet.cpp" />
     <ClCompile Include="GameUI.cpp" />
@@ -41,8 +39,6 @@
     <ClInclude Include="Player2.h" />
     <ClInclude Include="Player3.h" />
     <ClInclude Include="Player4.h" />
-    <ClInclude Include="GameCamera3P.h" />
-    <ClInclude Include="GameCamera2P.h" />
     <ClInclude Include="SoySauce.h" />
     <ClInclude Include="SoysauceBullet.h" />
     <ClInclude Include="GameUI.h" />

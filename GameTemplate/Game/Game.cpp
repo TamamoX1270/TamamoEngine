@@ -7,8 +7,6 @@
 #include "Player4.h"
 #include "BackGround.h"
 #include "GameCamera.h"
-#include "GameCamera2P.h"
-#include "GameCamera3P.h"
 #include "SoySauce.h"
 #include "SoySauceBullet.h"
 //#include "SideWall.h"
@@ -42,8 +40,6 @@ bool Game::Start()
 	sscamera = NewGO<SpecialCamera>(0, "specialcamera");
 
 	m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
-	//m_gameCamera3 = NewGO<GameCamera3P>(0, "gamecamera3");
-	//m_gameCamera2 = NewGO<GameCamera2P>(0, "gamecamera2");
 
 	return true;
 }
@@ -56,7 +52,6 @@ Game::Game()
 Game::~Game()
 {
 	DeleteGO(m_gameCamera);
-	//DeleteGO(m_gameCamera2);
 	DeleteGO(sscamera);
 	DeleteGO(m_backGround);
 	//DeleteGO(m_sidewall);
@@ -145,7 +140,7 @@ void Game::Camera()
 		else {
 			m_cameraState = 0;
 		}
-
+		
 		switch (m_cameraState) {
 		case 0:
 			m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
@@ -223,13 +218,6 @@ void Game::GameDelete()
 		for (int c = 0; c < number3; c++)
 		{
 			DeleteGO(gamecamera[c]);
-		}
-		const auto& gamecamera2 = FindGOs<GameCamera2P>("gamecamera2");
-		//”z—ñ‚ÌŒÂ”‚ğæ“¾‚·‚é
-		int number4 = gamecamera2.size();
-		for (int c = 0; c < number4; c++)
-		{
-			DeleteGO(gamecamera2[c]);
 		}
 		const auto& gameSPcamera = FindGOs<SpecialCamera>("specialcamera");
 		//”z—ñ‚ÌŒÂ”‚ğæ“¾‚·‚é
