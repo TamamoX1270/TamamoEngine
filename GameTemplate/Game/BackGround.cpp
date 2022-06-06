@@ -21,7 +21,7 @@ bool BackGround::Start()
 	//m_backGround.SetScale(Vector3(1.0f, 1.0f, 1.0f));
 	//m_backGround.SetPosition(0.0f, 0.0f, 150.0f);
 
-	m_backGround.Init("Assets/stageff/stage3R.tkm");
+	m_backGround.Init("Assets/stageff/stage4R.tkm");
 
 	//	m_backGround.SetScale(m_scale);
 	//	m_backGround.Update();
