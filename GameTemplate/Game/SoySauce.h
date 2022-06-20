@@ -54,10 +54,10 @@ public:
 
 private:
 
-	Player1* m_player1 = nullptr;;								//プレイヤー１
-	Player2* m_player2 = nullptr;;								//プレイヤー１
-	Player3* m_player3 = nullptr;;								//プレイヤー１
-	Player4* m_player4 = nullptr;;								//プレイヤー１
+	Player1* m_player1 = nullptr;								//プレイヤー１
+	Player2* m_player2 = nullptr;								//プレイヤー１
+	Player3* m_player3 = nullptr;								//プレイヤー１
+	Player4* m_player4 = nullptr;								//プレイヤー１
 
 	SoundSource* Pse;											// プレイヤーの効果音
 

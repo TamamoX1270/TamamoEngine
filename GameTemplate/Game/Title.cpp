@@ -6,11 +6,7 @@
 
 Title::Title()
 {
-	spriteRender.Init("Assets/sprite/sushifighter.dds", 1600.0f, 900.0f);
-	spriteRender2.Init("Assets/sprite/Apress.dds", 1600.0f, 400.0f);
-	spriteRender2.SetPosition(Vector3(0.0f, -300.0f, 0.0f));
-
-	spriteRender2.Update();
+	m_titleSpriteRender.Init("Assets/sprite/title.dds");
 
 	//タイトルのBGMを読み込む
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/title_bgm.wav");
@@ -29,20 +25,19 @@ Title::~Title()
 
 void Title::Update()
 {
-	if (g_pad[0]->IsTrigger(enButtonA)|| g_pad[1]->IsTrigger(enButtonA) || g_pad[2]->IsTrigger(enButtonA) || g_pad[3]->IsTrigger(enButtonA))
-	{
-		NewGO<Game>(0,"game");
+	if (g_pad[0]->IsTrigger(enButtonA) || g_pad[1]->IsTrigger(enButtonA) || g_pad[2]->IsTrigger(enButtonA) || g_pad[3]->IsTrigger(enButtonA)) {
+
+		//Gameを始める。
+		NewGO<Game>(0, "game");
 		DeleteGO(this);
 		//決定音を再生
-		SoundSource* se = NewGO<SoundSource>(2);
-		se->Init(2);
-		se->Play(false);
-
+		switchSE = NewGO<SoundSource>(2);
+		switchSE->Init(2);
+		switchSE->Play(false);
 	}
 }
 
 void Title::Render(RenderContext& rc)
 {
-	spriteRender.Draw(rc);
-	spriteRender2.Draw(rc);
+	m_titleSpriteRender.Draw(rc);
 }

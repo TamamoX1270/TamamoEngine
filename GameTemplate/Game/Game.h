@@ -7,11 +7,6 @@ class BackGround;
 class GameUI;
 class GameCamera;
 
-class GameCamera2P;
-class GameCamera3P;
-
-class SpecialCamera;
-
 class SoySauce;
 class SideWall;
 class Title;
@@ -47,7 +42,6 @@ public:
 	}
 
 private:
-	void Camera();
 	//消すときに回す配列の為の関数
 	void GameDelete();
 
@@ -79,13 +73,8 @@ private:
 	//カメラのポインタ関数
 	GameCamera* m_gameCamera;
 
-	GameCamera2P* m_gameCamera2;
-	GameCamera3P* m_gameCamera3;
-
-	SpecialCamera* sscamera;
 	int m_cameraState = 0;
 	int m_gamedelete = false;							//ゲーム削除ステート
 	int m_soysoucenewgotimer = false;
 	int m_soysaucenewgo = false;
 };
-

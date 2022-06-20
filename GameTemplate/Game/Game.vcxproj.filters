@@ -21,8 +21,6 @@
     <ClCompile Include="SoySauce.cpp" />
     <ClCompile Include="SoysauceBullet.cpp" />
     <ClCompile Include="GameUI.cpp" />
-    <ClCompile Include="SideWall.cpp" />
-    <ClCompile Include="SpecialCamera.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="PlayerPoint.cpp" />
@@ -42,8 +40,6 @@
     <ClInclude Include="SoySauce.h" />
     <ClInclude Include="SoysauceBullet.h" />
     <ClInclude Include="GameUI.h" />
-    <ClInclude Include="SideWall.h" />
-    <ClInclude Include="SpecialCamera.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="PlayerPoint.h" />

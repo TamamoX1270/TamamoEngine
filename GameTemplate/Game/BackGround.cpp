@@ -1,7 +1,30 @@
 #include "stdafx.h"
 #include "BackGround.h"
 
-#include "Game.h"
+namespace
+{
+	Vector3 STAGE_SCALE = Vector3::One * 0.65f;
+	Vector3 STAGE_POSITION = { 0.0f, 0.0f, 90.0f };
+}
+
+bool BackGround::Start()
+{
+	m_stage.SetScale(STAGE_SCALE);
+	m_stage.SetPosition(STAGE_POSITION);
+
+	m_stage.Init("Assets/modelData/stage/stage.tkm");
+
+	//PhysicsStaticObjectを初期化。
+	m_physicsStaticObject.CreateFromModel(
+		m_stage.GetModel(),
+		m_stage.GetModel().GetWorldMatrix()
+	);
+
+	//当たり判定の可視化。
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
+	return true;
+}
 
 BackGround::BackGround()
 {
@@ -13,27 +36,7 @@ BackGround::~BackGround()
 
 }
 
-bool BackGround::Start()
-{
-	m_backGround.SetScale(Vector3(0.65f, 0.65f, 0.65f));
-	m_backGround.SetPosition(0.0f, 0.0f, 90.0f);
-	
-	//m_backGround.SetScale(Vector3(1.0f, 1.0f, 1.0f));
-	//m_backGround.SetPosition(0.0f, 0.0f, 150.0f);
-
-	m_backGround.Init("Assets/stageff/stage4R.tkm");
-
-	//	m_backGround.SetScale(m_scale);
-	//	m_backGround.Update();
-	//PhysicsStaticObjectを初期化。
-	m_physicsStaticObject.CreateFromModel(
-		m_backGround.GetModel(),
-		m_backGround.GetModel().GetWorldMatrix());
-	//当たり判定の可視化。
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-	return true;
-}
 void BackGround::Render(RenderContext& rc)
 {
-	m_backGround.Draw(rc);
+	m_stage.Draw(rc);
 }

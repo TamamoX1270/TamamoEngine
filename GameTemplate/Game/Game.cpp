@@ -9,10 +9,8 @@
 #include "GameCamera.h"
 #include "SoySauce.h"
 #include "SoySauceBullet.h"
-//#include "SideWall.h"
 #include "Title.h"
 #include "Result.h"
-#include "SpecialCamera.h"
 #include "PlayerPoint.h"
 
 bool Game::Start()
@@ -20,24 +18,15 @@ bool Game::Start()
 	//プレイヤーオブジェクトを作成する。
 	m_player = NewGO<Player1>(0, "player1");
 	m_player2 = NewGO<Player2>(0, "player2");
-	//if (m_player3 != nullptr)
-	//{
-		m_player3 = NewGO<Player3>(0, "player3");
-	//}
-	//if (m_player4 != nullptr)
-	//{
-		m_player4 = NewGO<Player4>(0, "player4");
-	//}
+	m_player3 = NewGO<Player3>(0, "player3");
+	m_player4 = NewGO<Player4>(0, "player4");
 
 	//GameUIの生成
 	m_gamingshigureui = NewGO<GameUI>(0, "gameui");
-	//左右の壁オブジェクトを生成する。
-	//m_sidewall = NewGO<SideWall>(0, "sidewall");
 	//背景オブジェクトを作成する。
 	m_backGround = NewGO<BackGround>(0, "background");
 	//プレイヤーの取得ポイントを保存するクラスを生成する。
 	m_playerpoint = NewGO<PlayerPoint>(0, "playerpoint");
-	sscamera = NewGO<SpecialCamera>(0, "specialcamera");
 
 	m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
 
@@ -52,15 +41,12 @@ Game::Game()
 Game::~Game()
 {
 	DeleteGO(m_gameCamera);
-	DeleteGO(sscamera);
 	DeleteGO(m_backGround);
-	//DeleteGO(m_sidewall);
 	DeleteGO(m_gamingshigureui);
 }
 void Game::Update()
 {
 	GameDelete();
-	//Camera();
 	
 	if (m_soysoucenewgotimer == false)
 	{
@@ -132,25 +118,6 @@ void Game::Update()
 
 }
 
-void Game::Camera()
-{
-		if (g_pad[0]->IsPress(enButtonUp)) {
-			m_cameraState = 1;
-		}
-		else {
-			m_cameraState = 0;
-		}
-		
-		switch (m_cameraState) {
-		case 0:
-			m_gameCamera = NewGO<GameCamera>(0, "gamecamera");
-			break;
-		case 1:
-			sscamera = NewGO<SpecialCamera>(0, "specialcamera");
-			break;
-		}
-}
-
 void Game::GameDelete()
 {
 	//ゲームデリートステートがtrueの時
@@ -218,13 +185,6 @@ void Game::GameDelete()
 		for (int c = 0; c < number3; c++)
 		{
 			DeleteGO(gamecamera[c]);
-		}
-		const auto& gameSPcamera = FindGOs<SpecialCamera>("specialcamera");
-		//配列の個数を取得する
-		int number5 = gameSPcamera.size();
-		for (int c = 0; c < number5; c++)
-		{
-			DeleteGO(gameSPcamera[c]);
 		}
 
 		DeleteGO(m_player);

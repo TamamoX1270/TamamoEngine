@@ -75,15 +75,6 @@ SoySauce::~SoySauce()
 void SoySauce::Update()
 {
 	Move();
-	/*
-	//プレイヤーが取得済みかつ再生が終わったら削除する。
-	if (m_player1->GetSauce()== 1  ||
-		m_player2->GetSauce() == 1 ||
-		m_player3->GetSauce() == 1 ||
-		m_player4->GetSauce() == 1)
-	{
-		DeleteGO(this);
-	}*/
 }
 
 void SoySauce::Move()

@@ -115,10 +115,10 @@ SoySauceBullet::~SoySauceBullet()
 	DeleteGO(m_collisionObject);
 }
 
-void SoySauceBullet::Update() //常に1秒間に60回呼び出される
+void SoySauceBullet::Update() 
 {
 	Move();
-	//絵描きさんの更新処理。
+	
 	m_modelRender.Update();
 }
 

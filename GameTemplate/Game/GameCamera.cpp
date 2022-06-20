@@ -5,6 +5,11 @@
 #include "Player3.h"
 #include "Player4.h"
 
+namespace
+{
+
+}
+
 bool GameCamera::Start()
 {
 	//注視点から視点までのベクトルを設定。
@@ -59,12 +64,6 @@ void GameCamera::Update()
 		m_getPosition[numActivePlayer] = m_player4->GetPlayer4Position().x;
 		numActivePlayer++;
 	}
-	
-	/*m_getPosition[0] = m_player1->GetPlayer1Position().x;
-	m_getPosition[1] = m_player2->GetPlayer2Position().x;
-	m_getPosition[2] = m_player3->GetPlayer3Position().x;
-	m_getPosition[3] = m_player4->GetPlayer4Position().x;
-	*/
 
 	//一番右のやつを探す。
 	m_max = m_getPosition[0];

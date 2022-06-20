@@ -1,5 +1,4 @@
 #pragma once
-
 #include "sound/SoundSource.h"
 
 class Player1;
@@ -12,50 +11,71 @@ class GameUI : public IGameObject
 public:
 	GameUI() {};
 	~GameUI();
+
 	/// <summary>
 	/// 開始の処理
 	/// </summary>
-	/// <returns></returns>
-	bool Start() override;
+	bool Start();
+
 	/// <summary>
 	/// ゲームのBGM
+	/// </summary>
 	void GameBGM();
+
 	/// <summary>
 	/// ゲームの残り時間
+	/// /// <summary>
 	void Timer();
+
 	/// <summary>
 	/// 醤油さしのプログラム
+	/// /// <summary>
 	void SoyCT();
+
 	/// <summary>
 	/// 寿司のHPバー
 	/// </summary>
 	void SushiHPBar();
+
 	/// <summary>
 	/// そこまで！をtrueにする。
 	/// </summary>
 	void SetSokomade()
 	{
 		m_sokomade = true;
-	}/// <summary>
+	}
+	
+	/// <summary>
 	/// そこまで！のtrueを受け取る。
 	/// </summary>
 	const int& GetSokomade()const
 	{
 		return m_sokomade;
 	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	const int& GetGameStart()const
 	{
 		return m_gamestart;
 	}
+
 	/// <summary>
 	/// 更新処理
 	/// </summary>
 	void Update() override;
+
 	/// <summary>
 	/// 描画処理
 	/// </summary>
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc) override;
+
+	/// <summary>
+	/// 
+	/// </summary>
 	void GameHP();
 private:
 	Player1*		m_player1;
@@ -106,7 +126,6 @@ private:
 
 	FontRender		m_fontRender;
 	float game_timer = 120.0f;
-	//float game_timer = 20.0f;
 	float gamestart_timer = 3.0f;
 	float sokomade_timer = 0.0f;
 	float hajime_timer = 0.0f;

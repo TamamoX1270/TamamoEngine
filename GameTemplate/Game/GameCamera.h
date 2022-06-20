@@ -13,9 +13,6 @@ public:
 	bool Start();
 	void Update();
 
-public:
-
-
 private:
 	Player1* m_player1;	//プレイヤー。
 	Player2* m_player2;	//プレイヤー。
