@@ -68,13 +68,6 @@ void Game::Update()
 		m_soysaucenewgo = false;
 		soysauce_timer = 0.0f;
 	}
-	//(*･ω･)/ﾊｰｲ
-	/*
-	// 左スティック(キーボード：WASD)で平行移動。
-	m_pointligpos.x += g_pad[0]->GetLStickXF();
-	m_pointligpos.z += g_pad[0]->GetLStickYF();
-	*/
-	//m_pointligpos.y = 50.0f;
 
 	m_pointligpos.y = 0.0f;
 	m_pointligpos.x = 20000.0f;
@@ -84,38 +77,7 @@ void Game::Update()
 	m_spPosition.y = 250.0f;
 	m_spPosition.z = 100.0f;
 
-	//m_spDirection = { 1.0f,0.0f,1.0f };
-	//m_spDirection.Normalize();
-
-	//g_directionLig.SetSpotAngle(100.0f);
-	//g_directionLig.SetSpotRange(100.0f);
-	//g_directionLig.SetSpotDir({ m_spDirection });
-	g_directionLig.SetSpotPos(m_spPosition);//スポットライトの位置を設定
-
-	
-	/*
-	//初期方向は斜め下にする。
-	m_spDirection.x = 1.0f;
-	m_spDirection.y = -1.0f;
-	m_spDirection.z = 1.0f;
-	*/
-
-	//ディレクションライトの当たる方向とカラーをセットできちゃいます
-	//g_directionLig.SetLigDirection({ 0.0f,1.0f,-1.0f });
-
-
-	/*if (g_pad[0]->IsPress(enButtonB))
-	{
-		m_directionligColor.x += 0.1f;
-	}
-	if (g_pad[0]->IsPress(enButtonA))
-	{
-		m_directionligColor.y += 0.1f;
-		m_directionligColor.z += 0.1f;
-	}
-	g_directionLig.SetLigColor({ m_directionligColor });*/
-//	g_directionLig.SetLigColor({0.5f,0.5f,0.5f});
-
+	g_directionLig.SetSpotPos(m_spPosition);//スポットライトの位置を設定。
 }
 
 void Game::GameDelete()

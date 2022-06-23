@@ -51,6 +51,7 @@ public:
 	{
 		return shine;
 	}
+
 	/// <summary>
 	/// 自分が他のプレイヤーをつかんだことを取得する。
 	/// </summary>
@@ -58,6 +59,7 @@ public:
 	{
 		tukami = position;
 	}
+
 	/// <summary>
 	/// プレイヤーの前方向のベクトルの取得
 	/// </summary>
@@ -66,14 +68,16 @@ public:
 	{
 		return m_forward;
 	}
+
 	/// <summary>
 	/// プレイヤーのHPの取得
 	/// </summary>
 	/// <returns></returns>
 	const int& GetPlayerHP()const
 	{
-		return m_hp;
+		return m_Hp;
 	}
+
 	/// <summary>
 	/// キャラクターコントローラーを取得。
 	/// </summary>
@@ -89,11 +93,6 @@ public:
 	void AddSoySauceCount()
 	{
 		m_soysaucecount++;
-	}
-
-	void SetPlayer1PlayerState15()
-	{
-		m_playerState = 15;
 	}
 
 	void AddSauce()
@@ -246,9 +245,9 @@ private:
 	int m_soysaucecount = 5;			//醤油カウント
 
 	//HPの表示
-	int m_hp = 100;
-	int m_max = 100;
-	int m_min = 0;
+	int m_Hp = 100;
+	int m_MaxHp = 100;
+	int m_MinHp = 0;
 	FontRender      m_fontHPRender;					//フォントレンダー
 
 	Vector3		moveSpeed;				//プレイヤーの速さ。

@@ -83,8 +83,6 @@ private:
 	Player3*		m_player3;
 	Player4*		m_player4;
 
-	SpriteRender	m_ui;
-
 	SpriteRender	m_syouyusasi;
 	SpriteRender	m_syouyusasi2;
 	SpriteRender	m_syouyusasi3;

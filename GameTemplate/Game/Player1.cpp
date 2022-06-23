@@ -130,7 +130,7 @@ void Player1::Update()
 	if (m_out == true) {
 		m_player.PlayAnimation(enAnimClip_RingOut, 0.2f);
 		if (m_player.IsPlayingAnimation() == false) {
-			m_hp = -1;
+			m_Hp = -1;
 		}
 		m_characterController.RemoveRigidBoby();
 		m_player.Update();
@@ -138,10 +138,10 @@ void Player1::Update()
 	}
 
 	//HPがなくなったら。
-	else if (m_hp <= 0) {
+	else if (m_Hp <= 0) {
 		m_player.PlayAnimation(enAnimClip_Death, 0.2f);
 		if (m_player.IsPlayingAnimation() == false) {
-			m_hp = -1;
+			m_Hp = -1;
 		}
 		m_characterController.RemoveRigidBoby();
 		m_player.Update();
@@ -842,7 +842,7 @@ void Player1::Hit2()
 				P1se->Play(false);
 
 				//HPの減少。
-				m_hp -= 2;
+				m_Hp -= 2;
 
 				//被ダメモーションの再生。
 				m_playerState = 5;
@@ -915,7 +915,7 @@ void Player1::Hit2()
 				P1se->Init(5);
 				P1se->Play(false);
 
-				m_hp -= 5;
+				m_Hp -= 5;
 				m_playerState = 5;
 			}
 			/*else {
@@ -984,7 +984,7 @@ void Player1::Hit2()
 				P1se->Init(6);
 				P1se->Play(false);
 
-				m_hp -= 8;
+				m_Hp -= 8;
 				m_playerState = 10;
 			}
 			/*else {
@@ -1059,18 +1059,18 @@ void Player1::Hit2()
 				P1se->Init(13);
 				P1se->Play(false);
 
-				m_hp -= 2;
+				m_Hp -= 2;
 				m_playerState = 5;
 			}
 		}
 	}
 
 	//HPの上限下限の設定。
-	if (m_hp > m_max) {
-		m_hp = m_max;
+	if (m_Hp > m_MaxHp) {
+		m_Hp = m_MaxHp;
 	}
-	else if (m_hp < m_min) {
-		m_hp = m_min;
+	else if (m_Hp < m_MinHp) {
+		m_Hp = m_MinHp;
 	}
 }
 
@@ -1124,7 +1124,7 @@ void Player1::Hit3()
 				P2se->Play(false);
 
 				//HPの減少。
-				m_hp -= 2;
+				m_Hp -= 2;
 
 				//被ダメモーションの再生。
 				m_playerState = 5;
@@ -1197,7 +1197,7 @@ void Player1::Hit3()
 				P2se->Init(5);
 				P2se->Play(false);
 
-				m_hp -= 5;
+				m_Hp -= 5;
 				m_playerState = 5;
 			}
 			else {
@@ -1266,7 +1266,7 @@ void Player1::Hit3()
 				P2se->Init(6);
 				P2se->Play(false);
 
-				m_hp -= 8;
+				m_Hp -= 8;
 				m_playerState = 10;
 			}
 			else {
@@ -1377,7 +1377,7 @@ void Player1::Hit4()
 				P2se->Play(false);
 
 				//HPの減少。
-				m_hp -= 2;
+				m_Hp -= 2;
 
 				//被ダメモーションの再生。
 				m_playerState = 5;
@@ -1450,7 +1450,7 @@ void Player1::Hit4()
 				P2se->Init(5);
 				P2se->Play(false);
 
-				m_hp -= 5;
+				m_Hp -= 5;
 				m_playerState = 5;
 			}
 			else {
@@ -1519,7 +1519,7 @@ void Player1::Hit4()
 				P2se->Init(6);
 				P2se->Play(false);
 
-				m_hp -= 8;
+				m_Hp -= 8;
 				m_playerState = 10;
 			}
 			else {
@@ -1628,7 +1628,7 @@ void Player1::AfterCatch()
 				P2se->Init(6);
 				P2se->Play(false);
 
-				m_hp -= 5;
+				m_Hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -1680,7 +1680,7 @@ void Player1::AfterCatch()
 				P2se->Init(10);
 				P2se->Play(false);
 
-				m_hp -= 5;
+				m_Hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -1732,7 +1732,7 @@ void Player1::AfterCatch()
 				P2se->Init(10);
 				P2se->Play(false);
 
-				m_hp -= 5;
+				m_Hp -= 5;
 				m_playerState = 5;
 			}
 		}
@@ -1807,12 +1807,12 @@ void Player1::RingOut()
 	//左端。
 	if (m_position.x < -705.0f && m_position.y < -105.0f) {
 		m_out = true;
-		m_hp = 0;
+		m_Hp = 0;
 	}
 	//右端。
 	if (m_position.x > 700.0f && m_position.y < -105.0f) {
 		m_out = true;
-		m_hp = 0;
+		m_Hp = 0;
 	}
 }
 

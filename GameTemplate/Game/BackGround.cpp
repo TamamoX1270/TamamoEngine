@@ -3,8 +3,8 @@
 
 namespace
 {
-	Vector3 STAGE_SCALE = Vector3::One * 0.65f;
-	Vector3 STAGE_POSITION = { 0.0f, 0.0f, 90.0f };
+	const Vector3 STAGE_SCALE = { 0.65f,0.65f,0.65f };
+	const Vector3 STAGE_POSITION = { 0.0f, 0.0f, 90.0f };
 }
 
 bool BackGround::Start()
@@ -13,7 +13,7 @@ bool BackGround::Start()
 	m_stage.SetPosition(STAGE_POSITION);
 
 	m_stage.Init("Assets/modelData/stage/stage.tkm");
-
+	
 	//PhysicsStaticObjectÇèâä˙âªÅB
 	m_physicsStaticObject.CreateFromModel(
 		m_stage.GetModel(),

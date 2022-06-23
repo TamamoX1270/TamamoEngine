@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "GameUI.h"
 #include "Game.h"
+
 #include "Player1.h"
 #include "Player2.h"
 #include "Player3.h"
 #include "Player4.h"
+
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 
@@ -13,10 +15,7 @@ namespace
 	//醤油さしの外側の透明度の設定
 	Vector4 Transparent = { 1.0f, 1.0f, 1.0f, 0.5f };
 	//最大HP。
-	const int P1MAXIMUM_HP = 100;
-	const int P2MAXIMUM_HP = 100;
-	const int P3MAXIMUM_HP = 100;
-	const int P4MAXIMUM_HP = 100;
+	const int PLAYER_MAX_HP = 100;
 }
 
 bool GameUI::Start()
@@ -31,7 +30,6 @@ bool GameUI::Start()
 	m_count2.Init("Assets/sprite/two.dds", 500.0f, 500.0f);
 	m_count3.Init("Assets/sprite/three.dds", 500.0f, 500.0f);
 
-	//m_ui.Init("Assets/sprite/ComprehensiveUI.dds", 1600.0f, 900.0f);
 	m_spriteRendersamonhuda.Init("Assets/sprite/samonhuda.dds", 100.0f, 200.0f);
 	m_spriteRendersamonhuda.SetPosition(Vector3(-730.0f, -340.0f, 0.0f));
 
@@ -260,19 +258,7 @@ void GameUI::GameHP()
 	m_p2hp = m_player2->GetPlayer2HP();
 	m_p3hp = m_player3->GetPlayer3HP();
 	m_p4hp = m_player4->GetPlayer4HP();
-	/*
-	//HPが0より減っていたら。
-	if (m_p1hp < 0)
-	{
-		//HPを0にする。
-		m_p1hp = 0;
-	}
-	//HPが最大値を超えていたら。
-	else if (m_p1hp > P1MAXIMUM_HP)
-	{
-		//HPを最大値にする。
-		m_p1hp = P1MAXIMUM_HP;
-	}*/
+
 
 	Vector3 p1scale = Vector3::One;
 	Vector3 p2scale = Vector3::One;
@@ -281,10 +267,10 @@ void GameUI::GameHP()
 	//現HP/最大HPをHPバーのスケールにする。
 	//int型同士の計算だと、小数点以下切り捨てになるので。
 	//float型に変換して計算を行う。
-	p1scale.x = float(m_p1hp) / float(P1MAXIMUM_HP);
-	p2scale.x = float(m_p2hp) / float(P2MAXIMUM_HP);
-	p3scale.x = float(m_p3hp) / float(P3MAXIMUM_HP);
-	p4scale.x = float(m_p4hp) / float(P4MAXIMUM_HP);
+	p1scale.x = float(m_p1hp) / float(PLAYER_MAX_HP);
+	p2scale.x = float(m_p2hp) / float(PLAYER_MAX_HP);
+	p3scale.x = float(m_p3hp) / float(PLAYER_MAX_HP);
+	p4scale.x = float(m_p4hp) / float(PLAYER_MAX_HP);
 	//スケールを設定。
 	m_sushihpbar.SetScale(p1scale);
 	m_sushihpbar2.SetScale(p2scale);
